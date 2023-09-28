@@ -7,16 +7,16 @@
         <title>Ejemplo 06 - Tabla - Tema 02</title>
     </head>
 
-    <body>
+    <bod    y>
         <center>
-            <h2> Ejemplo 06 - Tabla - Tema 02</h2>
-        </center>
+                <h2> Ejemplo 06 - Tabla - Tema 02</h2>
+            </center>
 
         <table border=1; width=25%> 
             <tr> 
                 <th>Usuario</th>
                 <th>Animal</th>
-                <th>Color</th>
+                 <th>Color</th>
             </tr>
             <tr>
                 <!-- Esta es la manera larga de hacerlo
