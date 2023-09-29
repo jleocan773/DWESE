@@ -41,3 +41,7 @@ Para pasar variables de un tipo a otros tenemos diferentes mecanismos
 Si pasamos un String como "Sevilla" a Integer, se pondría un 0.
 Si pasamos un String que empiece con un número al comienzo como "9Sevilla", se pondría un 9.
 
+El estado de una variable independientemente del tipo de datos que almacene. Las tres funciones más populares y frecuentemente utilizadas para este fin son isset(), is_null() y empty(). 
+
+Si haces var_dump( is_null($var)) da **true**, porque la variable $var no está definida, PHP dará un warning y creará esa variable en nula.
+isset no genera un aviso si la variable no ha sido declarada.
