@@ -11,8 +11,8 @@
     $valor2 = $_POST["valor2"];
 
     //Variable para el tipo de operación y para guardar el resultado
-    $operacion = "Sumar";
-    $resultado = $valor1 + $valor2;
+    $operacion = "Multiplicación";
+    $resultado = $valor1 * $valor2;
 
 
 ?>

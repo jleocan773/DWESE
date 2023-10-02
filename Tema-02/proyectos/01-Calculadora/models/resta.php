@@ -1,8 +1,8 @@
 <?php
 
     /*
-        Modelo: suma.php
-        Descripción: Suma dos valores
+        Modelo: resta.php
+        Descripción: Resta dos valores
 
     */
 
@@ -11,8 +11,8 @@
     $valor2 = $_POST["valor2"];
 
     //Variable para el tipo de operación y para guardar el resultado
-    $operacion = "Sumar";
-    $resultado = $valor1 + $valor2;
+    $operacion = "Resta";
+    $resultado = $valor1 - $valor2;
 
 
 ?>
