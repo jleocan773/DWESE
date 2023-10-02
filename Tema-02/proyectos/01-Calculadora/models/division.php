@@ -2,7 +2,7 @@
 
     /*
         Modelo: suma.php
-        Descripción: Suma dos valores
+        Descripción: Divide dos valores
 
     */
 

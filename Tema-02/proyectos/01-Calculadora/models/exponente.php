@@ -2,7 +2,7 @@
 
     /*
         Modelo: suma.php
-        Descripción: Multiplica dos valores
+        Descripción: Devuelve el exponente de un número
 
     */
 
@@ -11,8 +11,8 @@
     $valor2 = $_POST["valor2"];
 
     //Variable para el tipo de operación y para guardar el resultado
-    $operacion = "Multiplicación";
-    $resultado = $valor1 * $valor2;
+    $operacion = "Potencia";
+    $resultado = pow($valor1, $valor2);
 
 
 ?>
