@@ -1,0 +1,31 @@
+<?php
+
+    /*
+        Modelo: modelsCalcular.php
+        Descripción: Cálculos para el Lanzamiento de Proyectil
+
+    */
+
+    //Para pillar el valor de lo que introduce el usuario usamos el método por el que se obtiene y el nombre del campo "name"
+    $angulo = $_POST["angulo"];
+    $velini = $_POST["velini"];
+    define("gravedad", 9.81);
+
+    //Variable para el tipo de operación y para guardar el resultado
+    $anguloRadianes = deg2rad($angulo);
+	$velinix = $velini * cos($anguloRadianes);
+    $veliniy = $velini * sin($anguloRadianes);
+    $alcancemaximo = ($velinix * 2 * $veliniy) / gravedad;
+    $tiempoproyectil = (2 * $veliniy) / gravedad;
+    $alturamaxima = ($veliniy * $veliniy) / (2 * gravedad);
+
+    //Formateo de resultados
+    $anguloRadianes = number_format($anguloRadianes, 5, ",", ".");
+    $velinix = number_format($velinix, 2, ',', '.');
+    $veliniy = number_format($veliniy, 2, ',', '.');
+    $alcancemaximo = number_format($alcancemaximo, 2, ',', '.');
+    $tiempoproyectil = number_format($tiempoproyectil, 2, ',', '.');
+    $alturamaxima = number_format($alturamaxima, 2, ',', '.');
+
+
+?>
