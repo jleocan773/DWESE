@@ -24,5 +24,26 @@
 
     echo "Valor de is_null() de la tercera variable: " . $verdadero3;
 
+    $color = "Rojo";
+    $numeroEntero = 50;
+    $booleanTrue = true;
+
+    echo "<br>";
+
+    $falso1 = is_null($color);
+    $falso2 = is_null($numeroEntero);
+    $falso3 = is_null($booleanTrue);
+
+    echo "<br>";
+    echo "Valores falsos: (No muestra nada porque es false)";
+    echo "<br>";
+
+    echo "Valor de is_null() de la cuarta variable: " . $falso1;
+    echo "<br>";
+
+    echo "Valor de is_null() de la quinta variable: " . $falso2;
+    echo "<br>";
+
+    echo "Valor de is_null() de la sexta variable: " . $falso3;
 
 ?>
