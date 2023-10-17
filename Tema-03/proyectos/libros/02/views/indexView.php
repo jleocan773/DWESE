@@ -4,7 +4,7 @@
 <head>
     <?php include 'views/layouts/head.html' ?>
     <!-- Incluir head -->
-    <title>Libros</title>
+    <title>Gestión Libros</title>
 </head>
 
 <body>
@@ -14,12 +14,13 @@
         <!-- Cabecera documento -->
         <header class="pb-3 mb-4 border-bottom">
             <h2>
-                Libros<span class="fs-6"></span>
+            Gestión Libros<span class="fs-6"></span>
             </h2>
         </header>
 
 
-        <table class="table table-striped table-dark">
+        <legend>Tabla de Libros</legend>
+        <table class="table table-warning">
             <thead>
                 <tr>
                     <?php
@@ -37,7 +38,13 @@
                         <?php endforeach; ?>
                     </tr>
                 <?php endforeach; ?>
+
             </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="5">Nº Libros: <?= sizeof($libros);?></td>
+                </tr>
+            </tfoot>
         </table>
 
         <!-- Pié del documento -->
