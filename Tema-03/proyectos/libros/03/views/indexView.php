@@ -18,8 +18,12 @@
             </h2>
         </header>
 
-
         <legend>Tabla de Libros</legend>
+        
+        <!-- Menú -->
+        <?php include'views/partials/menu_prin.php'?>
+
+
         <table class="table table-warning">
             <thead>
                 <tr>
@@ -28,7 +32,7 @@
                     foreach ($claves as $clave) : ?>
                         <th><?= $clave ?></th>
                     <?php endforeach; ?>
-                    <th>acciones</th> <!-- Agregar la columna de Acciones -->
+                    <th>acciones</th> 
                 </tr>
             </thead>
             <tbody>
