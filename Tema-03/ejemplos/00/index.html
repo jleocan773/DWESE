@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Examen 20-21</title>
+  </head>
+  <body>
+    <script>
+      function obtenerValores() {
+        var matriz = [];
+        var zonaActual = 1;
+
+        while (true) {
+          var entrada = prompt(
+            "Ingrese las temperaturas para la ZONA " +
+              zonaActual +
+              " separadas por coma. Ingrese F para Finalizar"
+          );
+
+          if (entrada == "F" || entrada == "f") {
+            break;
+          }
+
+          var fila = entrada.split(",");
+          var filaNumeros = [];
+          var filaContieneNegativos = false;
+
+          for (var i = 0; i < fila.length; i++) {
+            var numero = Number(fila[i]);
+
+            if (numero < 0) {
+              alert(
+                "No se permite introducir números negativos, se ignorarán estos números."
+              );
+              filaContieneNegativos = true;
+              break;
+            } else filaNumeros.push(numero);
+          }
+
+          if (!filaContieneNegativos) {
+            matriz.push(filaNumeros);
+            zonaActual++;
+          }
+        }
+
+        console.log(matriz);
+        return matriz;
+      }
+
+      function calcularMedia(matriz) {
+        var zonaActual = 1;
+        var media = 0;
+        var sumaTotal = 0;
+
+        for (var i = 0; i < matriz.length; i++) {
+          var sumaNumeros = 0;
+          for (var j = 0; j < matriz[i].length; j++) {
+            sumaNumeros += matriz[i][j];
+          }
+
+          media = sumaNumeros / matriz[i].length;
+          sumaTotal += media;
+          alert("Media de la ZONA " + zonaActual + " = " + media);
+          zonaActual++;
+        }
+        alert("Media total de TODAS las ZONAS: " + sumaTotal);
+      }
+
+      var matrizResultados = obtenerValores();
+      calcularMedia(matrizResultados);
+    </script>
+  </body>
+</html>
