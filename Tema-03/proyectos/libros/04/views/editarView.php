@@ -21,38 +21,37 @@
         <legend>Formulario Nuevo</legend>
 
         <!-- Formulario -->
-        <form action="create.php" method="POST">
+        <form action="update.php?id=<?= $id ?>" method="POST">
             <div class="mb-3">
                 <label class="form-label">ID</label>
-                <input type="text" name="id" class="form-control"/>
+                <input type="text" name="id" class="form-control" value="<?= $libro['id'] ?>" readonly />
             </div>
             <div class="mb-3">
                 <label class="form-label">Título</label>
-                <input type="text" name="titulo" class="form-control"/>
+                <input type="text" name="titulo" class="form-control" value="<?= $libro['titulo'] ?>" />
             </div>
             <div class="mb-3">
                 <label class="form-label">Autor</label>
-                <input type="text" name="autor" class="form-control"/>
+                <input type="text" name="autor" class="form-control" value="<?= $libro['autor'] ?>" />
             </div>
             <div class="mb-3">
                 <label class="form-label">Género</label>
-                <input type="text" name="genero" class="form-control"/>
+                <input type="text" name="genero" class="form-control" value="<?= $libro['genero'] ?>" />
             </div>
             <div class="mb-3">
                 <label class="form-label">Precio</label>
-                <input type="number" name="precio" class="form-control" step="0.01"/>
+                <input type="text" name="precio" class="form-control" value="<?= $libro['precio'] ?>" />
             </div>
+
             <!-- Botones de Acción -->
-            <!--- Para asignarles acciones a loss botones usamos el formaction-->
-                
-                <!-- Este boton tiene que ir al Index -->
-                <a class="btn btn-primary" href="index.php" role="button">Volver</a>
-                <!-- Este botón borra todo lo escrito -->
-                <button type="reset" class="btn btn-danger">Borrar</button>
-                <!-- Este botón envía los datos -->
-                <button type="submit" class="btn btn-success">Enviar</button>
+            <!--- Para asignarles acciones a los botones usamos el formaction-->
 
-
+            <!-- Este botón tiene que ir al Index -->
+            <a class="btn btn-primary" href="index.php" role="button">Volver</a>
+            <!-- Este botón borra todo lo escrito -->
+            <button type="reset" class="btn btn-danger">Borrar</button>
+            <!-- Este botón envía los datos -->
+            <button type="submit" class="btn btn-success">Actualizar</button>
         </form>
 
         <!-- Pié del documento -->
