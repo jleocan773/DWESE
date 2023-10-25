@@ -1,6 +1,9 @@
 <?php
 
-
+function buscar_en_tabla($tabla, $columna, $valor) {
+    $columna_valores = array_column($tabla, $columna);
+    return array_search($valor, $columna_valores, false);
+}
 
 function generar_tabla_articulos(){
     $tabla = [
@@ -71,15 +74,20 @@ function generar_tabla_articulos(){
 function generar_tabla_categorias(){
 
     $categorias = [
+        'Componentes',
+        'Impresoras',
+        'Móviles',
+        'Pantallas',
         'PC sobremesa',
         'Portátiles',
-        'Componentes',
-        'Pantallas',
-        'Impresoras',
-        'Tablets',
-        'Móviles'
+        'Tablets'
     ];
     
     return $categorias;
 
+}
+
+function nuevo($tabla, $registro){
+    $tabla[] = $registro;
+    return $tabla;
 }

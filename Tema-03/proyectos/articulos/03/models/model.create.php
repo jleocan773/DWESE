@@ -1,7 +1,7 @@
 <?php
 
 /*
-    Modelo: createModel.php
+    Modelo: model.create.php
     Descripción: Añade un nuevo articulo a la tabla
     Método POST: -  $id
                     $descripcion 
@@ -36,6 +36,9 @@ $articulo = [
 ];
 
 //Añado el articulo a la tabla
-array_push($articulos, $articulo);
+//array_push($articulos, $articulo);
+
+//Añadiendo con la función
+nuevo($articulos, $articulo);
 
 // array_push hace esto -> $articulos[] = $articulo;

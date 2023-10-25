@@ -10,6 +10,9 @@
 //Librería
 include "libs/crud_funciones.php";
 
+// Cargar el modelo
+include "models/model.nuevo.php";
+
 
 // Vista
-include "views/nuevoView.php";
+include "views/view.nuevo.php";

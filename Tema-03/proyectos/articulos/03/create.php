@@ -10,6 +10,6 @@
 //Librería
 include "libs/crud_funciones.php";
 // Modelo
-include "models/createModel.php";
+include "models/model.create.php";
 //Vista
-include "views/indexView.php";
+include "views/view.index.php";
