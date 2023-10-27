@@ -1,11 +1,13 @@
 <?php
 
-function buscar_en_tabla($tabla, $columna, $valor) {
+function buscar_en_tabla($tabla, $columna, $valor)
+{
     $columna_valores = array_column($tabla, $columna);
     return array_search($valor, $columna_valores, false);
 }
 
-function generar_tabla_articulos(){
+function generar_tabla_articulos()
+{
     $tabla = [
 
         [
@@ -64,14 +66,14 @@ function generar_tabla_articulos(){
             'unidades' => 25,
             'precio' => 999.99
         ]
-    
-    ];
-    
-    return $tabla;
 
+    ];
+
+    return $tabla;
 }
 
-function generar_tabla_categorias(){
+function generar_tabla_categorias()
+{
 
     $categorias = [
         'Componentes',
@@ -82,12 +84,75 @@ function generar_tabla_categorias(){
         'Portátiles',
         'Tablets'
     ];
-    
+
     return $categorias;
+}
+
+
+function eliminar($tabla, $indice)
+{
+    if (isset($tabla[$indice])) {
+        // Elimino el artículo cuyo índice he buscado arriba
+        array_splice($tabla, $indice, 1);
+    } else {
+        echo 'Error: artículo no encontrado';
+        exit();
+    }
+
+    return $tabla;
+}
+
+function actualizar($tabla, $indice_articulo_editar)
+{
+    //Extraremos las variables del formulario
+    $id = $_POST['id'];
+    $descripcion = $_POST['descripcion'];
+    $modelo = $_POST['modelo'];
+    $categoria = $_POST['categoria'];
+    $unidades = $_POST['unidades'];
+    $precio = $_POST['precio'];
+
+
+    //Creo un array asociativo con los detalles del artículo modificado
+
+    $articulo = [
+        'id' => $id,
+        'descripcion' => $descripcion,
+        'modelo' => $modelo,
+        'categoria' => $categoria,
+        'unidades' => $unidades,
+        'precio' => $precio
+    ];
+
+    $tabla[$indice_articulo_editar] = $articulo;
+    return $tabla;
+}
+
+function nuevo($tabla, $registro)
+{
+    $tabla[] = $registro;
+    return $tabla;
+}
+
+function ordenar($tabla, $criterio)
+{
+    //Cargo en un array todos los valores del criterio de ordenación
+    $aux = array_column($tabla, $criterio);
+
+    if (!in_array($criterio, array_keys($tabla[0]))) {
+        echo "ERROR: Criterio de ordenación no encontrado";
+        exit();
+    }
+
+    //Función array_multisort (ordena arrays de múltiples dimensiones)
+    array_multisort($aux, SORT_ASC, $tabla);
+
+    return $tabla;
 
 }
 
-function nuevo($tabla, $registro){
-    $tabla[] = $registro;
-    return $tabla;
+function ultimoID($tabla){
+    $num_elementos = count($tabla);
+    $ultimo_id = $tabla[$num_elementos - 1]['id'];
+    return $ultimo_id;
 }

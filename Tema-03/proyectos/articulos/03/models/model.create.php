@@ -39,6 +39,6 @@ $articulo = [
 //array_push($articulos, $articulo);
 
 //Añadiendo con la función
-nuevo($articulos, $articulo);
+$articulos = nuevo($articulos, $articulo);
 
 // array_push hace esto -> $articulos[] = $articulo;
