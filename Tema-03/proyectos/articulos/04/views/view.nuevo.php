@@ -74,8 +74,7 @@
                 </div>
             </div>
 
-
-
+            
             <!-- botones de acción -->
             <a class="btn btn-secondary" href="index.php" role="button">Cancelar</a>
             <button type="reset" class="btn btn-danger">Borrar</button>
