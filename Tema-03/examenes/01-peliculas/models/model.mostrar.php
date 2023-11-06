@@ -1,6 +1,6 @@
 <?php
 
-    /*
+/*
 
         Modelo: model.mostrar.PHP
 
@@ -9,26 +9,21 @@
 
     */
 
-    
-    
-   $peliculas = getPeliculas();
-   $paises = getPaises();
-   $generos = getGeneros();
-   
-   
-
-   
-   
-   
-   $pelicula = [
-       'titulo' => $titulo,
-       'pais' => $pais,
-       'director' => $director,
-       'generos' => $generos,
-       'año' => $año
-   ];
-   
-   
 
 
-?>
+$peliculas = getPeliculas();
+$paises = getPaises();
+$generos = getGeneros();
+
+
+$indicePelicula = $_GET['indice'];
+$peliculaSeleccionada = $peliculas[$indicePelicula];
+
+$pelicula = [
+    'id' => $peliculaSeleccionada['id'],
+    'titulo' => $peliculaSeleccionada['titulo'],
+    'pais' => $paises[$peliculaSeleccionada['pais']],
+    'director' => $peliculaSeleccionada['director'],
+    'generos' => mostrarGeneros($generos, $peliculaSeleccionada['generos']),
+    'año' => $peliculaSeleccionada['año']
+];

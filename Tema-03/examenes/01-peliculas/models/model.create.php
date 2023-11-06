@@ -16,7 +16,7 @@ $generos = getGeneros();
 $titulo = $_POST['titulo'];
 $pais = $_POST['pais'];
 $director = $_POST['director'];
-$generos = $_POST['generos'];
+$generosSeleccionados = $_POST['generos'];
 $año = $_POST['año'];
 
 
@@ -26,9 +26,9 @@ $pelicula = [
     'titulo' => $titulo,
     'pais' => $pais,
     'director' => $director,
-    'generos' => $generos,
+    'generos' => $generosSeleccionados,
     'año' => $año
 ];
 
 
-$peliculas = array_push($peliculas, $pelicula);
+array_push($peliculas, $pelicula);

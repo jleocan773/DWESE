@@ -42,7 +42,7 @@
         <!-- Mostramos los detalles de las películas -->
         <!-- Muestro los datos de la película -->
         <tr>
-        <?php foreach ($peliculas as $indice => $pelicula) : ?>
+          <?php foreach ($peliculas as $indice => $pelicula) : ?>
         <tr>
           <td><?= $pelicula['id'] ?></td>
           <td><?= $pelicula['titulo'] ?></td>
@@ -62,7 +62,6 @@
             <a href="eliminar.php?indice=<?= $indice ?>" Title="Eliminar"><i class="bi bi-trash-fill"></i></a>
             <a href="editar.php?indice=<?= $indice ?>" Title="Modificar"><i class="bi bi-pencil-square"></i></a>
             <a href="mostrar.php?indice=<?= $indice ?>" Title="Mostrar"><i class="bi bi-eye"></i></a>
-
           </td>
 
         <?php endforeach; ?>

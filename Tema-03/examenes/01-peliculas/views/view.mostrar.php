@@ -19,52 +19,47 @@
 
     <form method="POST">
       <!-- Campo ID Oculto-->
-      <div class="mb3" hidden>
+      <div class="mb3">
         <label class="form-label">Id</label>
-        <input name="id" type="text" class="form-control">
+        <input name="id" type="text" class="form-control" value="<?= $pelicula['id'] ?>" disabled>
       </div>
 
       <!-- Campo título -->
       <div class="mb3">
         <label class="form-label">Título</label>
-        <input name="titulo" type="text" class="form-control" required>
+        <input name="titulo" type="text" class="form-control" value="<?= $pelicula['titulo'] ?>" disabled>
       </div>
 
-      <!-- País Select -->
+      <!-- Campo País -->
       <div class="mb-3">
         <label for="pais" class="form-label">País</label>
-        <select class="form-select" aria-label="Default select example" name="pais">
-          <option selected disabled>Seleccione País</option>
+        <select class="form-select" aria-label="Default select example" name="pais" disabled>
           <?php foreach ($paises as $indice => $nombrePais) : ?>
-            <option value="<?= $indice ?>"><?= $nombrePais ?></option>
+            <option value="<?= $nombrePais ?>" <?= ($pelicula['pais'] == $nombrePais) ? 'selected' : '' ?>>
+              <?= $nombrePais ?>
+            </option>
           <?php endforeach; ?>
         </select>
       </div>
 
-
       <!-- Campo director -->
       <div class="mb3">
         <label class="form-label">Director</label>
-        <input name="director" type="text" class="form-control" required>
+        <input name="director" type="text" class="form-control" value="<?= $pelicula['director'] ?>" disabled>
       </div>
 
       <!-- Campo Año -->
       <div class="mb3">
         <label class="form-label">Año</label>
-        <input name="año" type="number" class="form-control" required>
+        <input name="año" type="number" class="form-control" value="<?= $pelicula['año'] ?>" disabled>
       </div>
 
-      <!-- Géneros -->
+      <!-- Campo Géneros -->
       <div class="mb-3">
-        <label for="genero" class="form-label">Género</label>
-        <select class="form-select" aria-label="Default select example" name="genero">
-          <?php foreach ($generos as $indice => $genero) : ?>
-            <option value="<?= $indice ?>" <?= ($pelicula['genero'] == $indice) ? 'selected' : null ?>>
-              <?= $genero ?>
-            </option>
-          <?php endforeach; ?>
-        </select>
+        <label for="generos" class="form-label">Géneros</label>
+        <input name="generos" type="text" class="form-control" value="<?= implode(', ', $pelicula['generos']) ?>" disabled>
       </div>
+
 
       <br>
       <div class="mb3" role="group">
