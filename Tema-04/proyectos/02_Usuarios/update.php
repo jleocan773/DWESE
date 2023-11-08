@@ -8,14 +8,14 @@
 
     */
 
-    # Librería
+    // Librería
     include 'libs/crud_funciones.php';
 
-    # Model
+    // Model
     include 'models/model.update.php';
 
 
-    # Vista
+    // Vista
     include 'views/view.index.php';
 
 ?>

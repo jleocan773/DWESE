@@ -3,16 +3,19 @@
     /*
 
         Modelo: model.index.php
-        Descripcion: genera en array los datos de los artículos
+        Descripcion: Genera un array de instancias de Articulos
 
     */
 
     setlocale(LC_MONETARY,"es_ES");
-    $categorias = generar_tabla_categorias();
-    $marcas = generar_tabla_marcas();
-    $articulos = generar_tabla();
-   
 
-    
+    //Cargamos los arrays a partir de los métodos estáticos de la clase
+    $categorias = ArrayArticulos::getCategorias();
+    $marcas = ArrayArticulos::getMarcas();
 
+    //Pero para los artículos tenemos que crear una clase porque el método no es estático
+    $articulos = new ArrayArticulos();
+
+    //Le metemos los datos
+    $articulos -> getDatos();
 ?>

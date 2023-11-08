@@ -7,14 +7,14 @@
         del libro seleccionado
     */
 
-    # Librería
+    // Librería
     include 'libs/crud_funciones.php';
 
-    # Model
+    // Model
     include 'models/model.editar.php';
 
 
-    # Vista
+    // Vista
     include 'views/view.editar.php';
 
 ?>

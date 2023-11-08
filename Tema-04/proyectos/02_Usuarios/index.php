@@ -3,17 +3,22 @@
     /*
 
         Controlador: index.php
-        Descripción: muestra los detalles de  los libros ordenados  por id
+        Descripción: Controlador Principal
 
     */
 
-    # Librería
+
+    // Clases
+    include("class/class.articulo.php");
+    include("class/class.arrayArticulos.php");
+
+    // Librería
     include 'libs/crud_funciones.php';
 
-    # Model
+    // Model
     include 'models/model.index.php';
 
-    # Vista
+    // Vista
     include 'views/view.index.php';
 
 ?>

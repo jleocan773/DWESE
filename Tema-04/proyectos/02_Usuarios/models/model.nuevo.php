@@ -3,13 +3,12 @@
     /*
 
         Modelo: model.nuevo.php
-        Descripcion: carga array categorias generar el select dinámico de categorías
+        Descripcion: Carga arrays para poder generar un nuevo formulario
 
     */
 
-    # cargamos la tabla
-    $categorias = generar_tabla_categorias();
-    $marcas = generar_tabla_marcas();
-
+    //Cargamos los arrays a partir de los métodos estáticos de la clase
+    $categorias = ArrayArticulos::getCategorias();
+    $marcas = ArrayArticulos::getMarcas();
 
 ?>

@@ -3,16 +3,18 @@
     /*
 
         Controlador: nuevo.php
-        Descripción: mostrar un formulario que permita añadir nuevo libro
+        Descripción: Muestra un formulario para añadir un nuevo artículo
     */
 
-    # Librería
+    // Clases
+    include("class/class.articulo.php");
+    include("class/class.arrayArticulos.php");
+    
+    // Librería
     include 'libs/crud_funciones.php';
 
-    # Model
+    // Model
     include 'models/model.nuevo.php';
 
-    # Vista
+    // Vista
     include 'views/view.nuevo.php';
-
-?>

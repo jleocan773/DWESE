@@ -8,14 +8,14 @@
         en  pantalla  mediante la  vista principal.
     */
 
-    # Librería
+    // Librería
     include 'libs/crud_funciones.php';
 
-    # Model
+    // Model
     include 'models/model.create.php';
 
 
-    # Vista
+    // Vista
     include 'views/view.index.php';
 
 ?>

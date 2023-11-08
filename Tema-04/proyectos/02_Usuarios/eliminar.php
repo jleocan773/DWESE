@@ -6,14 +6,14 @@
         Descripción: permite eliminar un elemento de la tabla
     */
 
-    # Librería
+    // Librería
     include 'libs/crud_funciones.php';
 
-    # Model
+    // Model
     include 'models/model.eliminar.php';
 
 
-    # Vista
+    // Vista
     include 'views/view.index.php';
 
 ?>
