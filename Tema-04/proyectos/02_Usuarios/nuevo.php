@@ -3,13 +3,15 @@
     /*
 
         Controlador: nuevo.php
-        Descripción: Muestra un formulario para añadir un nuevo artículo
+        Descripción: Controlador Nuevo
+
     */
+
 
     // Clases
     include("class/class.articulo.php");
     include("class/class.arrayArticulos.php");
-    
+
     // Librería
     include 'libs/crud_funciones.php';
 
@@ -18,3 +20,5 @@
 
     // Vista
     include 'views/view.nuevo.php';
+
+?>

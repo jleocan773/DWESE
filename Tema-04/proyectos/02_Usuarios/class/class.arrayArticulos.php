@@ -166,4 +166,20 @@ class ArrayArticulos
         asort($arrayCategorias);
         return $arrayCategorias;
     }
+
+    public function create(Articulo $data){
+        $this -> tabla[] = $data;
+    }
+
+    public function delete($indice){
+
+        unset($this->tabla[$indice]);
+        $this->tabla = array_values($this->tabla);
+    }
+
+    public function edit($indice){
+        return $this->tabla[$indice];
+    }
+
 }
+

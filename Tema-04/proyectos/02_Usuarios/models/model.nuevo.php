@@ -3,7 +3,7 @@
     /*
 
         Modelo: model.nuevo.php
-        Descripcion: Carga arrays para poder generar un nuevo formulario
+        Descripcion: Carga arrays para poder generar dinámicante un nuevo formulario
 
     */
 

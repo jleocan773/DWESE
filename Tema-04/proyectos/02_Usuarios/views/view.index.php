@@ -18,6 +18,12 @@
         <!-- Menu Principal -->
         <?php include 'views/partials/menu_prin.php' ?>
 
+        <!-- Notificación -->
+        <br>
+        <?php include 'views/partials/notificacion.php' ?>
+        <br>
+
+
         <!-- Muestra datos de la tabla -->
         <table class="table">
             <!-- Encabezado tabla -->
@@ -52,15 +58,15 @@
                         <!-- botones de acción -->
                         <td>
                             <!-- botón  eliminar -->
-                            <a href="eliminar.php?id=<?= $indice ?>" title="Eliminar">
+                            <a href="eliminar.php?indice=<?= $indice ?>" title="Eliminar">
                                 <i class="bi bi-trash-fill"></i></a>
 
                             <!-- botón  editar -->
-                            <a href="editar.php?id=<?= $indice ?>" title="Editar">
+                            <a href="editar.php?indice=<?= $indice ?>" title="Editar">
                                 <i class="bi bi-pencil-square"></i></a>
 
                             <!-- botón  mostrar -->
-                            <a href="mostrar.php?id=<?= $indice ?>" title="Mostrar">
+                            <a href="mostrar.php?indice=<?= $indice ?>" title="Mostrar">
                                 <i class="bi bi-card-text"></i></a>
 
                         </td>

@@ -6,32 +6,23 @@
         Descripcion: edita los detalles de un articulo
 
         Método GET:
-                    - id del libro que quiero editar
+                    - id del artículo que quiero editar
 
     */
 
-    // Cargamos los datos
-    $articulos = generar_tabla();
-    $categorias = generar_tabla_categorias();
-    $marcas = generar_tabla_marcas();
+    // Cargamos las categorías y creamos un Array de Artículos
+    $categorias = ArrayArticulos::getCategorias();
+    $marcas = ArrayArticulos::getMarcas();
+    
+    $articulos = new ArrayArticulos();
+    $articulos -> getDatos();
 
-    // ordenamos las categorias
-    asort($categorias);
+
+    // Obtengo el indice del  artículo que deseo eliminar
+    $indice = $_GET['indice'];
 
 
-    # obtener  el id  del artículo que quiero  editar
-    $id_editar = $_GET['id'];
 
-    # obtener el índice  del  libro
-    $indice_editar = buscar_en_tabla($articulos, 'id', $id_editar);
 
-    // comparación estricta para distinguir el false del 0
-    if ($indice_editar !== false) {
-        // obtengo el array del artículo a  editar
-        $articulo = $articulos[$indice_editar];
 
-    }  else { 
-        echo 'ERROR: artículo  no encontrado';
-        exit();
-    }
 ?>

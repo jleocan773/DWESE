@@ -18,12 +18,11 @@
         <!-- Formulario Nuevo Libro -->
         <form action="create.php" method="POST">
 
-            <!-- id 
+            <!-- ID -->
             <div class="mb-3">
                 <label for="titulo" class="form-label">Id</label>
                 <input type="text" class="form-control" name="id">
-                <div class="form-text">Introduzca identificador del libro</div>
-            </div> -->
+            </div> 
             <!-- Descripción -->
             <div class="mb-3">
                 <label for="descripcion" class="form-label">Descripción</label>

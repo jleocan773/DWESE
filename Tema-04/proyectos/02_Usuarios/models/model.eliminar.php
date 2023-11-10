@@ -10,29 +10,24 @@
 
     */
 
-    # cargamos la tabla
-    $articulos = generar_tabla();
-    $categorias = generar_tabla_categorias();
+    // Cargamos las categorías y creamos un Array de Artículos
+    $categorias = ArrayArticulos::getCategorias();
+    $marcas = ArrayArticulos::getMarcas();
+    
+    $articulos = new ArrayArticulos();
+    $articulos -> getDatos();
 
 
-    # obtengo el  id del  artículo que deseo eliminar
-    $id = $_GET['id'];
+    // Obtengo el indice del  artículo que deseo eliminar
+    $indice = $_GET['indice'];
 
-    # obtengo el índice  del artículo que deseo eliminar
-    $indice_eliminar = buscar_en_tabla($articulos, 'id', $id);
+    // Obtengo el índice  del artículo que deseo eliminar
+    $articulos -> delete($indice);
 
-    // comparación estricta para distinguer el false del 0
-    if ($indice_eliminar !== false) {
-        // elimino el libro seleccionado
-        unset ($articulos[$indice_eliminar]);
+    //Generar notificacion
+    $notificacion = "Articulo borrado correctamente";
 
-        // reconstruyo el array 
-        $articulos = array_values($articulos);
 
-    }  else { 
-        echo 'ERROR: artículo  no encontrado';
-        exit();
-    }
 
    
 
