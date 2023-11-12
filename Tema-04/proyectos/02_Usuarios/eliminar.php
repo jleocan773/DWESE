@@ -9,8 +9,9 @@
 
 
     // Clases
-    include("class/class.articulo.php");
-    include("class/class.arrayArticulos.php");
+    require_once 'class/class.articulo.php';
+    require_once 'class/class.arrayArticulos.php';
+    
 
     // Librería
     include 'libs/crud_funciones.php';

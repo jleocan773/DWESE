@@ -10,12 +10,12 @@
     <!-- Capa principal -->
     <div class="container">
 
-        <!-- cabecera documento -->
+        <!-- Cabecera documento -->
         <?php include 'views/partials/header.php' ?>
 
         <legend>Formulario Nuevo Artículo</legend>
 
-        <!-- Formulario Nuevo Libro -->
+        <!-- Formulario Nuevo Artículo -->
         <form action="create.php" method="POST">
 
             <!-- ID -->
