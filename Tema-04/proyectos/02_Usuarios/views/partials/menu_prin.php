@@ -21,7 +21,8 @@
                     <ul class="dropdown-menu">
                         <li><a class="dropdown-item" href="ordenar.php?criterio=descripcion">Descripcion</a></li>
                         <li><a class="dropdown-item" href="ordenar.php?criterio=modelo">Modelo</a></li>
-                        <li><a class="dropdown-item" href="ordenar.php?criterio=categoria">Categoria</a></li>
+                        <li><a class="dropdown-item" href="ordenar.php?criterio=marca">Marca</a></li>
+                        <li><a class="dropdown-item" href="ordenar.php?criterio=categorias">Categorias</a></li>
                         <li><a class="dropdown-item" href="ordenar.php?criterio=unidades">Stock</a></li>
                         <li><a class="dropdown-item" href="ordenar.php?criterio=precio">Precio</a></li>
                     </ul>

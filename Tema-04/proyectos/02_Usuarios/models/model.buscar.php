@@ -1,6 +1,6 @@
 <?php
 
-    /*
+/*
 
         Modelo: model.buscar.php
         Descripcion: filtra los artículos  a partir de la expresión búsqueda
@@ -9,15 +9,15 @@
                     - expresion: prompt o expresión de búsqueda
     */
 
-    # Cargo los datos
-    $categorias = generar_tabla_categorias();
-    $articulos = generar_tabla();
+// Cargar las categorías y crear un Array de Artículos
+$categorias = ArrayArticulos::getCategorias();
+$marcas = ArrayArticulos::getMarcas();
 
-    # Cargo la expresion de búsqueda
-    $expresion = $_GET['expresion'];
+$articulos = new ArrayArticulos();
+$articulos->getDatos();
 
-    # Filtrar la tabla  a partir de esa expresión
-    $articulos  = filtrar($articulos, $expresion);
+// Cargo la expresion de búsqueda
+$expresion = $_GET['expresion'];
 
-
-?>
+// Filtrar la tabla  a partir de esa expresión
+$articulos  = filtrar($articulos, $expresion);

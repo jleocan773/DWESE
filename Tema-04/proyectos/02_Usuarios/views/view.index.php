@@ -78,7 +78,7 @@
             </tbody>
             <tfoot>
                 <tr>
-                    <td colspan="7">Nº Artículos <?= count($articulos->getTabla()) ?></td>
+                    <td colspan="8">Nº Artículos <?= count($articulos->getTabla()) ?></td>
                     </td>
                 </tr>
             </tfoot>

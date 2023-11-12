@@ -1,28 +1,26 @@
 <?php
 
-    /*
+/*
 
         Modelo: model.ordenar.php
-        Descripcion: muestra los artículos  a partir de un  criterio de ordenación
+        Descripcion: Muestra los artículos  a partir de un  criterio de ordenación
 
         Método GET:
-                    - critero: descripcion, modelo,  categoria, unidades, precio
+                    - critero: descripcion, modelo, marca, categorias, unidades, precio
     */
 
-    # cargamos los datos
-    $categorias = generar_tabla_categorias();
-    $articulos = generar_tabla();
+// Cargar las categorías y crear un Array de Artículos
+$categorias = ArrayArticulos::getCategorias();
+$marcas = ArrayArticulos::getMarcas();
 
-    # Cargo el criterio de ordenación
-    $criterio = $_GET['criterio'];
+$articulos = new ArrayArticulos();
+$articulos->getDatos();
 
-    // Validar  criterio
-    if (!in_array($criterio, array_keys($articulos[0]))) {
-        echo "ERROR:  Criterio de  ordenación inxistente";
-        exit();
-    }
+// Cargar el criterio de ordenación
+$criterio = $_GET['criterio'];
 
-    # Ordenar tabla articulos
-    $articulos = ordenar($articulos, $criterio);
+// Ordena los artículos
+$articulos->ordenarArticulos($criterio);
 
-?>
+// Ahora, $articulos->tabla contiene los artículos ordenados
+$articulosOrdenados = $articulos->getTabla();
