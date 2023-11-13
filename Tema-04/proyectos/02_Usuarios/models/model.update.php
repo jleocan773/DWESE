@@ -30,7 +30,7 @@ $articulos->getDatos();
 $indice = $_GET['indice'];
 
 //Creo una variable articulo y hago que tenga los datos del artículo que quiero editar
-$articulo = $articulos->articuloParaEditar($indice);
+$articulo = $articulos->read($indice);
 
 // Pillo los detalles del artículo seleccionado que están en el formulario en view.editar.php
 $datosArticulo = [

@@ -18,9 +18,9 @@ $articulos = new ArrayArticulos();
 $articulos->getDatos();
 
 
-// Obtengo el indice del  artículo que deseo eliminar
+// Obtengo el indice del  artículo que deseo editar
 $indice = $_GET['indice'];
 
 
-//Pillamos el índice del articulo que queremos editar
-$articulo = $articulos->articuloParaEditar($indice);
+//Pillamos los datos del articulo que queremos editar
+$articulo = $articulos->read($indice);

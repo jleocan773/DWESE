@@ -179,7 +179,7 @@ class ArrayArticulos
         $this->tabla = array_values($this->tabla);
     }
 
-    public function articuloParaEditar($indice)
+    public function read($indice)
     {
         return $this->tabla[$indice];
     }
