@@ -35,7 +35,7 @@ echo 'Número de columnas: ' . $result->field_count;
 echo "<br>";
 
 //Con esto le indico la forma en la que le voy a extrar los datos
-//Acabaré obteniendo un array asociativo
+//Acabaré obteniendo un array indexado
 $alumnos = $result->fetch_all(MYSQLI_NUM);
 
 //Array indexado, el índice se corresponde con el orden

@@ -35,7 +35,7 @@ echo 'Número de columnas: ' . $result->field_count;
 echo "<br>";
 
 //Con esto le indico la forma en la que le voy a extrar los datos
-//Acabaré obteniendo un array asociativo con el doble de los campos, su tipo y su valor
+//Acabaré obteniendo un array asociativo y uno indexado
 $alumnos = $result->fetch_all(MYSQLI_BOTH);
 
 $alumno = $alumnos[0];
