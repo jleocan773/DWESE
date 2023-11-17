@@ -3,55 +3,54 @@
     /*
 
         Modelo: model.create.php
-        Descripcion: añade un nuevo  artículo en a la tabla
+        Descripcion: añade un nuevo alumno a la tabla
 
         Método POST:
                     - id
-                    - descripcion
-                    - modelo
-                    - marca (mostrado como índice)
-                    - categorias (mostrado como array)
-                    - unidades
-                    - precio
+                    - nombre
+                    - apellidos
+                    - email
+                    - fecha nacimiento
+                    - curso (mostrado como índice)
+                    - asignaturas (mostrado como array)
 
     */
 
-    //Cargo en una variable los valores del articulo
+    //Cargamos los arrays a partir de los métodos estáticos de la clase
+    $asignaturas = ArrayAlumnos::getAsignatura();
+    $cursos = ArrayAlumnos::getCursos();
 
+    //Pero para los alumnos tenemos que crear una clase porque el método no es static
+    $alumnos = new ArrayAlumnos();
 
-    $categorias = ArrayArticulos::getCategorias();
-    $marcas = ArrayArticulos::getMarcas();
-    $articulos = new ArrayArticulos();
-    $articulos -> getDatos();
+    //Le metemos los datos
+    $alumnos -> getAlumnos();
 
+    //Adquiero los valores del formulario de model.nuevo.php
     $id = $_POST['id'];
-    $descripcion = $_POST['descripcion'];
-    $modelo = $_POST['modelo'];
-    $marca = $_POST['marca'];
-    $categorias_new_articulo = $_POST['categorias'];
-    $unidades = $_POST['unidades'];
-    $precio = $_POST['precio'];
-    
-
-
-    //Validación (no la haremos)
+    $nombre = $_POST['nombre'];
+    $apellidos = $_POST['apellidos'];
+    $email = $_POST['email'];
+    $fecha_nacimiento = $_POST['fecha_nacimiento'];
+    $cursoNuevoAlumno = $_POST['curso'];
+    $asignaturasNuevoAlumno = $_POST['asignaturas'];
 
     //Creo un Objeto de Clase Articulo a partir de los detalles del formulario
 
-    $new_articulo = new Articulo (
+    $nuevoAlumno = new Alumno (
         $id,
-        $descripcion,
-        $modelo,
-        $marca,
-        $categorias_new_articulo,
-        $unidades,
-        $precio
+        $nombre,
+        $apellidos,
+        $email,
+        $fecha_nacimiento,
+        $cursoNuevoAlumno,
+        $asignaturasNuevoAlumno
 );
 
-    //Añadimos el artículo a la tabla
-    $articulos -> create($new_articulo);
+    //Añadimos el alumno a la tabla
+    $alumnos -> create($nuevoAlumno);
 
     //Generar notificacion
-    $notificacion = "Articulo creado correctamente";
+    $notificacion = "Alumno creado correctamente";
 
 ?>

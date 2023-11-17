@@ -6,26 +6,28 @@
         Descripcion: elimina un elemento de la  tabla
 
         Método GET:
-                    - id del artículo que quiero eliminar
+                    - indice del alumno que quiero eliminar
 
     */
 
-    // Cargamos las categorías y creamos un Array de Artículos
-    $categorias = ArrayArticulos::getCategorias();
-    $marcas = ArrayArticulos::getMarcas();
-    
-    $articulos = new ArrayArticulos();
-    $articulos -> getDatos();
+    //Cargamos los arrays a partir de los métodos estáticos de la clase
+    $asignaturas = ArrayAlumnos::getAsignatura();
+    $cursos = ArrayAlumnos::getCursos();
 
+    //Pero para los alumnos tenemos que crear una clase porque el método no es static
+    $alumnos = new ArrayAlumnos();
 
-    // Obtengo el indice del  artículo que deseo eliminar
+    //Le metemos los datos
+    $alumnos -> getAlumnos();
+
+    // Obtengo el indice del alumno que deseo eliminar
     $indice = $_GET['indice'];
 
-    // Obtengo el índice  del artículo que deseo eliminar
-    $articulos -> delete($indice);
+    // Obtengo el índice del alumno que deseo eliminar
+    $alumnos -> delete($indice);
 
     //Generar notificacion
-    $notificacion = "Articulo borrado correctamente";
+    $notificacion = "Alumno borrado correctamente";
 
 
 

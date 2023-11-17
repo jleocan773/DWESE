@@ -3,24 +3,26 @@
 /*
 
         Modelo: model.ordenar.php
-        Descripcion: Muestra los artículos  a partir de un  criterio de ordenación
+        Descripcion: Muestra los elementos a partir de un criterio de ordenación
 
-        Método GET:
-                    - critero: descripcion, modelo, marca, categorias, unidades, precio
+        Método GET: critero, que será cualquiera de los campos del elemento
     */
 
-// Cargar las categorías y crear un Array de Artículos
-$categorias = ArrayArticulos::getCategorias();
-$marcas = ArrayArticulos::getMarcas();
+//Cargamos los arrays a partir de los métodos estáticos de la clase
+$asignaturas = ArrayAlumnos::getAsignatura();
+$cursos = ArrayAlumnos::getCursos();
 
-$articulos = new ArrayArticulos();
-$articulos->getDatos();
+//Pero para los alumnos tenemos que crear una clase porque el método no es static
+$alumnos = new ArrayAlumnos();
 
-// Cargar el criterio de ordenación
-$criterio = $_GET['criterio'];
+//Le metemos los datos
+$alumnos->getAlumnos();
 
-// Ordena los artículos
-$articulos->ordenarArticulos($criterio);
+//Pillamos el criterio de ordenación
+$criterio = $_GET['criterio']; 
 
-// Ahora, $articulos->tabla contiene los artículos ordenados
-$articulosOrdenados = $articulos->getTabla();
+// Ordena los elementos
+$alumnos->ordenarAlumnos($criterio);
+
+//Creo una variable con los elementos ordenados
+$alumnosOrdenados = $alumnos->tabla;

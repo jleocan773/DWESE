@@ -258,4 +258,6 @@ class ArrayArticulos
                 break;
         }
     }
+
+    
 }

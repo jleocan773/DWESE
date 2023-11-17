@@ -3,25 +3,28 @@
 /*
 
         Modelo: model.mostrar.php
-        Descripcion: muestra los detalles de un artículo sin edición
+        Descripcion: Muestra los detalles de un elemento sin edición
 
-        Método GET:
-                    - id del artículo que quiero editar
+        Método GET: indice del elemento que quiero mostrar
 
     */
 
-// Cargamos las categorías y creamos un Array de Artículos
-$categorias = ArrayArticulos::getCategorias();
-$marcas = ArrayArticulos::getMarcas();
 
-$articulos = new ArrayArticulos();
-$articulos->getDatos();
+//Cargamos los arrays a partir de los métodos estáticos de la clase
+$asignaturas = ArrayAlumnos::getAsignatura();
+$cursos = ArrayAlumnos::getCursos();
+
+//Pero para los alumnos tenemos que crear una clase porque el método no es static
+$alumnos = new ArrayAlumnos();
+
+//Le metemos los datos
+$alumnos->getAlumnos();
 
 
-// Obtengo el indice del  artículo que deseo editar
+// Obtengo el indice del  artículo que deseo mostrar
 $indice = $_GET['indice'];
 
 
-//Pillamos los datos del articulo que queremos editar
-$articulo = $articulos->read($indice);
+//Pillamos los datos del articulo que queremos mostrar
+$alumno = $alumnos->read($indice);
 

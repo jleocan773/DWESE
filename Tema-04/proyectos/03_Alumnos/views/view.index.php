@@ -3,7 +3,7 @@
 
 <head>
     <?php include 'views/layouts/head.html' ?>
-    <title>Proyecto 4.2 - Gestión Artículos</title>
+    <title>Proyecto 4.3 - Gestión Alumnos</title>
 </head>
 
 <body>
@@ -13,7 +13,7 @@
         <!-- cabecera documento -->
         <?php include 'views/partials/header.php' ?>
 
-        <legend>Tabla Artículos</legend>
+        <legend>Tabla Alumnos</legend>
 
         <!-- Menu Principal -->
         <?php include 'views/partials/menu_prin.php' ?>
@@ -30,30 +30,32 @@
             <thead>
                 <tr>
                     <th>Id</th>
-                    <th>Descripción</th>
-                    <th>Modelo</th>
-                    <th>Marca</th>
-                    <th>Categorias</th>
-                    <th class="text-end">Stock</th>
-                    <th class="text-end">Precio</th>
-                    <th>Acciones</th>
+                    <th>Nombre</th>
+                    <th>Apellidos</th>
+                    <th>Email</th>
+                    <th>Fecha Nacimiento</th>
+                    <th>Edad</th>
+                    <th>Curso</th>
+                    <th>Asignaturas</th>
                 </tr>
             </thead>
             <!-- Mostramos cuerpo de la tabla -->
             <tbody>
 
-                <?php foreach ($articulos->getTabla() as $indice => $articulo) : ?>
+                <?php foreach ($alumnos->tabla as $indice => $alumno) : ?>
                     <tr>
                         <!-- Formatos distintos para cada  columna -->
 
-                        <!-- Detalles de artículos -->
-                        <td><?= $articulo->getId() ?></td>
-                        <td><?= $articulo->getDescripcion() ?></td>
-                        <td><?= $articulo->getModelo() ?></td>
-                        <td><?= $marcas[$articulo->getMarca()] ?></td>
-                        <td><?= implode(', ', ArrayArticulos::mostrarCategorias($categorias, $articulo->getCategorias())) ?></td>
-                        <td class="text-end"><?= $articulo->getUnidades() ?></td>
-                        <td class="text-end"><?= number_format($articulo->getPrecio(), 2, ',', '.') ?> €</td>
+                        <!-- Detalles de alumnos -->
+                        <td><?= $alumno->id ?></td>
+                        <td><?= $alumno->nombre ?></td>
+                        <td><?= $alumno->apellidos ?></td>
+                        <td><?= $alumno->email ?></td>
+                        <td><?= $alumno->fecha_nacimiento ?></td>
+                        <td><?= $alumno->getEdad() ?></td>
+                        <td><?= $cursos[$alumno->curso] ?></td>
+                        <td><?= implode('<br>', ArrayAlumnos::mostrarAsignaturas($asignaturas, $alumno->asignaturas)) ?></td>
+
 
                         <!-- botones de acción -->
                         <td>
@@ -78,21 +80,20 @@
             </tbody>
             <tfoot>
                 <tr>
-                    <td colspan="8">Nº Artículos <?= count($articulos->getTabla()) ?></td>
-                    </td>
+                    <td colspan="8">Nº Alumnos: <?= count($alumnos->tabla) ?></td>
                 </tr>
             </tfoot>
+
         </table>
-
-
-
-        <!-- Pié del documento -->
-        <?php include 'views/partials/footer.html' ?>
-
     </div>
+
+    <!-- Pié del documento -->
+    <?php include 'views/partials/footer.html' ?>
+
 
     <!-- javascript bootstrap 532 -->
     <?php include 'views/layouts/javascript.html' ?>
+
 </body>
 
 </html>

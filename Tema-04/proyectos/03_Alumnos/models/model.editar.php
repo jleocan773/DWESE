@@ -3,19 +3,21 @@
 /*
 
         Modelo: model.editar.php
-        Descripcion: edita los detalles de un articulo
+        Descripcion: Edita los detalles de un elemento
 
-        Método GET:
-                    - id del artículo que quiero editar
+        Método GET: indice del elemento que quiero editar
 
-    */
+*/
 
-// Cargamos las categorías y creamos un Array de Artículos
-$categorias = ArrayArticulos::getCategorias();
-$marcas = ArrayArticulos::getMarcas();
+//Cargamos los arrays a partir de los métodos estáticos de la clase
+$asignaturas = ArrayAlumnos::getAsignatura();
+$cursos = ArrayAlumnos::getCursos();
 
-$articulos = new ArrayArticulos();
-$articulos->getDatos();
+//Pero para los alumnos tenemos que crear una clase porque el método no es static
+$alumnos = new ArrayAlumnos();
+
+//Le metemos los datos
+$alumnos->getAlumnos();
 
 
 // Obtengo el indice del  artículo que deseo editar
@@ -23,4 +25,4 @@ $indice = $_GET['indice'];
 
 
 //Pillamos los datos del articulo que queremos editar
-$articulo = $articulos->read($indice);
+$alumno = $alumnos->read($indice);
