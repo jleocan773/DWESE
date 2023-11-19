@@ -1,57 +1,37 @@
 <?php
 
-    /*
+/*
+    Model: model.create.php
+    Descripción: Añade un nuevo elemento
 
-        Modelo: model.create.php
-        Descripcion: añade un nuevo  artículo en a la tabla
-
-        Método POST:
-                    - id
-                    - descripcion
-                    - modelo
-                    - marca (mostrado como índice)
-                    - categorias (mostrado como array)
-                    - unidades
-                    - precio
-
-    */
-
-    //Cargo en una variable los valores del articulo
+    Método POST: Cargaré las variables necesarias para añadir un nuevo elemento
+*/
 
 
-    $categorias = ArrayArticulos::getCategorias();
-    $marcas = ArrayArticulos::getMarcas();
-    $articulos = new ArrayArticulos();
-    $articulos -> getDatos();
+//Creamos una instancia de la Clase Fp
+$db = new Fp;
 
-    $id = $_POST['id'];
-    $descripcion = $_POST['descripcion'];
-    $modelo = $_POST['modelo'];
-    $marca = $_POST['marca'];
-    $categorias_new_articulo = $_POST['categorias'];
-    $unidades = $_POST['unidades'];
-    $precio = $_POST['precio'];
-    
+//Le metemos los datos
+$alumnosfp = $db->getAlumnos();
+$cursosfp = $db->getCursos();
+
+//Tomamos los valores del formulario
+
+$nombre = $_POST['nombre'];
+$apellidos = $_POST['apellidos'];
+$email = $_POST['email'];
+$telefono = $_POST['telefono'];
+$direccion = $_POST['direccion'];
+$poblacion = $_POST['poblacion'];
+$provincia = $_POST['provincia'];
+$nacionalidad = $_POST['nacionalidad'];
+$dni = $_POST['dni'];
+$fecha_nacimiento = $_POST['fecha_nacimiento'];
+$curso = $_POST['curso'];
 
 
-    //Validación (no la haremos)
+//Con el método crearAlumno creamos el alumno a partir de los detalles del formulario
+$db->crearAlumno($nombre, $apellidos, $email, $telefono, $direccion, $poblacion, $provincia, $nacionalidad, $dni, $fecha_nacimiento, $curso);
 
-    //Creo un Objeto de Clase Articulo a partir de los detalles del formulario
-
-    $new_articulo = new Articulo (
-        $id,
-        $descripcion,
-        $modelo,
-        $marca,
-        $categorias_new_articulo,
-        $unidades,
-        $precio
-);
-
-    //Añadimos el artículo a la tabla
-    $articulos -> create($new_articulo);
-
-    //Generar notificacion
-    $notificacion = "Articulo creado correctamente";
-
-?>
+//Generar notificacion
+$notificacion = "Alumno creado correctamente";

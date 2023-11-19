@@ -1,14 +1,13 @@
 <?php
 
-    /*
+/*
+    Modelo: model.nuevo.php
+    Descripcion: Cargo lo necesario para poder generar dinámicante un nuevo formulario
+*/
 
-        Modelo: model.nuevo.php
-        Descripcion: Carga arrays para poder generar dinámicante un nuevo formulario
+//Creamos una instancia de la Clase Fp
+$db = new Fp;
 
-    */
-
-    //Cargamos los arrays a partir de los métodos estáticos de la clase
-    $categorias = ArrayArticulos::getCategorias();
-    $marcas = ArrayArticulos::getMarcas();
-
-?>
+//Le metemos los datos
+$alumnosfp = $db->getAlumnos();
+$cursosfp = $db->getCursos();

@@ -1,25 +1,17 @@
 <?php
 
-    /*
-
-        Controlador: create.php
-        Descripción: Controlador Create
-
-    */
+/*
+    Controlador: create.php
+    Descripción: Controlador Create
+*/
 
 
-    // Clases
-    require_once 'class/class.articulo.php';
-    require_once 'class/class.arrayArticulos.php';
-    
+// Clases
+require_once 'class/class.conexion.php';
+require_once 'class/class.fp.php';
 
-    // Librería
-    include 'libs/crud_funciones.php';
+// Model
+include 'models/model.create.php';
 
-    // Model
-    include 'models/model.create.php';
-
-    // Vista
-    include 'views/view.index.php';
-
-?>
+// Vista
+include 'views/view.index.php';

@@ -3,7 +3,7 @@
 
 <head>
     <?php include 'views/layouts/head.html' ?>
-    <title>Proyecto 4.2 - Gestión Artículos</title>
+    <title>Proyecto 5.1 - FP</title>
 </head>
 
 <body>
@@ -13,7 +13,7 @@
         <!-- cabecera documento -->
         <?php include 'views/partials/header.php' ?>
 
-        <legend>Tabla Artículos</legend>
+        <legend>Tabla Alumnos</legend>
 
         <!-- Menu Principal -->
         <?php include 'views/partials/menu_prin.php' ?>
@@ -23,68 +23,45 @@
         <?php include 'views/partials/notificacion.php' ?>
         <br>
 
-
         <!-- Muestra datos de la tabla -->
         <table class="table">
             <!-- Encabezado tabla -->
             <thead>
                 <tr>
-                    <th>Id</th>
-                    <th>Descripción</th>
-                    <th>Modelo</th>
-                    <th>Marca</th>
-                    <th>Categorias</th>
-                    <th class="text-end">Stock</th>
-                    <th class="text-end">Precio</th>
-                    <th>Acciones</th>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Email</th>
+                    <th>Teléfono</th>
+                    <th>Población</th>
+                    <th>DNI</th>
+                    <th>Edad</th>
+                    <th>Curso</th>
                 </tr>
             </thead>
             <!-- Mostramos cuerpo de la tabla -->
             <tbody>
 
-                <?php foreach ($articulos->getTabla() as $indice => $articulo) : ?>
+                <?php while ($row = $alumnosfp->fetch_assoc()) : ?>
                     <tr>
-                        <!-- Formatos distintos para cada  columna -->
-
-                        <!-- Detalles de artículos -->
-                        <td><?= $articulo->getId() ?></td>
-                        <td><?= $articulo->getDescripcion() ?></td>
-                        <td><?= $articulo->getModelo() ?></td>
-                        <td><?= $marcas[$articulo->getMarca()] ?></td>
-                        <td><?= implode(', ', ArrayArticulos::mostrarCategorias($categorias, $articulo->getCategorias())) ?></td>
-                        <td class="text-end"><?= $articulo->getUnidades() ?></td>
-                        <td class="text-end"><?= number_format($articulo->getPrecio(), 2, ',', '.') ?> €</td>
-
-                        <!-- botones de acción -->
-                        <td>
-                            <!-- botón  eliminar -->
-                            <a href="eliminar.php?indice=<?= $indice ?>" title="Eliminar">
-                                <i class="bi bi-trash-fill"></i></a>
-
-                            <!-- botón  editar -->
-                            <a href="editar.php?indice=<?= $indice ?>" title="Editar">
-                                <i class="bi bi-pencil-square"></i></a>
-
-                            <!-- botón  mostrar -->
-                            <a href="mostrar.php?indice=<?= $indice ?>" title="Mostrar">
-                                <i class="bi bi-card-text"></i></a>
-
-                        </td>
+                        <!-- Mostrar datos de alumnos -->
+                        <td><?= $row['id'] ?></td>
+                        <td><?= $row['nombre'] ?></td>
+                        <td><?= $row['email'] ?></td>
+                        <td><?= $row['telefono'] ?></td>
+                        <td><?= $row['poblacion'] ?></td>
+                        <td><?= $row['dni'] ?></td>
+                        <td><?= $row['edad'] ?></td>
+                        <td><?= $row['curso'] ?></td>
                     </tr>
-
-                <?php endforeach; ?>
-
+                <?php endwhile; ?>
 
             </tbody>
             <tfoot>
                 <tr>
-                    <td colspan="8">Nº Artículos <?= count($articulos->getTabla()) ?></td>
-                    </td>
+                    <td colspan="8">Nº Alumnos: <?= $alumnosfp->num_rows ?></td>
                 </tr>
             </tfoot>
         </table>
-
-
 
         <!-- Pié del documento -->
         <?php include 'views/partials/footer.html' ?>
