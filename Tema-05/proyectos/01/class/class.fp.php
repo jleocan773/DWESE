@@ -37,22 +37,33 @@ class Fp extends Conexion
         cursos ON alumnos.id_curso = cursos.id
         ORDER BY id";
 
-        $result = $this->db->query($sql);
+        //Preparamos el statement
+        $stmt = $this->db->prepare($sql);
+        //Se ejecuta
+        $stmt->execute();
+        //Creamos una variable de tipo result que será la salida de la ejecución
+        $result = $stmt->get_result();
 
         return $result;
     }
 
     public function getCursos()
     {
-        $sql = "SELECT id, nombre FROM cursos";
+        $sql = "SELECT 
+        id, 
+        nombreCorto curso 
+        FROM 
+        cursos
+        ORDER BY id";
 
-        $result = $this->db->query($sql);
+        //Preparamos el statement
+        $stmt = $this->db->prepare($sql);
+        //Se ejecuta
+        $stmt->execute();
+        //Creamos una variable de tipo result que será la salida de la ejecución
+        $result = $stmt->get_result();
 
-        while ($row = $result->fetch_assoc()) {
-            $cursos[$row['id']] = $row['nombre'];
-        }
-
-        return $cursos;
+        return $result;
     }
 
     public function crearAlumno($nombre, $apellidos, $email, $telefono, $direccion, $poblacion, $provincia, $nacionalidad, $dni, $fechaNac, $id_curso)
@@ -67,6 +78,4 @@ class Fp extends Conexion
             $stmt->execute();
         }
     }
-
-
 }

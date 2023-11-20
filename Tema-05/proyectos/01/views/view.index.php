@@ -40,20 +40,19 @@
             </thead>
             <!-- Mostramos cuerpo de la tabla -->
             <tbody>
-
-                <?php while ($row = $alumnosfp->fetch_assoc()) : ?>
+                <?php foreach ($alumnosfp as $alumno) : ?>
                     <tr>
                         <!-- Mostrar datos de alumnos -->
-                        <td><?= $row['id'] ?></td>
-                        <td><?= $row['nombre'] ?></td>
-                        <td><?= $row['email'] ?></td>
-                        <td><?= $row['telefono'] ?></td>
-                        <td><?= $row['poblacion'] ?></td>
-                        <td><?= $row['dni'] ?></td>
-                        <td><?= $row['edad'] ?></td>
-                        <td><?= $row['curso'] ?></td>
+                        <td><?= $alumno['id'] ?></td>
+                        <td><?= $alumno['nombre'] ?></td>
+                        <td><?= $alumno['email'] ?></td>
+                        <td><?= $alumno['telefono'] ?></td>
+                        <td><?= $alumno['poblacion'] ?></td>
+                        <td><?= $alumno['dni'] ?></td>
+                        <td><?= $alumno['edad'] ?></td>
+                        <td><?= $alumno['curso'] ?></td>
                     </tr>
-                <?php endwhile; ?>
+                <?php endforeach; ?>
 
             </tbody>
             <tfoot>

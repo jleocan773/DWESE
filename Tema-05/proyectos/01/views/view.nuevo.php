@@ -83,14 +83,14 @@
                 <label for="curso" class="form-label">Curso</label>
                 <select class="form-select" aria-label="Default select example" name="curso">
                     <option selected disabled>Seleccione Curso</option>
-                    <?php foreach ($cursosfp as $idCurso => $nombreCurso) : ?>
-                        <option value="<?= $idCurso ?>">
-                            <?= $nombreCurso ?>
+                    <?php foreach ($cursosfp as $data) : ?>
+                        <option value="<?= $data['id'] ?>">
+                            <?= $data['curso'] ?>
                         </option>
                     <?php endforeach; ?>
                 </select>
             </div>
-            
+
             <!-- botones de acción -->
             <a class="btn btn-secondary" href="index.php" role="button">Cancelar</a>
             <button type="reset" class="btn btn-danger">Borrar</button>
