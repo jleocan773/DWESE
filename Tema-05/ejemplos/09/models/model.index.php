@@ -19,6 +19,7 @@
     $fp = new Fp();
     $fp->insert_curso($curso);
 
-    echo "curso añadido correctamente";
+    echo "<br>";
+    echo "Curso añadido correctamente";
 
 ?>
