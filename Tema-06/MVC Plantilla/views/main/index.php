@@ -21,7 +21,7 @@
 			</div>
 			<div class="card-body">
 				
-                <?php require_once("template/partials/cabecera.php") ?>
+                <?php require_once("template/partials/header.php") ?>
 
 			</div>
 		</div>
