@@ -6,6 +6,9 @@
     <title>Alumnos</title>
 </head>
 <body>
-    BUENAS TARDES BUENAS TARDES BUENAS TARDES BUENAS TARDES
+    <h3>Vista Index Alumno</h3>
+    <p>AQUÍ VAN A IR LOS ALUMNOS</p>
+    <p>Nombre: <?= $this->nombre;?></p>
+    <p>Apellidos: <?= $this->apellidos;?></p>
 </body>
 </html>
