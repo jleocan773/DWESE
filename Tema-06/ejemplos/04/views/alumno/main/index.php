@@ -82,12 +82,10 @@
 			</div>
 			<div class="card-footer">
 				<small class="text-muted">
-				<td colspan="9">Nº Alumnos: <?= $this->alumnos->rowCount() ?></td>
+					<td colspan="9">Nº Alumnos: <?= $this->alumnos->rowCount() ?></td>
 				</small>
 			</div>
 		</div>
-
-
 	</div>
 
 	<!-- /.container -->
