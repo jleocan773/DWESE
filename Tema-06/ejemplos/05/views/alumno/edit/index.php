@@ -23,7 +23,7 @@
 
             <!-- ID Oculta -->
             <div class="mb-3">
-                <label for="id" class="form-label">ID</label>
+                <label for="id" class="form-label" hidden>ID</label>
                 <input type="number" class="form-control" name="id" value="<?= $this->alumno->id?>" hidden>
             </div>
 
@@ -101,7 +101,7 @@
             </div>
 
             <!-- botones de acción -->
-            <a class="btn btn-secondary" href="<?= URL ?>" role="button">Cancelar</a>
+            <a class="btn btn-secondary" href="<?= URL ?>/alumno" role="button">Cancelar</a>
             <button type="reset" class="btn btn-danger">Restaurar</button>
             <button type="submit" class="btn btn-primary" href="<?= URL ?>alumno/create">Enviar</button>
 

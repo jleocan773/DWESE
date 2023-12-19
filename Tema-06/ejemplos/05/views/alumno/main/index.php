@@ -62,15 +62,15 @@
 								<!-- botones de acción -->
 								<td>
 									<!-- botón  eliminar -->
-									<a href="<?= URL ?>alumno/delete/<?= $this->id?>" title="Eliminar">
+									<a href="<?= URL ?>alumno/delete/<?= $alumno->id?>" title="Eliminar">
 										<i class="bi bi-trash-fill"></i></a>
 
 									<!-- botón  editar -->
-									<a href="<?= URL ?>alumno/edit/<?= $this->id?>" title="Editar">
+									<a href="<?= URL ?>alumno/edit/<?= $alumno->id?>" title="Editar">
 										<i class="bi bi-pencil-square"></i></a>
 
 									<!-- botón  mostrar -->
-									<a href="<?= URL ?>alumno/show/<?= $this->id?>" title="Mostrar">
+									<a href="<?= URL ?>alumno/show/<?= $alumno->id?>" title="Mostrar">
 										<i class="bi bi-card-text"></i></a>
 								</td>
 

@@ -78,7 +78,7 @@ class Alumno extends Controller
         $this->view->cursos = $this->model->getCursos();
 
         //Cargo la vista
-        $this->view->render('alumnos/edit/index');
+        $this->view->render('alumno/edit/index');
     }
 
 }
