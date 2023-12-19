@@ -3,7 +3,7 @@
 
 # Ruta absoluta
 
-define('URL', 'http://localhost/DWESE/Tema-06/ejemplos/04/');
+define('URL', 'http://localhost/DWESE/Tema-06/ejemplos/05/');
 
 # Constante de la Base de Datos
 define('HOST', 'localhost');

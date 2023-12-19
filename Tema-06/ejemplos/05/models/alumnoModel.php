@@ -149,4 +149,33 @@ class alumnoModel extends Model
             include_once('template/partials/error.php');
         }
     }
+
+    public function read($id_alumno)
+    {
+        try {
+            $sql = "SELECT * FROM alumnos WHERE id = :id_alumno";
+
+            //Conectamos a la base de datos
+            //$this->db es un objeto de la clase Database
+            //Este objeto usará el método connect de esta clase
+            $conexion = $this->db->connect();
+
+            //Creamos un objeto pdostatement
+            $pdostmt = $conexion->prepare($sql);
+
+            //Vincular los parámetros con valores
+            $pdostmt->bindParam(':id_alumno', $id_alumno, PDO::PARAM_INT);
+
+            //Establecemos tipo fetch
+            $pdostmt->setFetchMode(PDO::FETCH_OBJ);
+
+            //Ejecutamos
+            $pdostmt->execute();
+
+            return $pdostmt->fetch();
+        } catch (PDOException $e) {
+            include('views/partials/errorDB.php');
+            exit();
+        }
+    }
 }

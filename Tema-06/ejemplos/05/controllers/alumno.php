@@ -58,4 +58,27 @@ class Alumno extends Controller
         //Redigirimos a "alumno"
         header("Location: ".URL."alumno");
     }
+
+    function edit($param = []){
+        //Obtengo el valor del ID del alumno a editar
+        //Por ejemplo alumno/edit/4 - el 4 es el primer parámetro de la función edit
+        //Creo una variable $id y la igualo al valor del primer parámetro pasado
+        $id = $param[0];
+
+        //Creo una variable id en view y la igualo al valor de la variable creado justo antes
+        $this->view->id = $id;
+
+        //Cambio la propiedad title de la vista
+        $this->view->title = "Editar - Gestión Alumnos";
+
+        //Obtener objeto de la clase alumno
+        $this->view->alumno = $this->model->read($id);
+
+        //Obtener los cursos
+        $this->view->cursos = $this->model->getCursos();
+
+        //Cargo la vista
+        $this->view->render('alumnos/edit/index');
+    }
+
 }
