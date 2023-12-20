@@ -21,7 +21,8 @@ class Alumno extends Controller
         $this->view->render('alumno/main/index');
     }
 
-    function new(){
+    function new()
+    {
 
         //Cambio la propiedad title de la vista
         $this->view->title = "Añadir - Gestión Alumnos";
@@ -32,7 +33,8 @@ class Alumno extends Controller
         $this->view->render('alumno/new/index');
     }
 
-    function create($param = []){
+    function create($param = [])
+    {
 
         //Cargamos los datos del formulario para crear el nuevo alumno
         $alumno = new classAlumno(
@@ -56,10 +58,11 @@ class Alumno extends Controller
         $this->model->create($alumno);
 
         //Redigirimos a "alumno"
-        header("Location: ".URL."alumno");
+        header("Location: " . URL . "alumno");
     }
 
-    function edit($param = []){
+    function edit($param = [])
+    {
         //Obtengo el valor del ID del alumno a editar
         //Por ejemplo alumno/edit/4 - el 4 es el primer parámetro de la función edit
         //Creo una variable $id y la igualo al valor del primer parámetro pasado
@@ -81,4 +84,33 @@ class Alumno extends Controller
         $this->view->render('alumno/edit/index');
     }
 
+    function update($param = [])
+    {
+        //Obtengo el valor del ID del alumno a editar
+        //Por ejemplo alumno/edit/4 - el 4 es el primer parámetro de la función edit
+        //Creo una variable $id y la igualo al valor del primer parámetro pasado
+        $id = $param[0];
+
+        //Cargo detalles del formulario
+        $alumno = new classAlumno(
+            null,
+            $_POST['nombre'],
+            $_POST['apellidos'],
+            $_POST['email'],
+            $_POST['telefono'],
+            $_POST['direccion'],
+            $_POST['poblacion'],
+            $_POST['provincia'],
+            $_POST['nacionalidad'],
+            $_POST['dni'],
+            $_POST['fechaNac'],
+            $_POST['id_curso']
+        );
+
+        //Obtener objeto de la clase alumno
+        $this->model->update($id, $alumno);
+
+        //Redigirimos a "alumno"
+        header("Location: " . URL . "alumno");
+    }
 }

@@ -103,7 +103,7 @@
             <!-- botones de acción -->
             <a class="btn btn-secondary" href="<?= URL ?>/alumno" role="button">Cancelar</a>
             <button type="reset" class="btn btn-danger">Restaurar</button>
-            <button type="submit" class="btn btn-primary" href="<?= URL ?>alumno/create">Enviar</button>
+            <button type="submit" class="btn btn-primary">Enviar</button>
 
         </form>
 
