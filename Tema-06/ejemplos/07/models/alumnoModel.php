@@ -312,16 +312,22 @@ class alumnoModel extends Model
             # Conectar con la base de datos
             $conexion = $this->db->connect();
 
+            //Conectamos a la base de datos
+            //$this->db es un objeto de la clase Database
+            //Este objeto usará el método connect de esta clase
             $pdost = $conexion->prepare($sql);
 
+            //bindValue para que no se pueda introducir código en expresion
             $pdost->bindValue(':expresion', '%' . $expresion . '%', PDO::PARAM_STR);
+
+            //Establecemos tipo fetch
             $pdost->setFetchMode(PDO::FETCH_OBJ);
+
+            //Ejecutamos
             $pdost->execute();
             return $pdost;
         } catch (PDOException $e) {
-
             include_once('template/partials/errorDB.php');
-            exit();
         }
     }
 }
