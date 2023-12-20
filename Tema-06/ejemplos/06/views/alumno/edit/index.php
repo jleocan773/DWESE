@@ -1,8 +1,10 @@
 <!DOCTYPE html>
 <html lang="es">
 
+<!-- Head -->
 <head>
-    <?php require_once("template/partials/head.php") ?>
+	<?php require_once("template/partials/head.php") ?>
+	<title><?=$this->title?></title>
 </head>
 
 <body>

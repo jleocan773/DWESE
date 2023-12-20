@@ -1,8 +1,11 @@
 <!doctype html>
 <html lang="es">
 
-<?php require_once("template/partials/head.php") ?>
-<title>$this->title</title>
+<!-- Head -->
+<head>
+	<?php require_once("template/partials/head.php") ?>
+	<title><?=$this->title?></title>
+</head>
 
 <body>
 	<!-- Menú Proyecto -->
