@@ -1,4 +1,7 @@
+
 <?php
+require_once("models/clienteModel.php");
+
 class Cuenta extends Controller
 {
     function __construct()
@@ -20,12 +23,28 @@ class Cuenta extends Controller
 
     function new()
     {
-
         //Cambio la propiedad title de la vista
         $this->view->title = "Añadir - Gestión Cuentas";
 
+        //Obtenemos los datos de los clientes disponibles desde el modelo de clientes
+        $clienteModel = new clienteModel();
+        $clientesDisponibles = $clienteModel->get();
+
+        //Para pillar el nombre completo de los clientes creamos un array y asoaciamos el id del cliente a una concatenación
+        $clientesConcatenados = [];
+        foreach ($clientesDisponibles as $cliente) {
+            $nombreCompleto = $cliente->nombre . ', ' . $cliente->apellidos;
+            $clientesConcatenados[$cliente->id] = $nombreCompleto;
+        }
+
+        //Pasar los datos de clientes concatenados a la vista del formulario de creación de cuentas
+        $this->view->clientes = $clientesConcatenados;
+
+
+        // Renderizar la vista del formulario de creación de cuentas
         $this->view->render('cuenta/new/index');
     }
+
 
     function create($param = [])
     {
@@ -147,7 +166,6 @@ class Cuenta extends Controller
 
         # Cargo la vista principal de cuentas
         $this->view->render('cuenta/main/index');
-
     }
 
     function filter($param = [])

@@ -31,11 +31,16 @@
                 <input type="text" class="form-control" name="num_cuenta">
             </div>
 
-            <!-- ID Cliente -->
+            <!-- ID Cliente Select -->
             <div class="mb-3">
-                <label class="form-label">Id cliente</label>
-                <input type="text" class="form-control" name="id_cliente">
+                <label class="form-label">Nombre cliente</label>
+                <select class="form-select" name="id_cliente">
+                    <?php foreach ($this->clientes as $cliente => $nombreCompleto) : ?>
+                        <option value="<?= $cliente ?>"><?= $nombreCompleto ?></option>
+                    <?php endforeach; ?>
+                </select>
             </div>
+
 
             <!-- Fecha Alta -->
             <div class="mb-3">
@@ -58,7 +63,7 @@
             <!-- Saldo -->
             <div class="mb-3">
                 <label class="form-label">Saldo</label>
-                <input type="text" class="form-control" name="saldo"sabled>
+                <input type="text" class="form-control" name="saldo" sabled>
             </div>
 
             <div class="mb-3">
