@@ -3,7 +3,7 @@
 /*
         clienteModel.php
 
-        Modelo del controlador cuentas
+        Modelo del controlador clientes
 
         Definir los métodos de acceso a la base de datos
 
@@ -15,29 +15,18 @@
     
         */
 
-class cuentaModel extends Model
+class clienteModel extends Model
 {
 
     /*
-        Extrae los detalles de las cuentas
+        Extrae los detalles de los clientes
     */
 
     public function get()
     {
         try {
             //Sentencia SQL
-            $sql = "SELECT 
-            cuentas.id,
-            cuentas.num_cuenta,
-            clientes.nombre AS nombreCuenta,
-            clientes.apellidos AS apellidosCuenta,
-            cuentas.fecha_alta,
-            cuentas.fecha_ul_mov,
-            cuentas.num_movtos,
-            cuentas.saldo
-            FROM gesbank.cuentas
-            INNER JOIN clientes ON cuentas.id_cliente = clientes.id
-            ORDER BY cuentas.id";
+            $sql = "SELECT * from gesbank.clientes";
 
             //Conectamos a la base de datos
             //$this->db es un objeto de la clase Database
@@ -61,19 +50,19 @@ class cuentaModel extends Model
         }
     }
 
-    public function create(classCuenta $cuenta)
+    public function create(classCliente $cliente)
     {
         try {
 
             //Creamos la query de SQL
-            $sql = "INSERT INTO gesbank.cuentas VALUES (
+            $sql = "INSERT INTO gesbank.clientes VALUES (
                 null,
-                :num_cuenta,
-                :id_cliente,
-                :fecha_alta,
-                :fecha_ul_mov,
-                :num_movtos,
-                :saldo,
+                :apellidos,
+                :nombre,
+                :telefono,
+                :ciudad,
+                :dni,
+                :email,
                 now(),
                 now()
             )";
@@ -87,15 +76,16 @@ class cuentaModel extends Model
             $pdostmt = $conexion->prepare($sql);
 
             //Vinculamos los parámetros
-            $pdostmt->bindParam(':num_cuenta', $cuenta->num_cuenta, PDO::PARAM_STR, 20);
-            $pdostmt->bindParam(':id_cliente', $cuenta->id_cliente, PDO::PARAM_INT, 10);
-            $pdostmt->bindParam(':fecha_alta', $cuenta->fecha_alta);
-            $pdostmt->bindParam(':fecha_ul_mov', $cuenta->fecha_ul_mov);
-            $pdostmt->bindParam(':num_movtos', $cuenta->num_movtos);
-            $pdostmt->bindParam(':saldo', $cuenta->saldo, PDO::PARAM_STR);
+            $pdostmt->bindParam(':apellidos', $cliente->apellidos, PDO::PARAM_INT, 10);
+            $pdostmt->bindParam(':nombre', $cliente->nombre, PDO::PARAM_STR, 45);
+            $pdostmt->bindParam(':telefono', $cliente->telefono, PDO::PARAM_STR, 9);
+            $pdostmt->bindParam(':ciudad', $cliente->ciudad, PDO::PARAM_STR, 20);
+            $pdostmt->bindParam(':dni', $cliente->dni, PDO::PARAM_STR, 9);
+            $pdostmt->bindParam(':email', $cliente->email, PDO::PARAM_STR, 45);
 
             //Ejecutamos
             $pdostmt->execute();
+
         } catch (PDOException $e) {
             include_once('template/partials/error.php');
             exit();
@@ -107,7 +97,7 @@ class cuentaModel extends Model
         try {
 
             //Creamos la query de SQL
-            $sql = "SELECT * FROM gesbank.cuentas WHERE id=:id";
+            $sql = "SELECT * FROM gesbank.clientes WHERE id=:id";
 
             //Conectamos a la base de datos
             //$this->db es un objeto de la clase Database
@@ -133,34 +123,32 @@ class cuentaModel extends Model
         }
     }
 
-    public function update(int $id, classCuenta $cuenta)
+    public function update(int $id, classCliente $cliente)
     {
         try {
             // Creamos la consulta a ejecutar
-            $sql = "UPDATE gesbank.cuentas SET
-                num_cuenta = :num_cuenta,
-                id_cliente = :id_cliente,
-                fecha_alta = :fecha_alta,
-                fecha_ul_mov = :fecha_ul_mov,
-                num_movtos = :num_movtos,
-                saldo = :saldo,        
-                update_at = now()   
+            $sql= "UPDATE gesbank.clientes SET
+            apellidos = :apellidos,
+            nombre = :nombre,
+            telefono = :telefono,
+            ciudad = :ciudad,
+            dni = :dni,
+            update_at = now()
             WHERE id = :id
             ";
 
-            // Preparamos la consulta   
+            // Preparamos la consulta
             $conexion = $this->db->connect();
 
             $pdostmt = $conexion->prepare($sql);
 
             // Vinculamos las parámetros
-            $pdostmt->bindParam(':id', $id, PDO::PARAM_INT);
-            $pdostmt->bindParam(':num_cuenta', $cuenta->num_cuenta, PDO::PARAM_STR, 20);
-            $pdostmt->bindParam(':id_cliente', $cuenta->id_cliente, PDO::PARAM_INT, 10);
-            $pdostmt->bindParam(':fecha_alta', $cuenta->fecha_alta);
-            $pdostmt->bindParam(':fecha_ul_mov', $cuenta->fecha_ul_mov);
-            $pdostmt->bindParam(':num_movtos', $cuenta->num_movtos);
-            $pdostmt->bindParam(':saldo', $cuenta->saldo, PDO::PARAM_STR);
+            $pdostmt->bindParam(':id',$id,PDO::PARAM_INT);
+            $pdostmt->bindParam(':apellidos',$cliente->apellidos,PDO::PARAM_STR,45);
+            $pdostmt->bindParam(':nombre',$cliente->nombre, PDO::PARAM_STR,20);
+            $pdostmt->bindParam(':telefono',$cliente->telefono, PDO::PARAM_STR,9);
+            $pdostmt->bindParam(':ciudad',$cliente->ciudad,PDO::PARAM_STR,20);
+            $pdostmt->bindParam(':dni',$cliente->dni,PDO::PARAM_STR,9);
 
             // Ejecutamos la sentencia
             $pdostmt->execute();
@@ -173,17 +161,14 @@ class cuentaModel extends Model
     public function order(int $criterioOrdenacion)
     {
         try {
-            $sql = "SELECT 
-                cuentas.id,
-                cuentas.num_cuenta,
-                clientes.nombre AS nombreCuenta,
-                clientes.apellidos AS apellidosCuenta,
-                cuentas.fecha_alta,
-                cuentas.fecha_ul_mov,
-                cuentas.num_movtos,
-                cuentas.saldo
-            FROM gesbank.cuentas INNER JOIN clientes ON cuentas.id_cliente = clientes.id
-            ORDER BY :criterioOrdenacion";
+            $sql ="SELECT 
+                clientes.id,
+                clientes.nombre,
+                clientes.apellidos,
+                clientes.email,
+                clientes.telefono,
+                clientes.ciudad,
+                clientes.dni FROM gesbank.clientes ORDER BY :criterioOrdenacion";
 
             //Conectamos a la base de datos
             //$this->db es un objeto de la clase Database
@@ -213,19 +198,16 @@ class cuentaModel extends Model
     public function filter($expresion)
     {
         try {
-            $sql = "SELECT 
-            cuentas.id,
-            cuentas.num_cuenta,
-            clientes.nombre AS nombreCuenta,
-            clientes.apellidos AS apellidosCuenta,
-            cuentas.fecha_alta,
-            cuentas.fecha_ul_mov,
-            cuentas.num_movtos,
-            cuentas.saldo
-            FROM gesbank.cuentas
-            INNER JOIN clientes ON cuentas.id_cliente = clientes.id
-                WHERE CONCAT_WS(' ', cuentas.id, cuentas.num_cuenta, nombreCuenta, apellidosCuenta,
-                                     cuentas.fecha_alta, cuentas.fecha_ul_mov, cuentas.num_movtos, cuentas.saldo) 
+            $sql ="SELECT 
+                clientes.id,
+                clientes.nombre,
+                clientes.apellidos,
+                clientes.email,
+                clientes.telefono,
+                clientes.ciudad,
+                clientes.dni FROM gesbank.clientes
+                WHERE CONCAT_WS(' ', clientes.id, clientes.nombre, clientes.apellidos,
+                                     clientes.email, clientes.telefono, clientes.ciudad, clientes.dni) 
                 LIKE :expresion";
 
             //Conectamos a la base de datos
@@ -237,8 +219,8 @@ class cuentaModel extends Model
             $pdostmt = $conexion->prepare($sql);
 
             //bindValue para que no se pueda introducir código en expresion
-            $expresion = '%' . $expresion . '%';
-            $pdostmt->bindParam(":expresion", $expresion);
+            $expresion = '%'.$expresion.'%';
+            $pdostmt -> bindParam(":expresion",$expresion);
 
             //Establecemos tipo fetch
             $pdostmt->setFetchMode(PDO::FETCH_OBJ);
@@ -253,11 +235,10 @@ class cuentaModel extends Model
         }
     }
 
-    public function delete(int $id)
-    {
+    public function delete(int $id){
         try {
             //Sentencia SQL
-            $sql = "DELETE FROM gesbank.cuentas WHERE cuentas.id=:id";
+            $sql = "DELETE FROM gesbank.clientes WHERE clientes.id=:id";
 
             //Conectamos a la base de datos
             //$this->db es un objeto de la clase Database
@@ -277,4 +258,5 @@ class cuentaModel extends Model
             exit();
         }
     }
+
 }

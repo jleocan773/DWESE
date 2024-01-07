@@ -19,9 +19,9 @@
         <!-- Cabecera documento -->
         <?php require_once("views/cliente/partials/header.php") ?>
 
-        <legend>Formulario Mostrar Cliente</legend>
+        <legend>Formulario Nuevo Cliente</legend>
 
-        <!-- Formulario Mostrar Cliente -->
+        <!-- Formulario Nuevo Cliente -->
         <form>
 
             <!-- Nombre -->

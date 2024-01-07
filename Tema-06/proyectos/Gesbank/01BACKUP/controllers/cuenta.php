@@ -134,22 +134,19 @@ class Cuenta extends Controller
 
     function order($param = [])
     {
+        //Obtengo el criterio de ordenación
+        $criterioOrdenacion = $param[0];
 
-        # Obtengo el criterio de ordenación
-        $criterio = $param[0];
+        //Cambio la propiedad title de la vista
+        $this->view->title = "Ordenar - Gestión Cuentas";
 
-        # Creo la propiedad "title" de la vista
-        $this->view->title = "Ordenar - Panel de Control cuentas";
+        //Creamos la variable cuentas dentro de la vista
+        //Esta variable ejecuta el método get() del modelo cuentaModel
+        $this->view->cuentas = $this->model->order($criterioOrdenacion);
 
-        # Creo la propiedad cuentas dentro de la vista
-        # Del modelo asignado al controlador ejecuto el método get()
-        $this->view->cuentas = $this->model->order($criterio);
-
-        # Cargo la vista principal de cuentas
+        //Cargo la vista index
         $this->view->render('cuenta/main/index');
-
     }
-
     function filter($param = [])
     {
         //Obtengo la expresión de filtrado

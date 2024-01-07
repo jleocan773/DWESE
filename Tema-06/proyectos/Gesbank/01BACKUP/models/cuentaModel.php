@@ -183,7 +183,7 @@ class cuentaModel extends Model
                 cuentas.num_movtos,
                 cuentas.saldo
             FROM gesbank.cuentas INNER JOIN clientes ON cuentas.id_cliente = clientes.id
-            ORDER BY :criterioOrdenacion";
+            ORDER BY :criterioORdenacion";
 
             //Conectamos a la base de datos
             //$this->db es un objeto de la clase Database

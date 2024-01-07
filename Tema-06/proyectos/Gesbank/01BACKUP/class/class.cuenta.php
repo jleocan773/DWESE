@@ -23,8 +23,8 @@ class classCuenta
         $id_cliente = null,
         $fecha_alta = null,
         $fecha_ul_mov = null,
-        $num_movtos = 0,
-        $saldo = 0
+        $num_movtos = null,
+        $saldo = null
     ) {
         $this->id = $id;
         $this->num_cuenta = $num_cuenta;

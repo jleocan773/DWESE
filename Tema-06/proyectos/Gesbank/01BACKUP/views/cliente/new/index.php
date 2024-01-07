@@ -19,61 +19,64 @@
         <!-- Cabecera documento -->
         <?php require_once("views/cliente/partials/header.php") ?>
 
-        <legend>Formulario Mostrar Cliente</legend>
+        <legend>Formulario Nuevo Cliente</legend>
 
-        <!-- Formulario Mostrar Cliente -->
-        <form>
+        <!-- Formulario Nuevo Cliente -->
+        <form action="<?= URL ?>cliente/create" method="POST">
 
             <!-- Nombre -->
             <div class="mb-3">
                 <label for="nombre" class="form-label">Nombre</label>
-                <input type="text" class="form-control" name="nombre" value="<?= $this->cliente->nombre ?>" disabled>
+                <input type="text" class="form-control" name="nombre">
             </div>
 
             <!-- Apellidos -->
             <div class="mb-3">
                 <label for="apellidos" class="form-label">Apellidos</label>
-                <input type="text" class="form-control" name="apellidos" value="<?= $this->cliente->apellidos ?>" disabled>
+                <input type="text" class="form-control" name="apellidos">
             </div>
 
             <!-- Email -->
             <div class="mb-3">
                 <label for="email" class="form-label">Correo Electronico</label>
-                <input type="email" class="form-control" name="email" value="<?= $this->cliente->email ?>" disabled>
+                <input type="text" class="form-control" name="email">
             </div>
 
             <!-- Telefono -->
             <div class="mb-3">
                 <label for="telefono" class="form-label">Teléfono</label>
-                <input type="number" class="form-control" name="telefono" value="<?= $this->cliente->telefono ?>" disabled>
+                <input type="text" class="form-control" name="telefono">
             </div>
 
             <!-- Ciudad -->
             <div class="mb-3">
-                <label for="ciudad" lass="form-label">Ciudad</label>
-                <input type="text" class="form-control" name="ciudad" value="<?= $this->cliente->ciudad ?>" disabled>
+                <label for="ciudad" class="form-label">Ciudad</label>
+                <input type="text" class="form-control" name="ciudad">
             </div>
 
             <!-- DNI -->
             <div class="mb-3">
                 <label for="dni" class="form-label">DNI</label>
-                <input type="text" class="form-control" name="dni" pattern="[0-9]{8}[A-Z]{1}" value="<?= $this->cliente->dni ?>" disabled>
+                <input type="text" class="form-control" name="dni" pattern="[0-9]{8}[A-Z]{1}">
             </div>
 
-            <div class="mb-3">
-                <a class="btn btn-secondary" href="<?= URL ?>cliente" role="button">Volver</a>
-            </div>
+            <!-- botones de acción -->
+            <a class="btn btn-secondary" href="<?= URL ?>" role="button">Cancelar</a>
+            <button type="reset" class="btn btn-danger">Borrar</button>
+            <button type="submit" class="btn btn-primary" href="<?= URL ?>cliente/create">Enviar</button>
 
         </form>
-        <br>
-        <br>
-        <br>
-        <!-- Pie de documento -->
-        <?php require_once("template/partials/footer.php") ?>
 
+        <br>
+        <br>
     </div>
+    <br>
+    <br>
+    <!-- Pié del documento -->
+    <?php require_once("template/partials/footer.php") ?>
 
 
+    <!-- javascript bootstrap 532 -->
     <?php require_once("template/partials/javascript.php") ?>
 </body>
 

@@ -16,7 +16,7 @@
 	<div class="container">
 
 		<!-- Cabecera -->
-		<?php require_once("views/cuenta/partials/header.php") ?>
+		<?php require_once("views/cliente/partials/header.php") ?>
 
 		<!-- Mensajes -->
 		<?php require_once("template/partials/notify.php") ?>
@@ -27,11 +27,11 @@
 		<!-- Estilo card de bootstrap -->
 		<div class="card">
 			<div class="card-header">
-				Tabla de Cuentas
+				Tabla de Clientes
 			</div>
 			<div class="card-header">
 				<!-- Menú -->
-				<?php require_once("views/cuenta/partials/menu.php") ?>
+				<?php require_once("views/cliente/partials/menu.php") ?>
 			</div>
 			<div class="card-body">
 
@@ -41,42 +41,40 @@
 					<thead>
 						<tr>
 							<th>Id</th>
-							<th>Número Cuenta</th>
 							<th>Nombre</th>
 							<th>Apellidos</th>
-							<th>Fecha Alta</th>
-							<th>Fecha Últ Movimiento</th>
-							<th>Número Movimientos</th>
-							<th>Saldo</th>
+							<th>Email</th>
+							<th>Telefono</th>
+							<th>Ciudad</th>
+							<th>DNI</th>
 							<th>Acciones</th>
 						</tr>
 					</thead>
 					<!-- Mostramos cuerpo de la tabla -->
 					<tbody>
-						<?php while ($cuenta = $this->cuentas->fetch()) : ?>
+						<?php while ($cliente = $this->clientes->fetch()) : ?>
 							<tr>
-								<!-- Mostrar datos de cuentas -->
-								<td><?= $cuenta->id ?></td>
-								<td><?= $cuenta->num_cuenta ?></td>
-								<td><?= $cuenta->nombreCuenta ?></td>
-								<td><?= $cuenta->apellidosCuenta ?></td>
-								<td><?= $cuenta->fecha_alta ?></td>
-								<td><?= $cuenta->fecha_ul_mov ?></td>
-								<td><?= $cuenta->num_movtos ?></td>
-                                <td><?= $cuenta->saldo ?></td>
+								<!-- Mostrar datos de clientes -->
+								<td><?= $cliente->id ?></td>
+								<td><?= $cliente->nombre ?></td>
+								<td><?= $cliente->apellidos ?></td>
+								<td><?= $cliente->email ?></td>
+								<td><?= $cliente->telefono ?></td>
+								<td><?= $cliente->ciudad ?></td>
+                                <td><?= $cliente->dni ?></td>
 
 								<!-- botones de acción -->
 								<td>
 									<!-- botón  eliminar -->
-									<a href="<?= URL ?>cuenta/delete/<?= $cuenta->id ?>" title="Eliminar">
+									<a href="<?= URL ?>cliente/delete/<?= $cliente->id ?>" title="Eliminar">
 										<i class="bi bi-trash-fill"></i></a>
 
 									<!-- botón  editar -->
-									<a href="<?= URL ?>cuenta/edit/<?= $cuenta->id ?>" title="Editar">
+									<a href="<?= URL ?>cliente/edit/<?= $cliente->id ?>" title="Editar">
 										<i class="bi bi-pencil-square"></i></a>
 
 									<!-- botón  mostrar -->
-									<a href="<?= URL ?>cuenta/show/<?= $cuenta->id ?>" title="Mostrar">
+									<a href="<?= URL ?>cliente/show/<?= $cliente->id ?>" title="Mostrar">
 										<i class="bi bi-card-text"></i></a>
 								</td>
 
@@ -88,7 +86,7 @@
 			</div>
 			<div class="card-footer">
 				<small class="text-muted">
-					<td colspan="10">Nº Cuentas: <?= $this->cuentas->rowCount() ?></td>
+					<td colspan="9">Nº Clientes: <?= $this->clientes->rowCount() ?></td>
 				</small>
 			</div>
 		</div>

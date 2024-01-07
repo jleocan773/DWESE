@@ -19,12 +19,11 @@
                     <ul class="dropdown-menu">
                         <li><a class="dropdown-item" href="<?=URL?>cuenta/order/1">Id</a></li>
                         <li><a class="dropdown-item" href="<?=URL?>cuenta/order/2">Número Cuenta</a></li>
-                        <li><a class="dropdown-item" href="<?=URL?>cuenta/order/3">Nombre Cliente</a></li>
-                        <li><a class="dropdown-item" href="<?=URL?>cuenta/order/4">Apellido Cliente</a></li>
-                        <li><a class="dropdown-item" href="<?=URL?>cuenta/order/5">Fecha Alta</a></li>
-                        <li><a class="dropdown-item" href="<?=URL?>cuenta/order/6">Fecha Último Movimiento</a></li>
-                        <li><a class="dropdown-item" href="<?=URL?>cuenta/order/7">Número Movimientos</a></li>
-                        <li><a class="dropdown-item" href="<?=URL?>cuenta/order/8">Saldo</a></li>
+                        <li><a class="dropdown-item" href="<?=URL?>cuenta/order/3">Id Cliente</a></li>
+                        <li><a class="dropdown-item" href="<?=URL?>cuenta/order/4">Fecha Alta</a></li>
+                        <li><a class="dropdown-item" href="<?=URL?>cuenta/order/5">Fecha Último Movimiento</a></li>
+                        <li><a class="dropdown-item" href="<?=URL?>cuenta/order/6">Número Movimientos</a></li>
+                        <li><a class="dropdown-item" href="<?=URL?>cuenta/order/7">Saldo</a></li>
                     </ul>
                 </li>
             </ul>
