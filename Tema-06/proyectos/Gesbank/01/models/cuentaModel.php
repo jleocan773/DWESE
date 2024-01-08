@@ -214,42 +214,47 @@ class cuentaModel extends Model
     {
         try {
             $sql = "SELECT 
-            cuentas.id,
-            cuentas.num_cuenta,
-            clientes.nombre AS nombreCuenta,
-            clientes.apellidos AS apellidosCuenta,
-            cuentas.fecha_alta,
-            cuentas.fecha_ul_mov,
-            cuentas.num_movtos,
-            cuentas.saldo
-            FROM gesbank.cuentas
-            INNER JOIN clientes ON cuentas.id_cliente = clientes.id
-                WHERE CONCAT_WS(' ', cuentas.id, cuentas.num_cuenta, nombreCuenta, apellidosCuenta,
-                                     cuentas.fecha_alta, cuentas.fecha_ul_mov, cuentas.num_movtos, cuentas.saldo) 
-                LIKE :expresion";
+                        cuentas.id,
+                        cuentas.num_cuenta,
+                        cuentas.id_cliente,
+                        cuentas.fecha_alta,
+                        cuentas.fecha_ul_mov,
+                        cuentas.num_movtos,
+                        cuentas.saldo,
+                        clientes.nombre AS nombreCuenta,
+                        clientes.apellidos AS apellidosCuenta
+                    FROM
+                        cuentas
+                    INNER JOIN clientes 
+                    ON cuentas.id_cliente = clientes.id
+                    WHERE
+                        CONCAT_WS(' ', 
+                                    cuentas.id,
+                                    cuentas.num_cuenta,
+                                    clientes.nombre,
+                                    clientes.apellidos,
+                                    cuentas.fecha_alta,
+                                    cuentas.fecha_ul_mov,
+                                    cuentas.num_movtos,
+                                    cuentas.saldo) 
+                        LIKE :expresion
+                    ORDER BY 
+                        cuentas.id";
 
-            //Conectamos a la base de datos
-            //$this->db es un objeto de la clase Database
-            //Este objeto usará el método connect de esta clase
+
+            # Conectar con la base de datos
             $conexion = $this->db->connect();
 
-            //Ejecutamos con un prepare
-            $pdostmt = $conexion->prepare($sql);
+            $pdost = $conexion->prepare($sql);
 
-            //bindValue para que no se pueda introducir código en expresion
-            $expresion = '%' . $expresion . '%';
-            $pdostmt->bindParam(":expresion", $expresion);
+            $pdost->bindValue(':expresion', '%' . $expresion . '%', PDO::PARAM_STR);
+            $pdost->setFetchMode(PDO::FETCH_OBJ);
+            $pdost->execute();
 
-            //Establecemos tipo fetch
-            $pdostmt->setFetchMode(PDO::FETCH_OBJ);
-
-            //Ejecutamos
-            $pdostmt->execute();
-
-            //Devolvemos el objeto pdostatement
-            return $pdostmt;
+            return $pdost;
         } catch (PDOException $e) {
             include_once('template/partials/errorDB.php');
+            exit();
         }
     }
 
