@@ -4,10 +4,10 @@
 session_name("tarea7_1");
 session_start();
 
-if (isset($_SESSION['visitas_home'])) {
-    $_SESSION['visitas_home']++;
+if (isset($_SESSION['visitas_eventos'])) {
+    $_SESSION['visitas_eventos']++;
 } else {
-    $_SESSION['visitas_home'] = 1;
+    $_SESSION['visitas_eventos'] = 1;
 }
 
 if (!isset($_SESSION['hora_inicio_sesion'])) {
@@ -46,7 +46,7 @@ if (!isset($_SESSION['hora_inicio_sesion'])) {
     <h3>Detalles de la Página</h3>
     <ul>
         <li>
-            Página: Home
+            Página: Eventos
         </li>
         <li>
             SID: <?= session_id() ?>
@@ -58,7 +58,7 @@ if (!isset($_SESSION['hora_inicio_sesion'])) {
             Fecha/Hora Inicio Sesión: <?= date('Y-m-d H:i:s', $_SESSION['hora_inicio_sesion']) ?>
         </li>
         <li>
-            Visitas Home: <?= $_SESSION['visitas_home']; ?>
+            Visitas Eventos: <?= $_SESSION['visitas_eventos']; ?>
         </li>
     </ul>
 </body>
