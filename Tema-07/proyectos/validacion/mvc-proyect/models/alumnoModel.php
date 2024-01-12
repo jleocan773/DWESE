@@ -1,25 +1,25 @@
 <?php
 
 /*
-        alumnoModel.php
+    alumnoModel.php
 
-        Modelo del  controlador alumnos
+    Modelo del  controlador alumnos
 
-        Definir los métodos de acceso a la base de datos
-        
-        - insert
-        - update
-        - select
-        - delete
-        - etc..
-    */
+    Definir los métodos de acceso a la base de datos
+    
+    - insert
+    - update
+    - select
+    - delete
+    - etc..
+*/
 
 class alumnoModel extends Model
 {
 
     /*
-            Extrae los detalles  de los alumnos
-        */
+        Extrae los detalles  de los alumnos
+    */
     public function get()
     {
 
@@ -64,10 +64,12 @@ class alumnoModel extends Model
 
             # devuelvo objeto pdostatement
             return $pdost;
+
         } catch (PDOException $e) {
 
             include_once('template/partials/errorDB.php');
             exit();
+
         }
     }
 
@@ -101,11 +103,16 @@ class alumnoModel extends Model
             $result->execute();
 
             return $result;
+
+
         } catch (PDOException $e) {
 
             include_once('template/partials/errorDB.php');
             exit();
+
         }
+
+
     }
 
     public function create(classAlumno $alumno)
@@ -149,10 +156,12 @@ class alumnoModel extends Model
             $pdoSt->bindParam(':id_curso', $alumno->id_curso, PDO::PARAM_INT);
 
             $pdoSt->execute();
+
         } catch (PDOException $e) {
             include_once('template/partials/errorDB.php');
             exit();
         }
+
     }
 
     public function read($id)
@@ -187,10 +196,12 @@ class alumnoModel extends Model
             $pdoSt->execute();
 
             return $pdoSt->fetch();
+
         } catch (PDOException $e) {
             include_once('template/partials/errorDB.php');
             exit();
         }
+
     }
 
     public function update(classAlumno $alumno, $id)
@@ -231,15 +242,17 @@ class alumnoModel extends Model
             $pdoSt->bindParam(':id_curso', $alumno->id_curso, PDO::PARAM_INT);
 
             $pdoSt->execute();
+
         } catch (PDOException $e) {
             include_once('template/partials/errorDB.php');
             exit();
         }
+
     }
 
     /*
-            Extrae los detalles  de los alumnos
-        */
+       Extrae los detalles  de los alumnos
+   */
     public function order(int $criterio)
     {
 
@@ -286,10 +299,12 @@ class alumnoModel extends Model
 
             # devuelvo objeto pdostatement
             return $pdost;
+
         } catch (PDOException $e) {
 
             include_once('template/partials/errorDB.php');
             exit();
+
         }
     }
 
@@ -343,107 +358,107 @@ class alumnoModel extends Model
             $pdost->setFetchMode(PDO::FETCH_OBJ);
             $pdost->execute();
             return $pdost;
+
         } catch (PDOException $e) {
 
             include_once('template/partials/errorDB.php');
             exit();
+
         }
+
     }
 
-    // public function validacionUniqueEmail($email_a_verificar)
-    // {
-    //     try {
-    //         $sql = "SELECT * FROM alumnos 
-    //         WHERE email = :email_a_verificar";
-
-    //         # Conectar con la base de datos
-    //         $conexion = $this->db->connect();
-
-    //         //Preparamos el statement
-    //         $pdost = $conexion->prepare($sql);
-
-    //         //Vinculamos valores
-    //         $pdost->bindParam(':email_a_verificar', $email_a_verificar, PDO::PARAM_STR);
-    //         $pdost->execute();
-
-    //         if ($pdost->rowCount() == 0){
-    //             return TRUE;
-    //         } else return FALSE;
-
-    //     } catch (PDOException $e) {
-    //         include_once('template/partials/errorDB.php');
-    //         exit();
-    //     }
-    // }
-
-    //Manera mejor
-    public function validacionUniqueEmail($email_a_verificar)
+    # Validación de email único
+    public function validateEmail($email)
     {
         try {
-            $sql = "SELECT id FROM alumnos WHERE email = :email_a_verificar";
+            $sql = "SELECT * FROM alumnos 
+                    WHERE email = :email";
 
-            // Conectar con la base de datos
+
+            # Conectar con la base de datos
             $conexion = $this->db->connect();
 
-            // Preparamos el statement
             $pdost = $conexion->prepare($sql);
+            $pdost->bindParam(':email', $email, PDO::PARAM_STR);
 
-            // Vinculamos valores
-            $pdost->bindParam(':email_a_verificar', $email_a_verificar, PDO::PARAM_STR);
             $pdost->execute();
 
-            // Devolvemos true si el correo electrónico es único, false si ya existe
-            return ($pdost->rowCount() == 0);
+            if ($pdost->rowCount() != 0){
+                return false;
+            }
+
+            return true;
+
         } catch (PDOException $e) {
+
             include_once('template/partials/errorDB.php');
             exit();
+
         }
     }
 
+     # Validación de dni único
+     public function validateDNI($dni)
+     {
+         try {
+             $sql = "SELECT * FROM alumnos 
+                     WHERE dni = :dni";
+ 
+ 
+             # Conectar con la base de datos
+             $conexion = $this->db->connect();
+ 
+             $pdost = $conexion->prepare($sql);
+             $pdost->bindParam(':dni', $dni, PDO::PARAM_STR);
+ 
+             $pdost->execute();
+ 
+             if ($pdost->rowCount() != 0){
+                 return false;
+             }
+ 
+             return true;
+ 
+         } catch (PDOException $e) {
+ 
+             include_once('template/partials/errorDB.php');
+             exit();
+ 
+         }
+     }
 
-    public function validacionUniqueDNI($dni_a_verificar)
-    {
-        try {
-            $sql = "SELECT id FROM alumnos WHERE dni = :dni_a_verificar";
+     public function validateIdCurso($id_curso)
+     {
+         try {
+             $sql = "SELECT * FROM cursos 
+                     WHERE id = :id_curso";
+ 
+ 
+             # Conectar con la base de datos
+             $conexion = $this->db->connect();
+ 
+             $pdost = $conexion->prepare($sql);
+             $pdost->bindParam(':id_curso', $id_curso, PDO::PARAM_INT);
+ 
+             $pdost->execute();
+ 
+             if ($pdost->rowCount() == 1){
+                 return true;
+             }
+ 
+             return false;
+ 
+         } catch (PDOException $e) {
+ 
+             include_once('template/partials/errorDB.php');
+             exit();
+ 
+         }
+     }
 
-            // Conectar con la base de datos
-            $conexion = $this->db->connect();
 
-            // Preparamos el statement
-            $pdost = $conexion->prepare($sql);
 
-            // Vinculamos valores
-            $pdost->bindParam(':dni_a_verificar', $dni_a_verificar, PDO::PARAM_STR);
-            $pdost->execute();
-
-            // Devolvemos true si el DNI es único, false si ya existe
-            return ($pdost->rowCount() == 0);
-        } catch (PDOException $e) {
-            include_once('template/partials/errorDB.php');
-            exit();
-        }
-    }
-
-    public function validacionCurso($id_curso)
-    {
-        try {
-            $sql = "SELECT id FROM cursos WHERE id = :id_curso";
-
-            // Conectar con la base de datos
-            $conexion = $this->db->connect();
-
-            // Preparamos el statement
-            $pdost = $conexion->prepare($sql);
-
-            // Vinculamos valores
-            $pdost->bindParam(':id_curso', $id_curso, PDO::PARAM_INT);
-            $pdost->execute();
-
-            // Devolvemos true si la ID del curso existe, false si no existe
-            return ($pdost->rowCount() == 1);
-        } catch (PDOException $e) {
-            include_once('template/partials/errorDB.php');
-            exit();
-        }
-    }
 }
+
+?>

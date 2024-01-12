@@ -7,10 +7,21 @@ class Alumno extends Controller
     {
 
         parent::__construct();
+
+
     }
 
     function render()
     {
+
+        # Inicio o continúo la sesión
+        session_start();
+
+        # Comprobar si existe el mensaje
+        if (isset($_SESSION['mensaje'])) {
+            $this->view->mensaje = $_SESSION['mensaje'];
+            unset($_SESSION['mensaje']);
+        }
 
         # Creo la propiedad title de la vista
         $this->view->title = "Home - Panel Control Alumnos";
@@ -25,6 +36,31 @@ class Alumno extends Controller
     function new()
     {
 
+        # Iniciar o continuar sesión
+        session_start();
+
+        # Crear un objeto alumno vacío
+        $this->view->alumno = new classAlumno();
+
+        # Comprobar si vuelvo de un registro no validado
+        if (isset($_SESSION['error'])) {
+
+            # Mensaje de error
+            $this->view->error = $_SESSION['error'];
+
+
+            # Autorrellenar el formulario con los detalles del alumno
+            $this->view->alumno = unserialize($_SESSION['alumno']);
+            
+            # Recupero array de errores específicos
+            $this->view->errores = $_SESSION['errores'];
+
+            unset($_SESSION['error']);
+            unset($_SESSION['errores']);
+            unset($_SESSION['alumno']);
+
+        }
+
         # etiqueta title de la vista
         $this->view->title = "Añadir - Gestión Alumnos";
 
@@ -38,12 +74,14 @@ class Alumno extends Controller
     function create($param = [])
     {
 
-        //Se inicia sesión
+        # Iniciar sesión
+
         session_start();
 
-        //Seguridad. Saneamos los datos del formulario
-        //El operador de asignación de fusión de NULL ??= asigna el valor del operando de la derecha a su operando de la izquierda solo si este último se evalúa como null. 
-        //El operador ??= no evalúa su operando derecho si el operando izquierdo se evalúa como no NULL.
+        # 1. Seguridad. Saneamos los datos del formulario
+        // $nombre = filter_var($_POST['nombre'], FILTER_SANITIZE_SPECIAL_CHARS);
+
+        # Si se introduce un nombre vacío, se le otorga "nulo"
         $nombre = filter_var($_POST['nombre'] ??= '', FILTER_SANITIZE_SPECIAL_CHARS);
         $apellidos = filter_var($_POST['apellidos'] ??= '', FILTER_SANITIZE_SPECIAL_CHARS);
         $email = filter_var($_POST['email'] ??= '', FILTER_SANITIZE_EMAIL);
@@ -54,6 +92,7 @@ class Alumno extends Controller
         $id_curso = filter_var($_POST['id_curso'] ??= '', FILTER_SANITIZE_NUMBER_INT);
 
 
+        # 2. Creamos el alumno con los datos saneados
         # Cargamos los datos del formulario
         $alumno = new classAlumno(
             null,
@@ -70,86 +109,96 @@ class Alumno extends Controller
             $id_curso
         );
 
-        #Validación
+        # 3. Validación
         $errores = [];
 
-        //Nombre obligatorio
+        // Nombre: Obligatorio
         if (empty($nombre)) {
-            $errores['nombre'] = 'El campo "nombre" está vacío';
-        };
-
-
-        //Apellidos obligatorio
-        if (empty($apellidos)) {
-            $errores['apellidos'] = 'El campo "apellidos" está vacío';
-        };
-
-
-        //Email obligatorio, formato válido y clave secundaria
-        if (empty($email)) {
-            $errores['email'] = 'El campo "email" está vacío';
-        } else if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            $errores['email'] = 'El campo "email" no tiene el formato correcto';
-        } else if (!$this->model->validacionUniqueEmail($email)) {
-            $errores['email'] = 'Este email ya existe en la base de datos.';
+            $errores['nombre'] = 'El campo nombre es obligatorio';
         }
 
+        // Apellidos: Obligatorio
+        if (empty($apellidos)) {
+            $errores['apellidos'] = 'El campo apellidos es obligatorio';
+        }
 
-        //DNI obligatorio, formato válido y clave secundaria
-        //Expresión regular del dni
+        // Email: Obligatorio
+        if (empty($email)) {
+            $errores['email'] = 'El campo email es obligatorio';
+        } else if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            $errores['email'] = 'Formato email incorrecto';
+        } else if (!$this->model->validateEmail($email)) {
+            $errores['email'] = 'El email ya existe';
+        }
+
+        // Teléfono: Obligatorio
+        if (empty($telefono)) {
+            $errores['telefono'] = 'El campo telefono es obligatorio';
+        }
+
+        // Población: Obligatorio
+        if (empty($poblacion)) {
+            $errores['poblacion'] = 'El campo poblacion es obligatorio';
+        }
+
+        // DNI: Obligatorio
         $options = [
             'options' => [
-                'regexp' => '/^([0-9]{8})([A-Z])$/'
+                'regexp' => '/^(\d{8})([A-Z])$/'
             ]
         ];
 
         if (empty($dni)) {
-            $errores['dni'] = 'El campo "dni" está vacío';
+            $errores['dni'] = 'El campo dni es obligatorio';
         } else if (!filter_var($dni, FILTER_VALIDATE_REGEXP, $options)) {
-            $errores['dni'] = 'El campo "dni" no tiene el formato correcto';
-        } else if (!$this->model->validacionUniqueDNI($dni)) {
-            $errores['dni'] = 'Este dni ya existe en la base de datos.';
+            $errores['dni'] = 'Formato de DNI incorrecto';
+        } else if (!$this->model->validateDNI($dni)) {
+            $errores['dni'] = 'El dni ya existe';
         }
 
 
-        //Fecha Obligatoria y válida (día / mes / año)
-        if (empty($fechaNac)) {
-            $errores['fechaNac'] = 'El campo "fechaNac" está vacío';
-        } else {
-            $fechaNacValores = explode('/', $fechaNac);
-            if (count($fechaNacValores) !== 3 && checkdate($fechaNacValores[1], $fechaNacValores[0], $fechaNacValores[2])) {
-                $errores['fechaNac'] = 'El campo "fechaNac" no tiene el formato correcto';
-            }
-        }
 
+        // Fecha nacimiento: Obligatorio
+        // $valores = explode('/', $fechaNac);
+        // if (empty($fechaNac)) {
+        //     $errores['fechaNac'] = 'El campo fecha de nacimiento es obligatorio';
+        // } else if (!checkdate($valores[1], $valores[0], $valores[2])) {
+        //     $errores['fechaNac'] = 'Formato de fecha de nacimiento erróneo';
+        // }
 
-        //ID_curso obligatorio, entero y existente
+        // ID Curso: Obligatorio, entero, existente
         if (empty($id_curso)) {
-            $errores['id_curso'] = 'El campo "curso" está vacío';
+            $errores['id_curso'] = 'Debe seleccionar un curso';
         } else if (!filter_var($id_curso, FILTER_VALIDATE_INT)) {
-            $errores['id_curso'] = 'El campo "curso" no tiene el formato correcto';
-        } else if (!$this->model->validacionCurso($id_curso)) {
-            $errores['id_curso'] = 'Este Curso NO existe en la base de datos.';
+            $errores['id_curso'] = 'Curso no válido';
+        } else if (!$this->model->validateIdCurso($id_curso)) {
+            $errores['id_curso'] = 'Curso no válido';
         }
 
-        //Comprobar validaciones
 
+        # 4. Comprobar validación
         if (!empty($errores)) {
-            //Si el array no está vacío ha habido algún error
+            // Errores de validación
+            // transforma el objeto alumno en un string
             $_SESSION['alumno'] = serialize($alumno);
+            $_SESSION['error'] = 'Formulario no validado';
+            $_SESSION['errores'] = $errores;
+
+            # Redireccionamos a new
+            header('Location:' . URL . 'alumno/new');
 
         } else {
-            //Si está vacío todo está bien y se continua
             # Añadir registro a la tabla
             $this->model->create($alumno);
 
-            //Crear mensaje de éxito
-            $_SESSION["mensaje"] = "Alumno creado correctamente";
+            # Mensaje
+            $_SESSION['mensaje'] = "Alumno creado correctamente";
 
             # Redirigimos al main de alumnos
             header('location:' . URL . 'alumno');
         }
     }
+
 
     function edit($param = [])
     {
@@ -173,6 +222,9 @@ class Alumno extends Controller
 
         # cargo la vista
         $this->view->render('alumno/edit/index');
+
+
+
     }
 
     public function update($param = [])
@@ -204,6 +256,7 @@ class Alumno extends Controller
 
         # Cargo el controlador principal de alumno
         header('location:' . URL . 'alumno');
+
     }
 
     public function order($param = [])
@@ -239,3 +292,5 @@ class Alumno extends Controller
         $this->view->render('alumno/main/index');
     }
 }
+
+?>
