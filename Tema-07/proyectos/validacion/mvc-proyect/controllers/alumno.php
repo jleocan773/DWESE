@@ -156,8 +156,6 @@ class Alumno extends Controller
             $errores['dni'] = 'El dni ya existe';
         }
 
-
-
         // Fecha nacimiento: Obligatorio
         // $valores = explode('/', $fechaNac);
         // if (empty($fechaNac)) {
