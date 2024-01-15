@@ -403,4 +403,25 @@ class Alumno extends Controller
         # Cargo la vista principal de alumno
         $this->view->render('alumno/main/index');
     }
+
+    public function delete($param = [])
+    {
+
+        # Inicio o continúo la sesión
+        session_start();
+
+        //Obteneemos id del alumno
+
+        $id->$param[0];
+
+        //Eliminamos el alumno
+        $this->model->delete($id);
+
+        //Generar mensasje
+        $_SESSION['notify'] = 'Alumno borrado correctamente';
+
+        //Redirección
+        header('location: ' . URL . 'alumno');
+
+    }
 }

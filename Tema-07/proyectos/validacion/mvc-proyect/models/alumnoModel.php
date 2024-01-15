@@ -64,12 +64,10 @@ class alumnoModel extends Model
 
             # devuelvo objeto pdostatement
             return $pdost;
-
         } catch (PDOException $e) {
 
             include_once('template/partials/errorDB.php');
             exit();
-
         }
     }
 
@@ -103,16 +101,11 @@ class alumnoModel extends Model
             $result->execute();
 
             return $result;
-
-
         } catch (PDOException $e) {
 
             include_once('template/partials/errorDB.php');
             exit();
-
         }
-
-
     }
 
     public function create(classAlumno $alumno)
@@ -156,12 +149,10 @@ class alumnoModel extends Model
             $pdoSt->bindParam(':id_curso', $alumno->id_curso, PDO::PARAM_INT);
 
             $pdoSt->execute();
-
         } catch (PDOException $e) {
             include_once('template/partials/errorDB.php');
             exit();
         }
-
     }
 
     public function read($id)
@@ -196,12 +187,10 @@ class alumnoModel extends Model
             $pdoSt->execute();
 
             return $pdoSt->fetch();
-
         } catch (PDOException $e) {
             include_once('template/partials/errorDB.php');
             exit();
         }
-
     }
 
     public function update(classAlumno $alumno, $id)
@@ -242,12 +231,10 @@ class alumnoModel extends Model
             $pdoSt->bindParam(':id_curso', $alumno->id_curso, PDO::PARAM_INT);
 
             $pdoSt->execute();
-
         } catch (PDOException $e) {
             include_once('template/partials/errorDB.php');
             exit();
         }
-
     }
 
     /*
@@ -299,12 +286,10 @@ class alumnoModel extends Model
 
             # devuelvo objeto pdostatement
             return $pdost;
-
         } catch (PDOException $e) {
 
             include_once('template/partials/errorDB.php');
             exit();
-
         }
     }
 
@@ -358,14 +343,11 @@ class alumnoModel extends Model
             $pdost->setFetchMode(PDO::FETCH_OBJ);
             $pdost->execute();
             return $pdost;
-
         } catch (PDOException $e) {
 
             include_once('template/partials/errorDB.php');
             exit();
-
         }
-
     }
 
     # Validación de email único
@@ -384,81 +366,94 @@ class alumnoModel extends Model
 
             $pdost->execute();
 
-            if ($pdost->rowCount() != 0){
+            if ($pdost->rowCount() != 0) {
                 return false;
             }
 
             return true;
+        } catch (PDOException $e) {
+
+            include_once('template/partials/errorDB.php');
+            exit();
+        }
+    }
+
+    # Validación de dni único
+    public function validateDNI($dni)
+    {
+        try {
+            $sql = "SELECT * FROM alumnos 
+                     WHERE dni = :dni";
+
+
+            # Conectar con la base de datos
+            $conexion = $this->db->connect();
+
+            $pdost = $conexion->prepare($sql);
+            $pdost->bindParam(':dni', $dni, PDO::PARAM_STR);
+
+            $pdost->execute();
+
+            if ($pdost->rowCount() != 0) {
+                return false;
+            }
+
+            return true;
+        } catch (PDOException $e) {
+
+            include_once('template/partials/errorDB.php');
+            exit();
+        }
+    }
+
+    public function validateIdCurso($id_curso)
+    {
+        try {
+            $sql = "SELECT * FROM cursos 
+                     WHERE id = :id_curso";
+
+
+            # Conectar con la base de datos
+            $conexion = $this->db->connect();
+
+            $pdost = $conexion->prepare($sql);
+            $pdost->bindParam(':id_curso', $id_curso, PDO::PARAM_INT);
+
+            $pdost->execute();
+
+            if ($pdost->rowCount() == 1) {
+                return true;
+            }
+
+            return false;
+        } catch (PDOException $e) {
+
+            include_once('template/partials/errorDB.php');
+            exit();
+        }
+    }
+
+    public function delete($id)
+    {
+        try {
+
+            # Prepare o plantilla sql
+            $sql = "DELETE 
+            FROM alumnos
+            WHERE id = :id LIMIT 1";
+
+            # Conectar con la base de datos
+            $conexion = $this->db->connect();
+
+            $pdost = $conexion->prepare($sql);
+            $pdost->bindParam(':id', $id, PDO::PARAM_INT);
+
+            $pdost->execute();
 
         } catch (PDOException $e) {
 
             include_once('template/partials/errorDB.php');
             exit();
-
         }
     }
-
-     # Validación de dni único
-     public function validateDNI($dni)
-     {
-         try {
-             $sql = "SELECT * FROM alumnos 
-                     WHERE dni = :dni";
- 
- 
-             # Conectar con la base de datos
-             $conexion = $this->db->connect();
- 
-             $pdost = $conexion->prepare($sql);
-             $pdost->bindParam(':dni', $dni, PDO::PARAM_STR);
- 
-             $pdost->execute();
- 
-             if ($pdost->rowCount() != 0){
-                 return false;
-             }
- 
-             return true;
- 
-         } catch (PDOException $e) {
- 
-             include_once('template/partials/errorDB.php');
-             exit();
- 
-         }
-     }
-
-     public function validateIdCurso($id_curso)
-     {
-         try {
-             $sql = "SELECT * FROM cursos 
-                     WHERE id = :id_curso";
- 
- 
-             # Conectar con la base de datos
-             $conexion = $this->db->connect();
- 
-             $pdost = $conexion->prepare($sql);
-             $pdost->bindParam(':id_curso', $id_curso, PDO::PARAM_INT);
- 
-             $pdost->execute();
- 
-             if ($pdost->rowCount() == 1){
-                 return true;
-             }
- 
-             return false;
- 
-         } catch (PDOException $e) {
- 
-             include_once('template/partials/errorDB.php');
-             exit();
- 
-         }
-     }
-
-
-
 }
-
-?>
