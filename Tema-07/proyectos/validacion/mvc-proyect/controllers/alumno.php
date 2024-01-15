@@ -7,8 +7,6 @@ class Alumno extends Controller
     {
 
         parent::__construct();
-
-
     }
 
     function render()
@@ -51,14 +49,13 @@ class Alumno extends Controller
 
             # Autorrellenar el formulario con los detalles del alumno
             $this->view->alumno = unserialize($_SESSION['alumno']);
-            
+
             # Recupero array de errores específicos
             $this->view->errores = $_SESSION['errores'];
 
             unset($_SESSION['error']);
             unset($_SESSION['errores']);
             unset($_SESSION['alumno']);
-
         }
 
         # etiqueta title de la vista
@@ -184,7 +181,6 @@ class Alumno extends Controller
 
             # Redireccionamos a new
             header('Location:' . URL . 'alumno/new');
-
         } else {
             # Añadir registro a la tabla
             $this->model->create($alumno);
@@ -200,6 +196,9 @@ class Alumno extends Controller
 
     function edit($param = [])
     {
+
+        # Iniciar o continuar sesión
+        session_start();
 
         # obtengo el id del alumno que voy a editar
         // alumno/edit/4
@@ -218,44 +217,159 @@ class Alumno extends Controller
         # obtener los cursos
         $this->view->cursos = $this->model->getCursos();
 
+        //Comprobar si el formulario viene de una validación
+        # Comprobar si vuelvo de un registro no validado
+        if (isset($_SESSION['error'])) {
+
+            # Mensaje de error
+            $this->view->error = $_SESSION['error'];
+
+
+            # Autorrellenar el formulario con los detalles del alumno
+            $this->view->alumno = unserialize($_SESSION['alumno']);
+
+            # Recupero array de errores específicos
+            $this->view->errores = $_SESSION['errores'];
+
+            unset($_SESSION['error']);
+            unset($_SESSION['errores']);
+            unset($_SESSION['alumno']);
+        }
+
         # cargo la vista
         $this->view->render('alumno/edit/index');
-
-
-
     }
 
     public function update($param = [])
     {
 
+        # Iniciar o continuar sesión
+        session_start();
+
+        # 1. Seguridad. Saneamos los datos del formulario
+        // $nombre = filter_var($_POST['nombre'], FILTER_SANITIZE_SPECIAL_CHARS);
+
+        # Si se introduce un nombre vacío, se le otorga "nulo"
+        $nombre = filter_var($_POST['nombre'] ??= '', FILTER_SANITIZE_SPECIAL_CHARS);
+        $apellidos = filter_var($_POST['apellidos'] ??= '', FILTER_SANITIZE_SPECIAL_CHARS);
+        $email = filter_var($_POST['email'] ??= '', FILTER_SANITIZE_EMAIL);
+        $telefono = filter_var($_POST['telefono'] ??= '', FILTER_SANITIZE_SPECIAL_CHARS);
+        $poblacion = filter_var($_POST['poblacion'] ??= '', FILTER_SANITIZE_SPECIAL_CHARS);
+        $dni = filter_var($_POST['dni'] ??= '', FILTER_SANITIZE_SPECIAL_CHARS);
+        $fechaNac = filter_var($_POST['fechaNac'] ??= '', FILTER_SANITIZE_SPECIAL_CHARS);
+        $id_curso = filter_var($_POST['id_curso'] ??= '', FILTER_SANITIZE_NUMBER_INT);
+
+        # 2. Creamos el alumno con los datos saneados
+        # Cargamos los datos del formulario
+        $alumno = new classAlumno(
+            null,
+            $nombre,
+            $apellidos,
+            $email,
+            $telefono,
+            null,
+            $poblacion,
+            null,
+            null,
+            $dni,
+            $fechaNac,
+            $id_curso
+        );
+
         # Cargo id del alumno
         $id = $param[0];
 
-        # Con los detalles formulario creo objeto alumno
-        $alumno = new classAlumno(
+        //Obtengo el objeto alumno original
+        $alumno_orig = $this->model->read($id);
 
-            null,
-            $_POST['nombre'],
-            $_POST['apellidos'],
-            $_POST['email'],
-            $_POST['telefono'],
-            null,
-            $_POST['poblacion'],
-            null,
-            null,
-            $_POST['dni'],
-            $_POST['fechaNac'],
-            $_POST['id_curso']
+        # 3. Validación
+        $errores = [];
 
-        );
+        // Nombre: Obligatorio
+        if (strcmp($alumno->nombre, $alumno_orig->nombre) !== 0) {
+            if (empty($apellidos)) {
+                $errores['apellidos'] = 'El campo apellidos es obligatorio';
+            }
+        }
 
-        # Actualizo base  de datos
-        $this->model->update($alumno, $id);
+        // Email: Obligatorio
+        if (strcmp($alumno->apellidos, $alumno_orig->apellidos) !== 0) {
+            if (empty($email)) {
+                $errores['email'] = 'El campo email es obligatorio';
+            } else if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                $errores['email'] = 'Formato email incorrecto';
+            } else if (!$this->model->validateEmail($email)) {
+                $errores['email'] = 'El email ya existe';
+            }
+        }
 
-        # Cargo el controlador principal de alumno
-        header('location:' . URL . 'alumno');
+        // Teléfono: Obligatorio
+        if (strcmp($alumno->telefono, $alumno_orig->telefono) !== 0) {
 
+            if (empty($telefono)) {
+                $errores['telefono'] = 'El campo telefono es obligatorio';
+            }
+        }
+
+        // Población: Obligatorio
+        if (strcmp($alumno->poblacion, $alumno_orig->poblacion) !== 0) {
+            if (empty($poblacion)) {
+                $errores['poblacion'] = 'El campo poblacion es obligatorio';
+            }
+        }
+
+        // DNI: Obligatorio
+        if (strcmp($alumno->dni, $alumno_orig->dni) !== 0) {
+            $options = [
+                'options' => [
+                    'regexp' => '/^(\d{8})([A-Z])$/'
+                ]
+            ];
+
+            if (empty($dni)) {
+                $errores['dni'] = 'El campo dni es obligatorio';
+            } else if (!filter_var($dni, FILTER_VALIDATE_REGEXP, $options)) {
+                $errores['dni'] = 'Formato de DNI incorrecto';
+            } else if (!$this->model->validateDNI($dni)) {
+                $errores['dni'] = 'El dni ya existe';
+            }
+        }
+
+        // ID Curso: Obligatorio, entero, existente
+        if (strcmp($alumno->dni, $alumno_orig->dni) !== 0) {
+            if (empty($id_curso)) {
+                $errores['id_curso'] = 'Debe seleccionar un curso';
+            } else if (!filter_var($id_curso, FILTER_VALIDATE_INT)) {
+                $errores['id_curso'] = 'Curso no válido';
+            } else if (!$this->model->validateIdCurso($id_curso)) {
+                $errores['id_curso'] = 'Curso no válido';
+            }
+        }
+
+        # 4. Comprobar validación
+        if (!empty($errores)) {
+            // Errores de validación
+            // transforma el objeto alumno en un string
+            $_SESSION['alumno'] = serialize($alumno);
+            $_SESSION['error'] = 'Formulario no validado';
+            $_SESSION['errores'] = $errores;
+
+            # Redireccionamos a new
+            header('Location:' . URL . 'alumno/edit/' . $id);
+        } else {
+            # Añadir registro a la tabla
+            $this->model->update($alumno, $id);
+
+            # Mensaje
+            $_SESSION['mensaje'] = "Alumno editado correctamente";
+
+            # Redirigimos al main de alumnos
+            header('Location:' . URL . 'alumno');
+        }
     }
+
+
+
 
     public function order($param = [])
     {
@@ -290,5 +404,3 @@ class Alumno extends Controller
         $this->view->render('alumno/main/index');
     }
 }
-
-?>
