@@ -27,37 +27,45 @@
             <!-- Número de Cuenta -->
             <div class="mb-3">
                 <label class="form-label">Número de Cuenta</label>
-                <input type="text" class="form-control" name="num_cuenta" value="<?= $this->cuenta->num_cuenta ?>">
+                <input type="text" class="form-control" name="num_cuenta" value="<?= $this->cuenta->num_cuenta ?>" readonly style="background-color: lightgrey;">
             </div>
 
-            <!-- ID Cliente -->
+            <!-- ID Cliente Select -->
             <div class="mb-3">
-                <label class="form-label">Id cliente</label>
-                <input type="text" class="form-control" name="id_cliente" value="<?= $this->cuenta->id_cliente ?>">
+                <label class="form-label">Nombre cliente</label>
+                <select class="form-select" name="id_cliente" id="selectCliente">
+                    <option value="" disabled>Seleccione un Cliente</option>
+                    <?php foreach ($this->clientes as $clienteId => $nombreCompleto) : ?>
+                        <option value="<?= $clienteId ?>" <?= ($clienteId == $this->cuenta->id_cliente) ? 'selected' : '' ?>>
+                            <?= $nombreCompleto ?>
+                        </option>
+                    <?php endforeach; ?>
+                </select>
             </div>
+
 
             <!-- Fecha Alta -->
             <div class="mb-3">
                 <label class="form-label">Fecha Alta</label>
-                <input type="text" class="form-control" name="fecha_alta" value="<?= $this->cuenta->fecha_alta ?>">
+                <input type="text" class="form-control" name="fecha_alta" value="<?= $this->cuenta->fecha_alta ?>" readonly style="background-color: lightgrey;">
             </div>
 
             <!-- Fecha Último Movimiento -->
             <div class="mb-3">
                 <label class="form-label">Fecha Último Movimiento</label>
-                <input type="text" class="form-control" name="fecha_ul_mov" value="<?= $this->cuenta->fecha_ul_mov ?>">
+                <input type="text" class="form-control" name="fecha_ul_mov" value="<?= $this->cuenta->fecha_ul_mov ?>" readonly style="background-color: lightgrey;">
             </div>
 
             <!-- Número de Movimientos -->
             <div class="mb-3">
                 <label class="form-label">Número de Movimientos</label>
-                <input type="number" class="form-control" name="num_movtos" value="<?= $this->cuenta->num_movtos ?>">
+                <input type="number" class="form-control" name="num_movtos" value="<?= $this->cuenta->num_movtos ?>" readonly style="background-color: lightgrey;">
             </div>
 
             <!-- Saldo -->
             <div class="mb-3">
                 <label class="form-label">Saldo</label>
-                <input type="text" class="form-control" name="saldo" value="<?= $this->cuenta->saldo ?>">
+                <input type="number" class="form-control" name="saldo" value="<?= $this->cuenta->saldo ?>" readonly style="background-color: lightgrey;">
             </div>
 
             <div class="mb-3">

@@ -42,7 +42,7 @@
 						<tr>
 							<th>Id</th>
 							<th>Número Cuenta</th>
-							<th>Nombre</th>
+							<th>Cliente</th>
 							<th>Apellidos</th>
 							<th>Fecha Alta</th>
 							<th>Fecha Últ Movimiento</th>
@@ -58,12 +58,11 @@
 								<!-- Mostrar datos de cuentas -->
 								<td><?= $cuenta->id ?></td>
 								<td><?= $cuenta->num_cuenta ?></td>
-								<td><?= $cuenta->nombreCuenta ?></td>
-								<td><?= $cuenta->apellidosCuenta ?></td>
+								<td><?= $cuenta->cliente ?></td>
 								<td><?= $cuenta->fecha_alta ?></td>
 								<td><?= $cuenta->fecha_ul_mov ?></td>
-								<td><?= $cuenta->num_movtos ?></td>
-                                <td><?= $cuenta->saldo ?></td>
+								<td class="text-end"><?= number_format($cuenta->num_movtos, 0, ',', '.') ?></td>
+								<td class="text-end"><?= number_format($cuenta->saldo, 2, ',', '.') ?> €</td>
 
 								<!-- botones de acción -->
 								<td>

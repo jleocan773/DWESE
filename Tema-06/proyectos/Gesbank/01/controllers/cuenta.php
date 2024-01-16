@@ -33,15 +33,18 @@ class Cuenta extends Controller
         //Para pillar el nombre completo de los clientes creamos un array y asoaciamos el id del cliente a una concatenación
         $clientesConcatenados = [];
         foreach ($clientesDisponibles as $cliente) {
-            $nombreCompleto = $cliente->nombre . ', ' . $cliente->apellidos;
+            $nombreCompleto = $cliente->cliente;
             $clientesConcatenados[$cliente->id] = $nombreCompleto;
         }
+
+        //Ordenar alfabéticamente el array por los valores (nombres completos)
+        asort($clientesConcatenados);
 
         //Pasar los datos de clientes concatenados a la vista del formulario de creación de cuentas
         $this->view->clientes = $clientesConcatenados;
 
 
-        // Renderizar la vista del formulario de creación de cuentas
+        //Renderizar la vista del formulario de creación de cuentas
         $this->view->render('cuenta/new/index');
     }
 
@@ -71,23 +74,39 @@ class Cuenta extends Controller
 
     function edit($param = [])
     {
-        //Obtengo el valor del ID del cuenta a editar
-        //Por ejemplo cuenta/edit/4 - el 4 es el primer parámetro de la función edit
-        //Creo una variable $id y la igualo al valor del primer parámetro pasado
+        // Obtengo el valor del ID de la cuenta a editar
         $id = $param[0];
 
-        //Creo una variable id en view y la igualo al valor de la variable creado justo antes
+        // Creo una variable id en view y la igualo al valor del primer parámetro pasado
         $this->view->id = $id;
 
-        //Cambio la propiedad title de la vista
+        // Cambio la propiedad title de la vista
         $this->view->title = "Editar - Gestión Cuenta";
 
-        //Obtener objeto de la clase cuenta
+        // Obtener objeto de la clase cuenta
         $this->view->cuenta = $this->model->read($id);
 
-        //Cargo la vista
+        // Obtener datos de los clientes disponibles desde el modelo de clientes
+        $clienteModel = new clienteModel();
+        $clientesDisponibles = $clienteModel->get();
+
+        // Para obtener el nombre completo de los clientes, creamos un array y asociamos el ID del cliente a una concatenación
+        $clientesConcatenados = [];
+        foreach ($clientesDisponibles as $cliente) {
+            $nombreCompleto = $cliente->cliente;
+            $clientesConcatenados[$cliente->id] = $nombreCompleto;
+        }
+
+        // Ordenar alfabéticamente el array por los valores (nombres completos)
+        asort($clientesConcatenados);
+
+        // Pasar los datos de clientes concatenados a la vista del formulario de edición de cuentas
+        $this->view->clientes = $clientesConcatenados;
+
+        // Renderizar la vista del formulario de edición de cuentas
         $this->view->render('cuenta/edit/index');
     }
+
 
     function update($param = [])
     {

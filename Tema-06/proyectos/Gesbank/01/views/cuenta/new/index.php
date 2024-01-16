@@ -23,7 +23,7 @@
 
         <!-- Formulario Nuevo Cuenta -->
         <!-- Formulario Mostrar Cuenta -->
-        <form action="<?= URL ?>cuenta/create/<?= $this->id ?>" method="POST">
+        <form action="<?= URL ?>cuenta/create/" method="POST">
 
             <!-- Número de Cuenta -->
             <div class="mb-3">
@@ -41,17 +41,16 @@
                 </select>
             </div>
 
-
             <!-- Fecha Alta -->
             <div class="mb-3">
                 <label class="form-label">Fecha Alta</label>
-                <input type="text" class="form-control" name="fecha_alta">
+                <input type="date" class="form-control" name="fecha_alta">
             </div>
 
             <!-- Fecha Último Movimiento -->
             <div class="mb-3">
                 <label class="form-label">Fecha Último Movimiento</label>
-                <input type="text" class="form-control" name="fecha_ul_mov" ?>
+                <input type="date" class="form-control" name="fecha_ul_mov" ?>
             </div>
 
             <!-- Número de Movimientos -->

@@ -43,6 +43,7 @@
 							<th>Id</th>
 							<th>Número Cuenta</th>
 							<th>Cliente</th>
+							<th>Apellidos</th>
 							<th>Fecha Alta</th>
 							<th>Fecha Últ Movimiento</th>
 							<th>Número Movimientos</th>
@@ -64,9 +65,9 @@
 								<td class="text-end"><?= number_format($cuenta->saldo, 2, ',', '.') ?> €</td>
 
 								<!-- botones de acción -->
-								<td style="display:flex; justify-content: space-between;">
+								<td>
 									<!-- botón  eliminar -->
-									<a href="<?= URL ?>cuenta/delete/<?= $cuenta->id ?>" title="Eliminar" onclick="return confirm('Confirm eliminación Cuenta')">
+									<a href="<?= URL ?>cuenta/delete/<?= $cuenta->id ?>" title="Eliminar">
 										<i class="bi bi-trash-fill"></i></a>
 
 									<!-- botón  editar -->

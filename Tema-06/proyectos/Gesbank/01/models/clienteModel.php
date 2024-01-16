@@ -26,7 +26,14 @@ class clienteModel extends Model
     {
         try {
             //Sentencia SQL
-            $sql = "SELECT * from gesbank.clientes";
+            $sql = "SELECT 
+                id,
+                concat_ws(', ', apellidos, nombre) as cliente,
+                email,
+                telefono,
+                ciudad,
+                dni
+             from gesbank.clientes";
 
             //Conectamos a la base de datos
             //$this->db es un objeto de la clase Database

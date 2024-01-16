@@ -29,8 +29,7 @@ class cuentaModel extends Model
             $sql = "SELECT 
             cuentas.id,
             cuentas.num_cuenta,
-            clientes.nombre AS nombreCuenta,
-            clientes.apellidos AS apellidosCuenta,
+            concat_ws(', ', nombre, apellidos) as cliente,
             cuentas.fecha_alta,
             cuentas.fecha_ul_mov,
             cuentas.num_movtos,
@@ -176,8 +175,7 @@ class cuentaModel extends Model
             $sql = "SELECT 
                 cuentas.id,
                 cuentas.num_cuenta,
-                clientes.nombre AS nombreCuenta,
-                clientes.apellidos AS apellidosCuenta,
+                concat_ws(', ', nombre, apellidos) as cliente,
                 cuentas.fecha_alta,
                 cuentas.fecha_ul_mov,
                 cuentas.num_movtos,
@@ -221,8 +219,7 @@ class cuentaModel extends Model
                         cuentas.fecha_ul_mov,
                         cuentas.num_movtos,
                         cuentas.saldo,
-                        clientes.nombre AS nombreCuenta,
-                        clientes.apellidos AS apellidosCuenta
+                        concat_ws(', ', nombre, apellidos) as cliente
                     FROM
                         cuentas
                     INNER JOIN clientes 

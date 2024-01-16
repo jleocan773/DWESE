@@ -41,7 +41,7 @@
 					<thead>
 						<tr>
 							<th>Id</th>
-							<th>Nombre</th>
+							<th>Cliente</th>
 							<th>Email</th>
 							<th>Telefono</th>
 							<th>Ciudad</th>

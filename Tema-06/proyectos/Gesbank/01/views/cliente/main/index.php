@@ -41,8 +41,7 @@
 					<thead>
 						<tr>
 							<th>Id</th>
-							<th>Nombre</th>
-							<th>Apellidos</th>
+							<th>Cliente</th>
 							<th>Email</th>
 							<th>Telefono</th>
 							<th>Ciudad</th>
@@ -56,8 +55,7 @@
 							<tr>
 								<!-- Mostrar datos de clientes -->
 								<td><?= $cliente->id ?></td>
-								<td><?= $cliente->nombre ?></td>
-								<td><?= $cliente->apellidos ?></td>
+								<td><?= $cliente->cliente ?></td>
 								<td><?= $cliente->email ?></td>
 								<td><?= $cliente->telefono ?></td>
 								<td><?= $cliente->ciudad ?></td>
