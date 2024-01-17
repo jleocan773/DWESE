@@ -62,7 +62,7 @@
             <!-- Saldo -->
             <div class="mb-3">
                 <label class="form-label">Saldo</label>
-                <input type="text" class="form-control" name="saldo" sabled>
+                <input type="number" class="form-control" name="saldo" sabled>
             </div>
 
             <div class="mb-3">

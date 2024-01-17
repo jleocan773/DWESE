@@ -47,13 +47,13 @@
             <!-- Fecha Alta -->
             <div class="mb-3">
                 <label class="form-label">Fecha Alta</label>
-                <input type="text" class="form-control" name="fecha_alta" value="<?= $this->cuenta->fecha_alta ?>" readonly style="background-color: lightgrey;">
+                <input type="date" class="form-control" name="fecha_alta" value="<?= $this->cuenta->fecha_alta ?>" readonly style="background-color: lightgrey;">
             </div>
 
             <!-- Fecha Último Movimiento -->
             <div class="mb-3">
                 <label class="form-label">Fecha Último Movimiento</label>
-                <input type="text" class="form-control" name="fecha_ul_mov" value="<?= $this->cuenta->fecha_ul_mov ?>" readonly style="background-color: lightgrey;">
+                <input type="date" class="form-control" name="fecha_ul_mov" value="<?= $this->cuenta->fecha_ul_mov ?>" readonly style="background-color: lightgrey;">
             </div>
 
             <!-- Número de Movimientos -->
