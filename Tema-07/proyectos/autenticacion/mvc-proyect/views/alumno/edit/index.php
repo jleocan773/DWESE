@@ -11,7 +11,7 @@
 
 <body>
     <!-- Menú Principal -->
-    <?php require_once("template/partials/menu.php") ?>
+	<?php require_once("template/partials/menuAut.php") ?>
     <br><br><br>
 
     <!-- Capa principal -->
@@ -20,7 +20,7 @@
         <!-- header -->
         <?php include 'views/alumno/partials/header.php' ?>
 
-        <legend>Formulario Nuevo Alumno</legend>
+        <legend>Formulario Editar Alumno</legend>
 
         <?php include 'template/partials/error.php' ?>
 
