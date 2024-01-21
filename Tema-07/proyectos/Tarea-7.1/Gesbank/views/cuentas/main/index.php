@@ -8,14 +8,13 @@
 </head>
 
 <body>
-    <!-- capa principal -->
-    <div class="container" style="padding-top: 2%;">
+<div class="container" style="padding-top: 2%;">
         <!-- menu fijo superior -->
         <?php require_once "template/partials/menu.php"; ?>
-        <!-- cabecera o titulo -->
-        <?php include "views/cuentas/partials/header.php" ?>
+        <!-- cabecera  -->
+        <?php include "views/clientes/partials/header.php" ?>
         <!-- Menu principal -->
-        <?php require_once "views/cuentas/partials/menu.php" ?>
+        <?php require_once "views/clientes/partials/menu.php" ?>
         <table class="table">
             <thead>
                 <tr>

@@ -316,4 +316,68 @@ class cuentasModel extends Model
             exit();
         }
     }
+
+    //Validación de número de cuenta único
+    public function validateUniqueNumCuenta($num_cuenta)
+    {
+        try {
+            $sql = "SELECT * FROM cuentas 
+                     WHERE num_cuenta = :num_cuenta";
+
+
+            //Conectar con la base de datos
+            $conexion = $this->db->connect();
+
+            $pdost = $conexion->prepare($sql);
+            $pdost->bindParam(':num_cuenta', $num_cuenta, PDO::PARAM_INT);
+
+            $pdost->execute();
+
+            if ($pdost->rowCount() != 0) {
+                return false;
+            }
+
+            return true;
+        } catch (PDOException $e) {
+
+            include_once('template/partials/errorDB.php');
+            exit();
+        }
+    }
+
+    //Validación de que el cliente existe en la base de datos
+    public function validateCliente($id_cliente)
+    {
+        try {
+            $sql = "SELECT * FROM clientes 
+                    WHERE id = :idCliente";
+
+            //Conectar con la base de datos
+            $conexion = $this->db->connect();
+
+            $pdost = $conexion->prepare($sql);
+            $pdost->bindParam(':idCliente', $id_cliente, PDO::PARAM_INT);
+
+            $pdost->execute();
+
+            if ($pdost->rowCount() == 1) {
+                return true;
+            }
+            return false;
+        } catch (PDOException $e) {
+            require_once("template/partials/errorDB.php");
+            exit();
+        }
+    }
+
+    //Validación de que la fecha de alta introducida en el formulario sea igual a la fecha actual
+    public function validateFechaAlta($fecha_alta)
+    {
+        $formatoFecha = DateTime::createFromFormat('Y-m-d\TH:i', $fecha_alta);
+        if ($formatoFecha !== false) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

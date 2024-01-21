@@ -19,7 +19,7 @@
         <!-- cabecera -->
         <?php include "views/clientes/partials/header.php" ?>
 
-        <legend>Formulario Nuevo Cliente</legend>
+        <legend>Formulario Nueva Cuenta</legend>
 
         <!-- Mensaje de Error -->
         <?php include 'template/partials/error.php' ?>
