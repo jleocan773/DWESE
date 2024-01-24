@@ -12,7 +12,7 @@
                     <a class="nav-link" href="<?= URL ?>perfil/pass">Cambiar Contraseña</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="<?= URL ?>perfil/delete">Eliminar</a>
+                    <a class="nav-link" href="<?= URL ?>perfil/delete" onclick="return confirm('¿Deseas eliminar tu cuenta?')">Eliminar</a>
                 </li>
             </ul>
         </div>

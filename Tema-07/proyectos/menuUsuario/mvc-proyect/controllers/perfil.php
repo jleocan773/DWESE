@@ -264,7 +264,7 @@ class Perfil extends Controller
             $this->model->delete($_SESSION['id']);
 
             # Destruyo la sesión
-            sec_session_destroy();
+            session_destroy();
 
             # Salgo de la aplicación
             header('location:' . URL . 'index');
