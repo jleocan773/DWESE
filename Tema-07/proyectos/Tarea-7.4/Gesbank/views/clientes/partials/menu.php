@@ -10,7 +10,7 @@
                         <a class="nav-link <?= (in_array($_SESSION['id_rol'], $GLOBALS['clientes']['nuevo']) || in_array($_SESSION['id_rol'], $GLOBALS['cuentas']['nuevo'])) ? 'active' : 'disabled' ?>" aria-current="page" href="<?=URL?>clientes/nuevo">Nuevo</a>
                         </li>
                         <li class="nav-item dropdown">
-                            <a class="nav-link <?=in_array($_SESSION['id'], $GLOBALS['clientes']['ordenar'])? 'active': 'disabled' ?> dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <a class="nav-link <?=in_array($_SESSION['id_rol'], $GLOBALS['clientes']['ordenar'])? 'active': 'disabled' ?> dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 Ordenar
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">

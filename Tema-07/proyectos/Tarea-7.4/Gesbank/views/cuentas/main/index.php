@@ -44,25 +44,25 @@
                         <td><?= $cuenta->fecha_ul_mov ?></td>
                         <td class="text-end"><?= number_format($cuenta->num_movtos, 0, ',', '.') ?></td>
                         <td class="text-end"><?= number_format($cuenta->saldo, 2, ',', '.') ?> €</td>
-                       
+
                         <!-- botones de acción -->
                         <td>
-                            <!-- botón  eliminar -->
-                            <a href="<?= URL ?>cuentas/delete/<?= $cuenta->id ?>" title="Eliminar" onclick="return confirm('Confirmar eliminación del Cliente')" <?= (!in_array($_SESSION['id_rol'], $GLOBALS['clientes']['delete'])) ?
-                                                                                                                                                                        'class="btn disabled"' : null ?>>
-                                <i class="bi bi-trash-fill"></i></a>
+                            <!-- botón eliminar -->
+                            <a href="<?= URL ?>cuentas/delete/<?= $cuenta->id ?>" title="Eliminar" class="btn btn-danger <?= (!in_array($_SESSION['id_rol'], $GLOBALS['cuentas']['delete'])) ? 'disabled' : '' ?>" onclick="return confirm('Confirmar eliminación del Cliente')">
+                                <i class="bi bi-trash"></i>
+                            </a>
 
-                            <!-- botón  editar -->
-                            <a href="<?= URL ?>cuentas/editar/<?= $cuenta->id ?>" title="Editar" <?= (!in_array($_SESSION['id_rol'], $GLOBALS['clientes']['editar'])) ?
-                                                                                                        'class="btn disabled"' : null ?>>
-                                <i class="bi bi-pencil-square"></i></a>
+                            <!-- botón editar -->
+                            <a href="<?= URL ?>cuentas/editar/<?= $cuenta->id ?>" title="Editar" class="btn btn-primary <?= (!in_array($_SESSION['id_rol'], $GLOBALS['cuentas']['editar'])) ? 'disabled' : '' ?>">
+                                <i class="bi bi-pencil"></i>
+                            </a>
 
-                            <!-- botón  mostrar -->
-                            <a href="<?= URL ?>cuentas/mostrar/<?= $cuenta->id ?> ?>" title="Mostrar" <?= (!in_array($_SESSION['id_rol'], $GLOBALS['clientes']['mostrar'])) ?
-                                                                                                            'class="btn disabled"' : null ?>>
-                                <i class="bi bi-card-text"></i></a>
-
+                            <!-- botón mostrar -->
+                            <a href="<?= URL ?>cuentas/mostrar/<?= $cuenta->id ?>" title="Mostrar" class="btn btn-warning <?= (!in_array($_SESSION['id_rol'], $GLOBALS['cuentas']['mostrar'])) ? 'disabled' : '' ?>">
+                                <i class="bi bi-card-text"></i>
+                            </a>
                         </td>
+
                     </tr>
                 <?php endforeach; ?>
             </tbody>
