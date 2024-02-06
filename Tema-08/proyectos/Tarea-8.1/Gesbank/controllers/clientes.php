@@ -518,7 +518,7 @@ class Clientes extends Controller
         $archivo = fopen('php://output', 'w');
 
         //Escribimos la cabecera del CSV
-        fputcsv($archivo, array('id', 'apellidos', 'nombre', 'telefono', 'ciudad', 'dni', 'email', 'create_at', 'update_at'), ';');
+        fputcsv($archivo, array('apellidos', 'nombre', 'telefono', 'ciudad', 'dni', 'email', 'create_at', 'update_at'), ';');
 
         //Obtenemos la fecha y hora actual
         $fechaHoraActual = date('Y-m-d H:i:s');
@@ -535,7 +535,6 @@ class Clientes extends Controller
 
             //Reordenar los campos del cliente
             $cliente = array(
-                'id' => $cliente['id'],
                 'apellidos' => $apellidos,
                 'nombre' => $nombre,
                 'telefono' => $cliente['telefono'],

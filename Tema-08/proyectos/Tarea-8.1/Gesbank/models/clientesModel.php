@@ -306,4 +306,54 @@ class clientesModel extends Model
             exit();
         }
     }
+
+    //Insertar un cliente desde el CSV
+    public function insertarCSV($cliente)
+    {
+        $sql = "
+            INSERT INTO clientes
+                (apellidos,
+                nombre,
+                telefono,
+                ciudad,
+                dni,
+                email,
+                create_at,
+                update_at) 
+            VALUES (
+                :apellidos,
+                :nombre,
+                :telefono,
+                :ciudad,
+                :dni,
+                :email,
+                :create_at,
+                :update_at
+            )
+        ";
+
+        try {
+            //Conectar con la base de datos
+            $conexion = $this->db->connect();
+
+            # Ejecutamos mediante prepare la consulta SQL
+            $result = $conexion->prepare($sql);
+
+            # Bind de los parámetros
+            $result->bindParam(':apellidos', $cliente['apellidos'], PDO::PARAM_STR, 45);
+            $result->bindParam(':nombre', $cliente['nombre'], PDO::PARAM_STR, 20);
+            $result->bindParam(':telefono', $cliente['telefono'], PDO::PARAM_STR, 9);
+            $result->bindParam(':ciudad', $cliente['ciudad'], PDO::PARAM_STR, 20);
+            $result->bindParam(':dni', $cliente['dni'], PDO::PARAM_STR, 9);
+            $result->bindParam(':email', $cliente['email'], PDO::PARAM_STR, 45);
+            $result->bindParam(':create_at', $cliente['create_at']);
+            $result->bindParam(':update_at', $cliente['update_at']);
+
+            # Ejecutar la consulta
+            $result->execute();
+        } catch (PDOException $e) {
+            require_once("template/partials/errorDB.php");
+            exit();
+        }
+    }
 }
