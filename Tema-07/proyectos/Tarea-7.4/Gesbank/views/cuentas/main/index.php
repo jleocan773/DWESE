@@ -4,20 +4,19 @@
 <head>
     <!-- head -->
     <?php require_once("template/partials/head.php");  ?>
-    <title>Cuentas - GESBANK</title>
+    <title>Cuentas - Gesbank</title>
 </head>
 
 <body>
     <div class="container" style="padding-top: 2%;">
         <!-- menu fijo superior -->
         <?php require_once "template/partials/menuAut.php"; ?>
-        <br><br>
 
         <!-- cabecera  -->
-        <?php include "views/clientes/partials/header.php" ?>
+        <?php include "views/cuentas/partials/header.php" ?>
 
         <!-- Menu principal -->
-        <?php require_once "views/clientes/partials/menu.php" ?>
+        <?php require_once "views/cuentas/partials/menu.php" ?>
 
         <table class="table">
             <thead>

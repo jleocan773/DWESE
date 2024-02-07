@@ -4,7 +4,7 @@
 <head>
     <!-- bootstrap  -->
     <?php require_once("template/partials/head.php");  ?>
-    <title>Nueva Cuenta - GESBANK</title>
+    <title>Nueva Cuenta - Gesbank</title>
 </head>
 
 <body>
@@ -12,14 +12,14 @@
 <body>
     <!-- menu fijo superior -->
     <?php require_once "template/partials/menuAut.php"; ?>
-    <br><br>
+    <br><br><br>
 
 
     <!-- capa principal -->
     <div class="container">
 
         <!-- cabecera -->
-        <?php include "views/clientes/partials/header.php" ?>
+        <?php include "views/cuentas/partials/header.php" ?>
 
         <legend>Formulario Nueva Cuenta</legend>
 

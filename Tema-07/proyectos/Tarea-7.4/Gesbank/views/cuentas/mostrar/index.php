@@ -9,13 +9,13 @@
 <body>
     <!-- menú principal superior -->
     <?php require_once "template/partials/menuAut.php"; ?>
-    <br><br>
+    <br><br><br>
 
     <!-- capa principal -->
     <div class="container">
 
         <!-- cabecera o título -->
-        <?php include "views/clientes/partials/header.php" ?>
+        <?php include "views/cuentas/partials/header.php" ?>
 
         <!-- formulario solo lectura -->
         <form>

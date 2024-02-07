@@ -3,20 +3,23 @@
 
 <head>
     <?php require_once("template/partials/head.php");  ?>
-    <title>Editar Cuenta - GESBANK</title>
+    <title>Editar Cuenta - Gesbank</title>
 
 </head>
 
 <body>
     <!-- menu principal fijo superior -->
     <?php require_once "template/partials/menuAut.php"; ?>
-    <br><br>
+    <br><br><br>
 
     <!-- capa principal -->
     <div class="container">
 
         <!-- cabecera o título -->
-        <?php include "views/clientes/partials/header.php" ?>
+        <?php include "views/cuentas/partials/header.php" ?>
+
+        <legend>Formulario Editar Cuenta</legend>
+
 
         <form action="<?= URL ?>cuentas/update/<?= $this->id ?>" method="POST">
 

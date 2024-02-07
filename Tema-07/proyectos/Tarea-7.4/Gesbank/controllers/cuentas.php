@@ -74,8 +74,7 @@ class Cuentas extends Controller
             }
 
             //Añadimos a la vista la propiedad title
-            $this->view->title = "Formulario añadir cuenta";
-
+            $this->view->title = "Añadir - Gestión Cuentas";
             //Para generar la lista select dinámica de clientes
             $this->view->clientes = $this->model->getClientes();
 

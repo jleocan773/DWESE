@@ -4,14 +4,14 @@
 <head>
     <!-- bootstrap -->
     <?php require_once("template/partials/head.php");  ?>
-    <title> <?= $this->title ?> </title>
+    <title>Nuevo Cliente - Gesbank</title>
 
 </head>
 
 <body>
     <!-- menu fijo superior -->
     <?php require_once "template/partials/menuAut.php"; ?>
-    <br><br>
+    <br><br><br>
 
     <!-- capa principal -->
     <div class="container">
@@ -19,7 +19,7 @@
         <!-- cabecera -->
         <?php include "views/clientes/partials/header.php" ?>
 
-        <legend>Formulario Nueva Cuenta</legend>
+        <legend>Formulario Nuevo Cliente</legend>
 
         <!-- Mensaje de Error -->
         <?php include 'template/partials/error.php' ?>

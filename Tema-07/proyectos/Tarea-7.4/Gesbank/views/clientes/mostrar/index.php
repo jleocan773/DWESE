@@ -4,13 +4,13 @@
 <head>
     <!-- bootstrap  -->
     <?php require_once("template/partials/head.php");  ?>
-    <title>Editar Cliente - Gesbank</title>
+    <title>Mostrar Cliente - Gesbank</title>
 </head>
 
 <body>
     <!-- menú principal fijo superior-->
     <?php require_once "template/partials/menuAut.php"; ?>
-    <br><br>
+    <br><br><br>
 
     <!-- capa principal -->
     <div class="container">
