@@ -39,4 +39,4 @@ $pdf->Cell(40, 10, iconv('UTF-8', 'ISO-8859-1', 'Hotel: '), 1, 0, 'R', true);
 $pdf->Cell(0, 10, iconv('UTF-8', 'ISO-8859-1', $hotel), 1, 1);
 
 //Cerramos el pdf
-$pdf->Output();
+$pdf->Output('D', 'informacion.pdf', true);
