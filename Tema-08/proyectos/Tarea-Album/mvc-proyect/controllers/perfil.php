@@ -22,7 +22,7 @@
 
             # Obtenemos objeto con los detalles del usuario
             $this->view->user = $this->model->getUserId($_SESSION['id']);
-            $this->view->title = 'Perfil de Usuario - Gestión Alumnos PF - MVC';
+            $this->view->title = 'Perfil de Usuario - Gestión Álbum';
 
             $this->view->render('perfil/main/index');
            
@@ -69,7 +69,7 @@
 
             }
 
-            $this->view->title = 'Modificar Perfil Usuario - Gestión Alumnos - FP';
+            $this->view->title = 'Modificar Perfil Usuario - Gestión Álbum';
             $this->view->render('perfil/edit/index');
 
 

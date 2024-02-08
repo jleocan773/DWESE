@@ -1,340 +1,325 @@
 <?php
 
+/*
+    albumModel.php
+
+    Modelo del  controlador albumes
+
+    Definir los métodos de acceso a la base de datos
+    
+    - insert
+    - update
+    - select
+    - delete
+    - etc..
+*/
+
+class albumModel extends Model
+{
+
     /*
-        albumModel.php
-
-        Modelo del  controlador albumes
-
-        Definir los métodos de acceso a la base de datos
-        
-        - insert
-        - update
-        - select
-        - delete
-        - etc..
+        Extrae los detalles  de los albumes
     */
+    public function get()
+    {
 
-    class albumModel extends Model {
+        try {
 
-        /*
-            Extrae los detalles  de los albumes
-        */
-        public function get() {
-
-            try {
-
-                # comando sql
-                $sql = "
+            # comando sql
+            $sql = "
                 SELECT 
-                    albumes.id,
-                    concat_ws(', ', albumes.apellidos, albumes.nombre) alumno,
-                    albumes.email,
-                    albumes.telefono,
-                    albumes.poblacion,
-                    albumes.dni,
-                    timestampdiff(YEAR,  albumes.fechaNac, NOW() ) edad,
-                    cursos.nombreCorto curso
+                   *
                 FROM
                     albumes
-                INNER JOIN
-                    cursos
-                ON 
-                    albumes.id_curso = cursos.id
                 ORDER BY 
                     id
                 ";
 
-                # conectamos con la base de datos
+            # conectamos con la base de datos
 
-                // $this->db es un objeto de la clase database
-                // ejecuto el método connect de esa clase
+            // $this->db es un objeto de la clase database
+            // ejecuto el método connect de esa clase
 
-                $conexion = $this->db->connect();
+            $conexion = $this->db->connect();
 
-                # ejecutamos mediante prepare
-                $pdost = $conexion->prepare($sql);
+            # ejecutamos mediante prepare
+            $pdost = $conexion->prepare($sql);
 
-                # establecemos  tipo fetch
-                $pdost->setFetchMode(PDO::FETCH_OBJ);
+            # establecemos  tipo fetch
+            $pdost->setFetchMode(PDO::FETCH_OBJ);
 
-                #  ejecutamos 
-                $pdost->execute();
+            #  ejecutamos 
+            $pdost->execute();
 
-                # devuelvo objeto pdostatement
-                return $pdost;
+            # devuelvo objeto pdostatement
+            return $pdost;
+        } catch (PDOException $e) {
 
-            } catch (PDOException $e) {
-
-                include_once('template/partials/errorDB.php');
-                exit();
-
-            }
+            include_once('template/partials/errorDB.php');
+            exit();
         }
+    }
 
-        public function getCursos() {
+    # Método getAlbum
+    # Obtiene los detalles de un álbum a partir del id
+    public function getAlbum($id)
+    {
+        try {
+            $sql = " 
+                SELECT     
+                    id,
+                    titulo,
+                    descripcion,
+                    autor,
+                    fecha,
+                    lugar,
+                    categoria,
+                    etiquetas,
+                    num_fotos,
+                    num_visitas,
+                    carpeta
+                FROM  
+                    albumes  
+                WHERE
+                    id = :id";
 
-            try {
-                # Plantilla
-                $sql = "
-                
-                    SELECT 
-                            id,
-                            nombreCorto curso
-                    FROM 
-                            cursos
-                    ORDER BY 
-                            nombreCorto
+            $conexion = $this->db->connect();
+            $pdoSt = $conexion->prepare($sql);
+            $pdoSt->bindParam(":id", $id, PDO::PARAM_INT);
+            $pdoSt->setFetchMode(PDO::FETCH_OBJ);
+            $pdoSt->execute();
+            return $pdoSt->fetch();
+        } catch (PDOException $e) {
+            require_once("template/partials/errorDB.php");
+            exit();
+        }
+    }
 
+
+
+    public function create(classAlbum $album)
+    {
+        try {
+            $sql = "INSERT INTO albumes (
+                            titulo,
+                            descripcion,
+                            autor,
+                            fecha,
+                            lugar,
+                            categoria,
+                            etiquetas,
+                            num_fotos,
+                            num_visitas,
+                            carpeta,
+                            created_at
+                        )
+                        VALUES (
+                            :titulo,
+                            :descripcion,
+                            :autor,
+                            :fecha,
+                            :lugar,
+                            :categoria,
+                            :etiquetas,
+                            :num_fotos,
+                            :num_visitas,
+                            :carpeta,
+                            NOW()
+                        )
                 ";
 
-                # Conectar con la base de datos
-                $conexion = $this->db->connect();
+            // Conectar con la base de datos
+            $conexion = $this->db->connect();
 
-                # ejecutar PREPARE
-                $result = $conexion->prepare($sql);
+            // Preparamos la consulta
+            $pdoSt = $conexion->prepare($sql);
 
-                # establezco com quiero que devuelva el resultado
-                $result->setFetchMode(PDO::FETCH_OBJ);
+            // Vinculación de los parámetros con los valores del objeto $album
+            $pdoSt->bindParam(':titulo', $album->titulo, PDO::PARAM_STR, 100);
+            $pdoSt->bindParam(':descripcion', $album->descripcion, PDO::PARAM_STR);
+            $pdoSt->bindParam(':autor', $album->autor, PDO::PARAM_STR, 50);
+            $pdoSt->bindParam(':fecha', $album->fecha, PDO::PARAM_STR);
+            $pdoSt->bindParam(':lugar', $album->lugar, PDO::PARAM_STR, 50);
+            $pdoSt->bindParam(':categoria', $album->categoria, PDO::PARAM_STR, 50);
+            $pdoSt->bindParam(':etiquetas', $album->etiquetas, PDO::PARAM_STR, 250);
+            $pdoSt->bindParam(':num_fotos', $album->etiquetas, PDO::PARAM_INT, 5);
+            $pdoSt->bindParam(':num_visitas', $album->etiquetas, PDO::PARAM_INT, 5);
+            $pdoSt->bindParam(':carpeta', $album->carpeta, PDO::PARAM_STR, 50);
 
-                # ejecuto
-                $result->execute();
+            // Ejecutamos la consulta
+            $pdoSt->execute();
 
-                return $result;
-
-
-            } catch (PDOException $e){
-
-                include_once('template/partials/errorDB.php');
-                exit();
-                
-            }
-
-
+            // Ahora crearemos la carpeta, teniendo en cuenta que vamos a usar la carpeta imagenes
+            mkdir('imagenes/' . $album->carpeta);
+        } catch (PDOException $e) {
+            include_once('template/partials/errorDB.php');
+            exit();
         }
+    }
 
-        public function create(classAlumno $alumno) {
+    public function read($id)
+    {
 
-            try {
+        try {
+            $sql = "SELECT * FROM albumes WHERE id = :id";
+
+            # Conectar con la base de datos
+            $conexion = $this->db->connect();
+
+            $pdoSt = $conexion->prepare($sql);
+
+            $pdoSt->bindParam(':id', $id, PDO::PARAM_INT);
+            $pdoSt->setFetchMode(PDO::FETCH_OBJ);
+            $pdoSt->execute();
+
+            return $pdoSt->fetch();
+        } catch (PDOException $e) {
+            include_once('template/partials/errorDB.php');
+            exit();
+        }
+    }
+
+    public function update(classAlbum $album, $id, $carpetaOrig)
+    {
+
+        try {
+
             $sql = "
-                    INSERT INTO albumes (
-                        nombre,
-                        apellidos,
-                        email,
-                        telefono,
-                        poblacion,
-                        dni,
-                        fechaNac,
-                        id_curso
-                    )
-                    VALUES (
-                        :nombre,
-                        :apellidos,
-                        :email,
-                        :telefono,
-                        :poblacion,
-                        :dni,
-                        :fechaNac,
-                        :id_curso
-                    )
-            ";
-             # Conectar con la base de datos
-             $conexion = $this->db->connect();
-
-             $pdoSt = $conexion->prepare($sql);
- 
-             $pdoSt->bindParam(':nombre', $alumno->nombre, PDO::PARAM_STR, 30);
-             $pdoSt->bindParam(':apellidos', $alumno->apellidos, PDO::PARAM_STR, 50);
-             $pdoSt->bindParam(':email', $alumno->email, PDO::PARAM_STR, 50);
-             $pdoSt->bindParam(':telefono', $alumno->telefono, PDO::PARAM_STR, 13);
-             $pdoSt->bindParam(':poblacion', $alumno->poblacion, PDO::PARAM_STR, 30);
-             $pdoSt->bindParam(':dni', $alumno->dni, PDO::PARAM_STR, 9);
-             $pdoSt->bindParam(':fechaNac', $alumno->fechaNac);
-             $pdoSt->bindParam(':id_curso', $alumno->id_curso, PDO::PARAM_INT);
- 
-             $pdoSt->execute();
-
-         }  catch (PDOException $e) {
-             include_once('template/partials/errorDB.php');
-             exit();
-         }
-
-        }
-
-        public function read($id) {
-
-            try {
-                $sql ="
-                        SELECT 
-                                id,
-                                nombre, 
-                                apellidos,
-                                email,
-                                telefono,
-                                poblacion,
-                                dni,
-                                fechaNac,
-                                id_curso
-                        FROM 
-                                albumes
-                        WHERE
-                                id = :id
-                ";
-
-                # Conectar con la base de datos
-                $conexion = $this->db->connect();
-
-    
-                $pdoSt = $conexion->prepare($sql);
-    
-                $pdoSt->bindParam(':id', $id, PDO::PARAM_INT);
-                $pdoSt->setFetchMode(PDO::FETCH_OBJ);
-                $pdoSt->execute();
-                
-                return $pdoSt->fetch();
-    
-            } catch (PDOException $e) {
-                include_once('template/partials/errorDB.php');
-                exit();
-            }
-
-        }
-
-        public function update(classAlumno $alumno, $id) {
-
-            try {
-
-                $sql = "
                 
                 UPDATE albumes
                 SET
-                        nombre = :nombre,
-                        apellidos = :apellidos,
-                        email = :email,
-                        telefono = :telefono,
-                        poblacion = :poblacion,
-                        dni = :dni,
-                        fechaNac = :fechaNac,
-                        id_curso = :id_curso
+                        titulo = :titulo,
+                        descripcion = :descripcion,
+                        autor = :autor,
+                        fecha = :fecha,
+                        lugar = :lugar,
+                        categoria = :categoria,
+                        etiquetas = :etiquetas,
+                        num_fotos = :num_fotos,
+                        num_visitas = :num_visitas,
+                        carpeta = :carpeta
                 WHERE
                         id = :id
                 LIMIT 1
                 ";
 
-                $conexion = $this->db->connect();
-                
-                $pdoSt = $conexion->prepare($sql);
+            // Conectar con la base de datos
+            $conexion = $this->db->connect();
 
-                $pdoSt->bindParam(':id', $id, PDO::PARAM_INT);
+            // Preparamos la consulta
+            $pdoSt = $conexion->prepare($sql);
 
-                $pdoSt->bindParam(':nombre', $alumno->nombre, PDO::PARAM_STR, 30);
-                $pdoSt->bindParam(':apellidos', $alumno->apellidos, PDO::PARAM_STR, 50);
-                $pdoSt->bindParam(':email', $alumno->email, PDO::PARAM_STR, 50);
-                $pdoSt->bindParam(':telefono', $alumno->telefono, PDO::PARAM_STR, 9);
-                $pdoSt->bindParam(':poblacion', $alumno->poblacion, PDO::PARAM_STR, 30);
-                $pdoSt->bindParam(':dni', $alumno->dni, PDO::PARAM_STR, 9);
-                $pdoSt->bindParam(':fechaNac', $alumno->fechaNac);
-                $pdoSt->bindParam(':id_curso', $alumno->id_curso, PDO::PARAM_INT);
+            // Vinculación de los parámetros con los valores del objeto $album
+            $pdoSt->bindParam(':id', $id, PDO::PARAM_INT);
 
-                $pdoSt->execute();
+            $pdoSt->bindParam(':titulo', $album->titulo, PDO::PARAM_STR, 100);
+            $pdoSt->bindParam(':descripcion', $album->descripcion, PDO::PARAM_STR);
+            $pdoSt->bindParam(':autor', $album->autor, PDO::PARAM_STR, 50);
+            $pdoSt->bindParam(':fecha', $album->fecha, PDO::PARAM_STR);
+            $pdoSt->bindParam(':lugar', $album->lugar, PDO::PARAM_STR, 50);
+            $pdoSt->bindParam(':categoria', $album->categoria, PDO::PARAM_STR, 50);
+            $pdoSt->bindParam(':etiquetas', $album->etiquetas, PDO::PARAM_STR, 250);
+            $pdoSt->bindParam(':num_fotos', $album->num_fotos, PDO::PARAM_INT, 5);
+            $pdoSt->bindParam(':num_visitas', $album->num_visitas, PDO::PARAM_INT, 5);
+            $pdoSt->bindParam(':carpeta', $album->carpeta, PDO::PARAM_STR, 50);
 
-        }
-        catch(PDOException $e) {
+            // Cambiamos el nombre de la carpeta
+            $rutaOrigen = "imagenes/" . $carpetaOrig;
+            $rutaDest = "imagenes/" . $album->carpeta;
+            rename($rutaOrigen, $rutaDest);
+
+            // Ejecutamos la consulta
+            $pdoSt->execute();
+        } catch (PDOException $e) {
             include_once('template/partials/errorDB.php');
             exit();
         }
+    }
 
-        }
+    /*
+       Extrae los detalles  de los albumes
+   */
+    public function order(int $criterio)
+    {
 
-         /*
-            Extrae los detalles  de los albumes
-        */
-        public function order(int $criterio) {
+        try {
 
-            try {
-
-                # comando sql
-                $sql = "
+            # comando sql
+            $sql = "
                 SELECT 
-                    albumes.id,
-                    concat_ws(', ', albumes.apellidos, albumes.nombre) alumno,
-                    albumes.email,
-                    albumes.telefono,
-                    albumes.poblacion,
-                    albumes.dni,
-                    timestampdiff(YEAR,  albumes.fechaNac, NOW() ) edad,
-                    cursos.nombreCorto curso
+                    id,
+                    titulo,
+                    descripcion,
+                    autor,
+                    fecha,
+                    categoria,
+                    etiquetas,
+                    num_fotos,
+                    num_visitas,
+                    carpeta
                 FROM
                     albumes
-                INNER JOIN
-                    cursos
-                ON 
-                    albumes.id_curso = cursos.id
                 ORDER BY 
                     :criterio
                 ";
 
-                # conectamos con la base de datos
+            # conectamos con la base de datos
 
-                // $this->db es un objeto de la clase database
-                // ejecuto el método connect de esa clase
+            // $this->db es un objeto de la clase database
+            // ejecuto el método connect de esa clase
 
-                $conexion = $this->db->connect();
+            $conexion = $this->db->connect();
 
-                # ejecutamos mediante prepare
-                $pdost = $conexion->prepare($sql);
+            # ejecutamos mediante prepare
+            $pdostmt = $conexion->prepare($sql);
 
-                $pdost->bindParam(':criterio', $criterio, PDO::PARAM_INT);
+            $pdostmt->bindParam(':criterio', $criterio, PDO::PARAM_INT);
 
-                # establecemos  tipo fetch
-                $pdost->setFetchMode(PDO::FETCH_OBJ);
+            # establecemos  tipo fetch
+            $pdostmt->setFetchMode(PDO::FETCH_OBJ);
 
-                #  ejecutamos 
-                $pdost->execute();
+            #  ejecutamos 
+            $pdostmt->execute();
 
-                # devuelvo objeto pdostatement
-                return $pdost;
+            # devuelvo objeto pdostatement
+            return $pdostmt;
+        } catch (PDOException $e) {
 
-            } catch (PDOException $e) {
-
-                include_once('template/partials/errorDB.php');
-                exit();
-
-            }
+            include_once('template/partials/errorDB.php');
+            exit();
         }
+    }
 
-        public function filter($expresion) {
-            try {
-                $sql = "
+    public function filter($expresion)
+    {
+        try {
+            $sql = "
 
                 SELECT 
-                    albumes.id,
-                    concat_ws(', ', albumes.apellidos, albumes.nombre) alumno,
-                    albumes.email,
-                    albumes.telefono,
-                    albumes.poblacion,
-                    albumes.dni,
-                    timestampdiff(YEAR,  albumes.fechaNac, NOW() ) edad,
-                    cursos.nombreCorto curso
-                FROM
-                    albumes
-                INNER JOIN
-                    cursos
-                ON 
-                    albumes.id_curso = cursos.id
-                WHERE
-
+                id,
+                titulo,
+                descripcion,
+                autor,
+                fecha,
+                categoria,
+                etiquetas,
+                num_fotos,
+                num_visitas,
+                carpeta
+            FROM
+                albumes
+            WHERE
                     CONCAT_WS(  ', ', 
-                                albumes.id,
-                                albumes.nombre,
-                                albumes.apellidos,
-                                albumes.email,
-                                albumes.telefono,
-                                albumes.poblacion,
-                                albumes.dni,
-                                TIMESTAMPDIFF(YEAR, albumes.fechaNac, now()),
-                                albumes.fechaNac,
-                                cursos.nombreCorto,
-                                cursos.nombre) 
+                    id,
+                    titulo,
+                    descripcion,
+                    autor,
+                    fecha,
+                    categoria,
+                    etiquetas,
+                    num_fotos,
+                    num_visitas,
+                    carpeta) 
                     like :expresion
 
                 ORDER BY 
@@ -342,122 +327,53 @@
                 
                 ";
 
-                # Conectar con la base de datos
-                $conexion = $this->db->connect();
-
-                $pdost = $conexion->prepare($sql);
-                
-                $pdost->bindValue(':expresion', '%'.$expresion.'%', PDO::PARAM_STR);
-                $pdost->setFetchMode(PDO::FETCH_OBJ);
-                $pdost->execute();
-                return $pdost;
-
-            } catch (PDOException $e){
-
-                include_once('template/partials/errorDB.php');
-                exit();
-                
-            }
-
-    } 
-
-    # Validación email único
-    public function validateUniqueEmail($email) {
-        try {
-
-            $sql = " 
-
-                SELECT * FROM albumes 
-                WHERE email = :email
-            
-            ";
-
-            # conectamos con la base de datos
+            # Conectar con la base de datos
             $conexion = $this->db->connect();
+
             $pdost = $conexion->prepare($sql);
-            $pdost->bindParam(':email', $email, PDO::PARAM_STR);
+
+            $pdost->bindValue(':expresion', '%' . $expresion . '%', PDO::PARAM_STR);
+            $pdost->setFetchMode(PDO::FETCH_OBJ);
             $pdost->execute();
-
-            if ($pdost->rowCount() != 0) {
-                return FALSE;
-            }
-
-            return TRUE;
-
-
-        } catch(PDOException $e) {
+            return $pdost;
+        } catch (PDOException $e) {
 
             include_once('template/partials/errorDB.php');
             exit();
-
         }
     }
 
-    # Validación dni único
-    public function validateUniqueDNI($dni) {
+    public function obtenerCarpetaPorId($albumId)
+    {
         try {
+            $sql = "
+                        SELECT 
+                                carpeta
+                        FROM 
+                                albumes
+                        WHERE
+                                id = :id
+                ";
 
-            $sql = " 
-
-                SELECT * FROM albumes 
-                WHERE dni = :dni
-            
-            ";
-
-            # conectamos con la base de datos
+            # Conectar con la base de datos
             $conexion = $this->db->connect();
-            $pdost = $conexion->prepare($sql);
-            $pdost->bindParam(':dni', $dni, PDO::PARAM_STR);
-            $pdost->execute();
-
-            if ($pdost->rowCount() != 0) {
-                return FALSE;
-            }
-
-            return TRUE;
 
 
-        } catch(PDOException $e) {
+            $pdoSt = $conexion->prepare($sql);
 
+            $pdoSt->bindParam(':id', $albumId, PDO::PARAM_INT);
+            $pdoSt->setFetchMode(PDO::FETCH_OBJ);
+            $pdoSt->execute();
+
+            return $pdoSt->fetch();
+        } catch (PDOException $e) {
             include_once('template/partials/errorDB.php');
             exit();
-
         }
     }
 
-     # Validación curso
-     public function validateCurso($id_curso) {
-        try {
-
-            $sql = " 
-
-                SELECT * FROM cursos 
-                WHERE id = :id_curso
-            
-            ";
-
-            # conectamos con la base de datos
-            $conexion = $this->db->connect();
-            $pdost = $conexion->prepare($sql);
-            $pdost->bindParam(':id_curso', $id_curso, PDO::PARAM_INT);
-            $pdost->execute();
-
-            if ($pdost->rowCount() == 1) {
-                return TRUE;
-            }
-
-            return FALSE;
-
-
-        } catch(PDOException $e) {
-
-            include_once('template/partials/errorDB.php');
-            exit();
-
-        }
-    }
-
-    public function delete($id)  {
+    public function delete($id)
+    {
         try {
 
             $sql = "DELETE FROM albumes WHERE id = :id limit 1";
@@ -465,18 +381,19 @@
             $pdost = $conexion->prepare($sql);
             $pdost->bindParam(':id', $id, PDO::PARAM_INT);
             $pdost->execute();
-
         } catch (PDOException $e) {
-            
+
             include_once('template/partials/errorDB.php');
             exit();
-            
         }
     }
 
-
-
-
-    }  
-
-?>
+    public function validateFecha($fecha)
+    {
+        if (date('Y-m-d', strtotime($fecha)) == $fecha) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+}
