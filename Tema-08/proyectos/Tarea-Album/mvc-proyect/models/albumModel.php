@@ -121,8 +121,8 @@ class albumModel extends Model
                             :lugar,
                             :categoria,
                             :etiquetas,
-                            :num_fotos,
-                            :num_visitas,
+                            0,
+                            0,
                             :carpeta,
                             NOW()
                         )
@@ -142,8 +142,6 @@ class albumModel extends Model
             $pdoSt->bindParam(':lugar', $album->lugar, PDO::PARAM_STR, 50);
             $pdoSt->bindParam(':categoria', $album->categoria, PDO::PARAM_STR, 50);
             $pdoSt->bindParam(':etiquetas', $album->etiquetas, PDO::PARAM_STR, 250);
-            $pdoSt->bindParam(':num_fotos', $album->etiquetas, PDO::PARAM_INT, 5);
-            $pdoSt->bindParam(':num_visitas', $album->etiquetas, PDO::PARAM_INT, 5);
             $pdoSt->bindParam(':carpeta', $album->carpeta, PDO::PARAM_STR, 50);
 
             // Ejecutamos la consulta
@@ -195,8 +193,6 @@ class albumModel extends Model
                         lugar = :lugar,
                         categoria = :categoria,
                         etiquetas = :etiquetas,
-                        num_fotos = :num_fotos,
-                        num_visitas = :num_visitas,
                         carpeta = :carpeta
                 WHERE
                         id = :id
@@ -219,8 +215,6 @@ class albumModel extends Model
             $pdoSt->bindParam(':lugar', $album->lugar, PDO::PARAM_STR, 50);
             $pdoSt->bindParam(':categoria', $album->categoria, PDO::PARAM_STR, 50);
             $pdoSt->bindParam(':etiquetas', $album->etiquetas, PDO::PARAM_STR, 250);
-            $pdoSt->bindParam(':num_fotos', $album->num_fotos, PDO::PARAM_INT, 5);
-            $pdoSt->bindParam(':num_visitas', $album->num_visitas, PDO::PARAM_INT, 5);
             $pdoSt->bindParam(':carpeta', $album->carpeta, PDO::PARAM_STR, 50);
 
             // Cambiamos el nombre de la carpeta
@@ -396,4 +390,56 @@ class albumModel extends Model
             return false;
         }
     }
+
+    public function subirArchivo($ficheros, $carpeta)
+    {
+
+        $num = count($ficheros['tmp_name']);
+
+        # genero array de error de fichero
+        $FileUploadErrors = array(
+            0 => 'No hay error, fichero subido con éxito.',
+            1 => 'El fichero subido excede la directiva upload_max_filesize de php.ini.',
+            2 => 'El fichero subido excede la directiva MAX_FILE_SIZE especificada en el formulario HTML.',
+            3 => 'El fichero fue sólo parcialmente subido.',
+            4 => 'No se subió ningún fichero.',
+            6 => 'Falta la carpeta temporal.',
+            7 => 'No se pudo escribir el fichero en el disco.',
+            8 => 'Una extensión de PHP detuvo la subida de ficheros.',
+        );
+
+        $error = null;
+
+        for ($i = 0; $i <= $num - 1 && is_null($error); $i++) {
+            if ($ficheros['error'][$i] != UPLOAD_ERR_OK) {
+                $error = $FileUploadErrors[$ficheros['error'][$i]];
+            } else {
+                $tamMaximo = 4194304;
+                if ($ficheros['size'][$i] > $tamMaximo) {
+
+                    $error = "Archivo excede tamaño maximo 4MB";
+                }
+                $info = new SplFileInfo($ficheros['name'][$i]);
+                $tipos_permitidos = ['JPG', 'JPEG', 'GIF', 'PNG'];
+                if (!in_array(strtoupper($info->getExtension()), $tipos_permitidos)) {
+                    $error = "Archivo no permitido. Seleccione una imagen.";
+                }
+            }
+        }
+
+        if (is_null($error)) {
+            for ($i = 0; $i <= $num - 1; $i++) {
+                if (is_uploaded_file($ficheros['tmp_name'][$i])) {
+                    move_uploaded_file($ficheros['tmp_name'][$i], "images/" . $carpeta . "/" . $ficheros['name'][$i]);
+                }
+            }
+            $_SESSION['mensaje'] = "Los archivos se han subido correctamente";
+        } else {
+            $_SESSION['error'] = $error;
+        }
+    }
+
+
+
+
 }

@@ -99,13 +99,10 @@
 												'disabled' : null ?>">
 											<i class="bi bi-card-text"></i>
 										</a>
-										<!-- botón  subir imagen -->
-										<a href="<?= URL ?>album/add/<?= $album->id ?> ?>" title="Subir imagenes" class="btn btn-success
-											<?= (!in_array($_SESSION['id_rol'], $GLOBALS['album']['show'])) ?
-												'disabled' : null ?>">
-											<i class="bi bi-cloud-plus-fill"></i>
-										</a>
 
+										<!-- botón  subir imagen -->
+										<a href="#" title="Subir" data-bs-toggle="modal" data-bs-target="#subir<?= $album->id ?>" <?= (!in_array($_SESSION['id_rol'], $GLOBALS['album']['show'])) ? 'class = "btn disabled"' : null ?>>
+											<i class="bi bi-cloud-upload-fill"></i>
 									</td>
 								</tr>
 

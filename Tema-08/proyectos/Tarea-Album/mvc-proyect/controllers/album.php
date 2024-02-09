@@ -486,12 +486,16 @@ class Album extends Controller
                 unset($_SESSION['errores']);
             }
 
-            # etiqueta title de la vista
-            $this->view->title = "Subir Archivos - Gestión Album";
+            //Obtnego objeto de la clase album
+            $album = $this->model->read($param[0]);
 
+            $this->model->subirArchivo($_FILES['archivos'], $album->carpeta);
 
-            # cargo la vista con el formulario nuevo album
-            $this->view->render('album/add/index');
+            $numFotos = count(glob("images/" . $album->carpeta . "/*"));
+
+            $this->model->contadorFotos($album->id, $numFotos);
+
+            header("location :" . URL . "albumes");
         }
     }
 

@@ -110,30 +110,6 @@
                 <?php endif; ?>
             </div>
 
-            <!-- Número de Fotos -->
-            <div class="mb-3">
-                <label for="num_fotos" class="form-label">Número de Fotos</label>
-                <input type="number" class="form-control" name="num_fotos" value="<?= isset($this->album->num_fotos) ? $this->album->num_fotos : '' ?>">
-                <!-- Mostrar posible error -->
-                <?php if (isset($this->errores['num_fotos'])) : ?>
-                    <span class="form-text text-danger" role="alert">
-                        <?= $this->errores['num_fotos'] ?>
-                    </span>
-                <?php endif; ?>
-            </div>
-
-            <!-- Número de Visitas -->
-            <div class="mb-3">
-                <label for="num_visitas" class="form-label">Número de Visitas</label>
-                <input type="number" class="form-control" name="num_visitas" value="<?= isset($this->album->num_visitas) ? $this->album->num_visitas : '' ?>">
-                <!-- Mostrar posible error -->
-                <?php if (isset($this->errores['num_visitas'])) : ?>
-                    <span class="form-text text-danger" role="alert">
-                        <?= $this->errores['num_visitas'] ?>
-                    </span>
-                <?php endif; ?>
-            </div>
-
             <!-- Carpeta -->
             <div class="mb-3">
                 <label for="carpeta" class="form-label">Carpeta</label>
