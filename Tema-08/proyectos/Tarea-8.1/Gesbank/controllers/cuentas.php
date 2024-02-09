@@ -334,6 +334,8 @@ class Cuentas extends Controller
                     $errores['num_cuenta'] = 'El campo número de cuenta es obligatorio';
                 } else if (!filter_var($num_cuenta, FILTER_VALIDATE_REGEXP, $cuenta_regexp)) {
                     $errores['num_cuenta'] = 'El número de cuenta debe ser 20 números';
+                } else if (!$this->model->validateUniqueNumCuenta($num_cuenta)) {
+                    $errores['num_cuenta'] = 'El número de cuenta ya existe';
                 }
             }
 

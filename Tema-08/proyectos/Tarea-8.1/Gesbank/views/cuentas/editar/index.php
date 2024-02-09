@@ -26,8 +26,10 @@
             <!-- Número de cuenta -->
             <div class="mb-3">
                 <label for="" class="form-label">Numero de cuenta</label>
-                <input type="text" class="form-control" name="num_cuenta" value="<?= $this->cuenta->num_cuenta ?>">
+                <input type="text" class="form-control <?= (isset($this->errores['num_cuenta'])) ? 'is-invalid' : null ?>" name="num_cuenta" value="<?= $this->cuenta->num_cuenta ?>">
 
+
+                <!-- Mostrar posible error -->
                 <?php if (isset($this->errores['num_cuenta'])) : ?>
                     <span class="form-text text-danger" role="alert">
                         <?= $this->errores['num_cuenta'] ?>
@@ -49,6 +51,7 @@
                     <?php endforeach; ?>
                 </select>
 
+                <!-- Mostrar posible error -->
                 <?php if (isset($this->errores['id_cliente'])) : ?>
                     <span class="form-text text-danger" role="alert">
                         <?= $this->errores['id_cliente'] ?>
@@ -61,6 +64,7 @@
                 <label for="" class="form-label">Fecha alta</label>
                 <input type="datetime-local" class="form-control <?= (isset($this->errores['fecha_alta'])) ? 'is-invalid' : null ?>" name="fecha_alta" value="<?= $this->cuenta->fecha_alta ?>">
 
+                <!-- Mostrar posible error -->
                 <?php if (isset($this->errores['fecha_alta'])) : ?>
                     <span class="form-text text-danger" role="alert">
                         <?= $this->errores['fecha_alta'] ?>
@@ -71,7 +75,7 @@
             <!-- Fecha ultimo movimiento -->
             <div class="mb-3">
                 <label for="" class="form-label">Fecha Último Movimiento</label>
-                <input type="datetime-local" class="form-control <?= (isset($this->errores['fecha_ul_mov'])) ? 'is-invalid' : null ?>" name="fecha_ul_mov" value="<?= $this->cuenta->fecha_ul_mov ?>" readonly>
+                <input type="datetime-local" class="form-control <?= (isset($this->errores['fecha_ul_mov'])) ? 'is-invalid' : null ?>" name="fecha_ul_mov" value="<?= $this->cuenta->fecha_ul_mov ?>" disabled>
 
                 <?php if (isset($this->errores['fecha_ul_mov'])) : ?>
                     <span class="form-text text-danger" role="alert">
@@ -83,13 +87,13 @@
             <!-- Número de movimientos -->
             <div class="mb-3">
                 <label for="" class="form-label">Número de Movimientos</label>
-                <input type="number" class="form-control" name="num_movtos" id="" value="<?= $this->cuenta->num_movtos ?>" readonly>
+                <input type="number" class="form-control <?= (isset($this->errores['num_movtos'])) ? 'is-invalid' : null ?>" name="num_movtos" id="" value="<?= $this->cuenta->num_movtos ?>" disabled>
             </div>
 
             <!-- Saldo  -->
             <div class="mb-3">
                 <label for="" class="form-label">Saldo</label>
-                <input type="number" class="form-control" name="saldo" id="" step="0.01" value="<?= $this->cuenta->saldo ?>">
+                <input type="number" class="form-control <?= (isset($this->errores['saldo'])) ? 'is-invalid' : null ?>" name="saldo" id="" step="0.01" value="<?= $this->cuenta->saldo ?>">
 
                 <?php if (isset($this->errores['saldo'])) : ?>
                     <span class="form-text text-danger" role="alert">

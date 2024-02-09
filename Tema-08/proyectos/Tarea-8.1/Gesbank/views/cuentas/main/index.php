@@ -11,6 +11,7 @@
     <div class="container" style="padding-top: 2%;">
         <!-- menu fijo superior -->
         <?php require_once "template/partials/menuAut.php"; ?>
+        <br><br>
 
         <!-- cabecera  -->
         <?php include "views/cuentas/partials/header.php" ?>
@@ -21,7 +22,6 @@
         <table class="table">
             <thead>
                 <tr>
-
                     <th>Id </th>
                     <th>Numero de cuenta</th>
                     <th>Cliente</th>
@@ -30,7 +30,6 @@
                     <th class="text-end">Num_movtos</th>
                     <th class="text-end">Saldo</th>
                     <th>Acciones</th>
-
                 </tr>
             </thead>
             <tbody>

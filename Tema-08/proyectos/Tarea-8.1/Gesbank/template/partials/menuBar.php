@@ -13,12 +13,6 @@
         <li class="nav-item">
           <a class="nav-link active" aria-current="page" href="<?= URL ?>index">Home</a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link active" href="<?=URL?>clientes/">Clientes</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="<?=URL?>cuentas/">Cuentas</a>
-        </li>
       </ul>
       <div class="d-flex">
         <div class="collapse navbar-collapse" id="exCollapsingNavbar">

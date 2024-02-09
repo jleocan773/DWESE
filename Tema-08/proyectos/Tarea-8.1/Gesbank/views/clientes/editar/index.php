@@ -29,10 +29,10 @@
         <!-- Nombre -->
         <div class="mb-3">
             <label for="" class="form-label">Nombre</label>
-            <input type="text" class="form-control" name="nombre" value="<?= $this->cliente->nombre ?>">
+            <input type="text" class="form-control <?= (isset($this->errores['nombre'])) ? 'is-invalid' : null ?>" name="nombre" value="<?= $this->cliente->nombre ?>">
 
             <!-- Mostrar posible error -->
-            <?php if (isset($this->errores['nombre'])) : ?>
+            <?php if (isset($this->errores['nombre'])) : ?> 
                 <span class="form-text text-danger" role="alert">
                     <?= $this->errores['nombre'] ?>
                 </span>
@@ -42,7 +42,7 @@
         <!-- Apellidos -->
         <div class="mb-3">
             <label for="" class="form-label">Apellidos</label>
-            <input type="text" class="form-control" name="apellidos" value="<?= $this->cliente->apellidos ?>">
+            <input type="text" class="form-control <?= (isset($this->errores['apellidos'])) ? 'is-invalid' : null ?>" name="apellidos" value="<?= $this->cliente->apellidos ?>">
 
             <!-- Mostrar posible error -->
             <?php if (isset($this->errores['apellidos'])) : ?>
@@ -55,7 +55,7 @@
         <!-- Ciudad -->
         <div class="mb-3">
             <label for="" class="form-label">Ciudad</label>
-            <input type="text" class="form-control" name="ciudad" value="<?= $this->cliente->ciudad ?>">
+            <input type="text" class="form-control <?= (isset($this->errores['ciudad'])) ? 'is-invalid' : null ?>"" name="ciudad" value="<?= $this->cliente->ciudad ?>">
 
             <!-- Mostrar posible error -->
             <?php if (isset($this->errores['ciudad'])) : ?>
@@ -68,7 +68,7 @@
         <!-- Email -->
         <div class="mb-3">
             <label for="" class="form-label">Email</label>
-            <input type="email" class="form-control" name="email" id="" value="<?= $this->cliente->email ?>">
+            <input type="email" class="form-control <?= (isset($this->errores['email'])) ? 'is-invalid' : null ?>" name="email" id="" value="<?= $this->cliente->email ?>">
 
             <!-- Mostrar posible error -->
             <?php if (isset($this->errores['email'])) : ?>
@@ -81,7 +81,7 @@
         <!-- Telefono -->
         <div class="mb-3">
             <label for="" class="form-label">Telefono</label>
-            <input type="text" class="form-control" name="telefono" id="" value="<?= $this->cliente->telefono ?>">
+            <input type="text" class="form-control <?= (isset($this->errores['telefono'])) ? 'is-invalid' : null ?>" name="telefono" id="" value="<?= $this->cliente->telefono ?>">
 
             <!-- Mostrar posible error -->
             <?php if (isset($this->errores['telefono'])) : ?>
@@ -94,7 +94,7 @@
         <!-- DNI -->
         <div class="mb-3">
             <label for="" class="form-label">DNI</label>
-            <input type="text" class="form-control" name="dni" id="" value="<?= $this->cliente->dni ?>">
+            <input type="text" class="form-control <?= (isset($this->errores['dni'])) ? 'is-invalid' : null ?>" name="dni" id="" value="<?= $this->cliente->dni ?>">
 
             <!-- Mostrar posible error -->
             <?php if (isset($this->errores['dni'])) : ?>
