@@ -235,9 +235,6 @@ class Album extends Controller
             header('location:' . URL . 'album');
         } else {
 
-            # obtengo el id del album que voy a editar
-            // album/edit/4
-
             $id = $param[0];
 
             # asigno id a una propiedad de la vista
@@ -379,12 +376,12 @@ class Album extends Controller
                 header('location:' . URL . 'album/edit/' . $id);
             } else {
                 if (!empty($carpeta) && is_dir($rutaCarpetaOriginal)) {
-                    # Renombrar la carpeta
+                    //Renombramos la carpeta
                     if (rename($rutaCarpetaOriginal, $nuevaRutaCarpeta)) {
-                        # Actualizar el valor de la carpeta en el objeto del álbum
+                        //Actualizamos el valor de la carpeta en el objeto del álbum
                         $album->carpeta = $carpeta;
                     } else {
-                        # Si no se puede renombrar la carpeta, agregar un mensaje de error
+                        //Si no se puede renombrar la carpeta, agregar un mensaje de error
                         $errores['carpeta'] = 'No se pudo cambiar el nombre de la carpeta';
                     }
 
@@ -520,6 +517,17 @@ class Album extends Controller
             # obtenemos id del  album
             $id = $param[0];
 
+            //Para borrar la carpeta del album
+            //Obtenemos el nombre de la carpeta del álbum
+            $album = $this->model->getAlbum($id);
+            $carpeta = $album->carpeta;
+            $rutaCarpeta = "images/$carpeta";
+
+            # eliminar carpeta si existe
+            if (is_dir($rutaCarpeta)) {
+                $this->deleteDirectory($rutaCarpeta);
+            }
+
             # eliminar album
             $this->model->delete($id);
 
@@ -529,5 +537,17 @@ class Album extends Controller
             # redirecciono al main de albumes
             header('location:' . URL . 'album');
         }
+    }
+
+    //Función para eliminar la carpeta recursivamente
+    private function deleteDirectory($dir)
+    {
+        if (!file_exists($dir)) return true;
+        if (!is_dir($dir)) return unlink($dir);
+        foreach (scandir($dir) as $item) {
+            if ($item == '.' || $item == '..') continue;
+            if (!$this->deleteDirectory($dir . DIRECTORY_SEPARATOR . $item)) return false;
+        }
+        return rmdir($dir);
     }
 }
