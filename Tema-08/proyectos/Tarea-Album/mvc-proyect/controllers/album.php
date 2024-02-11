@@ -52,7 +52,6 @@ class Album extends Controller
         //Comprobar si el usuario está identificado
         if (!isset($_SESSION['id'])) {
             $_SESSION['mensaje'] = "Usuario No Autentificado";
-
             header("location:" . URL . "login");
         } else if ((!in_array($_SESSION['id_rol'], $GLOBALS['album']['show']))) {
             $_SESSION['mensaje'] = "Operación sin privilegios";
@@ -60,6 +59,10 @@ class Album extends Controller
         } else {
 
             $id = $param[0];
+
+            //Incrementamos el campo num_visitas en la base de datos ya que se ha mostrado el álbum
+            $this->model->incrementarVisitas($id);
+
             $this->view->title = "Formulario Álbum Mostar";
             $this->view->album = $this->model->getAlbum($id);
             $this->view->render("album/show/index");
@@ -244,7 +247,7 @@ class Album extends Controller
             $this->view->title = "Editar - Panel de control Albumes";
 
             # obtener objeto de la clase album
-            $this->view->album = $this->model->read($id);
+            $this->view->album = $this->model->getAlbum($id);
 
             # Comprobar si el formulario viene de una no validación
             if (isset($_SESSION['error'])) {
@@ -315,7 +318,7 @@ class Album extends Controller
             $id = $param[0];
 
             # Obtengo el  objeto album original
-            $album_orig = $this->model->read($id);
+            $album_orig = $this->model->getAlbum($id);
 
             // Obtener la ruta de la carpeta original
             $rutaCarpetaOriginal = "images/" . $album_orig->carpeta;
@@ -487,7 +490,7 @@ class Album extends Controller
             }
 
             //Obtnego objeto de la clase album
-            $album = $this->model->read($param[0]);
+            $album = $this->model->getAlbum($param[0]);
 
             $this->model->subirArchivo($_FILES['archivos'], $album->carpeta);
 
@@ -495,7 +498,7 @@ class Album extends Controller
 
             $this->model->contadorFotos($album->id, $numFotos);
 
-            header("location :" . URL . "albumes");
+            header("location:" . URL . "album");
         }
     }
 

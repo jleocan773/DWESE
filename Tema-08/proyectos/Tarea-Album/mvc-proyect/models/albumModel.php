@@ -155,28 +155,6 @@ class albumModel extends Model
         }
     }
 
-    public function read($id)
-    {
-
-        try {
-            $sql = "SELECT * FROM albumes WHERE id = :id";
-
-            # Conectar con la base de datos
-            $conexion = $this->db->connect();
-
-            $pdoSt = $conexion->prepare($sql);
-
-            $pdoSt->bindParam(':id', $id, PDO::PARAM_INT);
-            $pdoSt->setFetchMode(PDO::FETCH_OBJ);
-            $pdoSt->execute();
-
-            return $pdoSt->fetch();
-        } catch (PDOException $e) {
-            include_once('template/partials/errorDB.php');
-            exit();
-        }
-    }
-
     public function update(classAlbum $album, $id, $carpetaOrig)
     {
 
@@ -391,6 +369,36 @@ class albumModel extends Model
         }
     }
 
+
+    public function incrementarVisitas($id)
+    {
+        try {
+            $sql = "UPDATE albumes SET num_visitas = num_visitas + 1 WHERE id = :id";
+            $conexion = $this->db->connect();
+            $pdost = $conexion->prepare($sql);
+            $pdost->bindParam(':id', $id, PDO::PARAM_INT);
+            $pdost->execute();
+        } catch (PDOException $e) {
+            include_once('template/partials/errorDB.php');
+            exit();
+        }
+    }
+
+    public function contadorFotos($idAlbum, $numFotos)
+    {
+        try {
+            $sql = "UPDATE albumes SET num_fotos = :numFotos WHERE id = :idAlbum";
+            $conexion = $this->db->connect();
+            $pdost = $conexion->prepare($sql);
+            $pdost->bindParam(':numFotos', $numFotos, PDO::PARAM_INT);
+            $pdost->bindParam(':idAlbum', $idAlbum, PDO::PARAM_INT);
+            $pdost->execute();
+        } catch (PDOException $e) {
+            include_once('template/partials/errorDB.php');
+            exit();
+        }
+    }
+
     public function subirArchivo($ficheros, $carpeta)
     {
 
@@ -438,8 +446,4 @@ class albumModel extends Model
             $_SESSION['error'] = $error;
         }
     }
-
-
-
-
 }

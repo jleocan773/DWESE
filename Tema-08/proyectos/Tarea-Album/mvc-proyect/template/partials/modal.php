@@ -1,4 +1,4 @@
-<form action="<?= URL . 'albumes/subir' . $album->id ?>" method="post" enctype="multipart/form-data">
+<form action="<?= URL . 'albumes/subir/' . $album->id ?>" method="post" enctype="multipart/form-data">
     <!-- Modal Subir Archivos -->
     <div id="subir<?= $album->id ?>" class="modal" tabindex="-1">
         <div class="modal-dialog">

@@ -92,6 +92,33 @@
                 <input type="text" class="form-control" name="carpeta" value="<?= $this->album->carpeta ?>" disabled>
             </div>
 
+            <br><br>
+
+            <!-- Imágenes -->
+            <h2>Álbum</h2>
+            <div class="row">
+                <?php
+                //Obtenemos la ruta de la carpeta de imágenes
+                $rutaCarpeta = 'images/' . $this->album->carpeta;
+
+                //Obtenemos la lista de archivos
+                $archivos = scandir($rutaCarpeta);
+
+                //Filtramos los archivos para solo subir imágens jpg, jpeg, png y gif
+                $imagenes = array_filter($archivos, function ($archivo) {
+                    //Especificamos la extension de los archivos que se pueden subir
+                    $extension = strtolower(pathinfo($archivo, PATHINFO_EXTENSION));
+                    return in_array($extension, ['jpg', 'jpeg', 'png', 'gif']);
+                });
+
+                //Mostramos las imágenes
+                foreach ($imagenes as $imagen) : ?>
+                    <div class="col-md-3">
+                        <img src="<?= URL . $rutaCarpeta . '/' . $imagen ?>" class="img-fluid mb-2">
+                    </div>
+                <?php endforeach; ?>
+            </div>
+
             <!-- botones de acción -->
             <a class="btn btn-secondary" href="<?= URL ?>album" role="button">Volver</a>
 
