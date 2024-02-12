@@ -101,7 +101,7 @@
 									</a>
 
 									<!-- botón modal -->
-									<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#subir<?= $album->id ?>">
+									<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#subir<?= $album->id ?>">
 										<i class="bi bi-cloud-upload-fill"></i>
 									</button>
 
