@@ -3,7 +3,7 @@
 
 <head>
     <?php require_once("template/partials/head.php") ?>
-    <title>Login - FP Alumnos</title>
+    <title>Gestión Álbum</title>
 </head>
 
 
