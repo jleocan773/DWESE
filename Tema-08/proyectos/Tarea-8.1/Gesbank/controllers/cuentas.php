@@ -468,47 +468,114 @@ class Cuentas extends Controller
     }
 
     // Método de Exportación
-    public function exportarCSV($param = [])
+    public function exportar()
     {
-        //Obtenemos datos de cuentas
-        $cuentas = $this->model->get()->fetchAll(PDO::FETCH_ASSOC);
+        session_start();
 
-        //Ponemos el nombre del archivo
-        $csvExportado = 'cuentas.csv';
+        if (!isset($_SESSION['id'])) {
+            $_SESSION['mensaje'] = "Usuario no autentificado";
+            header("location:" . URL . "login");
+        } else if ((!in_array($_SESSION['id_rol'], $GLOBALS['cuentas']['exportar']))) {
+            $_SESSION['mensaje'] = "Operación sin privilegios";
+            header('location:' . URL . 'cuentas');
+        }
 
-        //Cabecera HTTP para indicar que se enviará un archivo CSV
+        $cuentas = $this->model->getCSV()->fetchAll(PDO::FETCH_ASSOC);
+
         header('Content-Type: text/csv');
-        header('Content-Disposition: attachment; filename="' . $csvExportado . '"');
+        header('Content-Disposition: attachment; filename="cuentas.csv"');
 
-        //Abrimos el archivo CSV
-        $archivo = fopen('php://output', 'w');
+        $ficheroExport = fopen('php://output', 'w');
 
-        //Escribimos la cabecera del CSV
-        fputcsv($archivo, array('id', 'num_cuenta', 'id_cliente', 'fecha_alta', 'fecha_ul_mov', 'num_movtos', 'saldo', 'create_at', 'update_at'), ';');
-
-        //Obtenemos la fecha y hora actual
-        $fechaHoraActual = date('Y-m-d H:i:s');
-
-        //Escribimos los datos al archivo CSV
+        // Iterar sobre las cuentas y escribir los datos en el archivo CSV
         foreach ($cuentas as $cuenta) {
-            //Reordenar los campos de la cuenta
+
+            $fecha = date("Y-m-d H:i:s");
+
+            $cuenta['create_at'] = $fecha;
+            $cuenta['update_at'] = $fecha;
+
             $cuenta = array(
-                'id' => $cuenta['id'],
                 'num_cuenta' => $cuenta['num_cuenta'],
                 'id_cliente' => $cuenta['id_cliente'],
                 'fecha_alta' => $cuenta['fecha_alta'],
                 'fecha_ul_mov' => $cuenta['fecha_ul_mov'],
                 'num_movtos' => $cuenta['num_movtos'],
                 'saldo' => $cuenta['saldo'],
-                'create_at' => $fechaHoraActual,
-                'update_at' => $fechaHoraActual
+                'create_at' => $cuenta['create_at'],
+                'update_at' => $cuenta['update_at']
             );
 
-            //Escribimos la información de la cuenta al archivo CSV
-            fputcsv($archivo, $cuenta, ';');
+            fputcsv($ficheroExport, $cuenta, ';');
         }
 
-        //Cerramos el archivo
-        fclose($archivo);
+        fclose($ficheroExport);
+    }
+
+
+    public function importar()
+    {
+        session_start();
+
+        if (!isset($_SESSION['id'])) {
+            $_SESSION['mensaje'] = "Usuario no autentificado";
+            header("location:" . URL . "login");
+            exit();
+        } else if ((!in_array($_SESSION['id_rol'], $GLOBALS['cuenta']['import']))) {
+            $_SESSION['mensaje'] = "Operación sin privilegios";
+            header('location:' . URL . 'cuentas');
+            exit();
+        }
+
+        if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_FILES["archivo_csv"]) && $_FILES["archivo_csv"]["error"] == UPLOAD_ERR_OK) {
+            $file = $_FILES["archivo_csv"]["tmp_name"];
+
+            $handle = fopen($file, "r");
+
+            if ($handle !== FALSE) {
+                while (($data = fgetcsv($handle, 1000, ";")) !== FALSE) {
+                    $num_cuenta = $data[0];
+                    $id_cliente = $data[1];
+                    $fecha_alta = $data[2];
+                    $fecha_ul_mov = $data[3];
+                    $num_movtos = $data[4];
+                    $saldo = $data[5];
+
+                    //Método para verificar número de cuenta único.
+                    if ($this->model->validateUniqueNumCuenta($num_cuenta)) {
+                        // Si no existe, crear una nueva cuenta
+                        $cuenta = new classCuenta();
+                        $cuenta->num_cuenta = $num_cuenta;
+                        $cuenta->id_cliente = $id_cliente;
+                        $cuenta->fecha_alta = $fecha_alta;
+                        $cuenta->fecha_ul_mov = $fecha_ul_mov;
+                        $cuenta->num_movtos = $num_movtos;
+                        $cuenta->saldo = $saldo;
+
+                        var_dump($cuenta);
+                        exit();
+
+                        //Usamos create para meter la cuenta en la base de datos
+                        $this->model->create($cuenta);
+                    } else {
+                        //Error de cuenta existente
+                        echo "Error, esta cuenta ya existe en la base de datos";
+                    }
+                }
+
+                fclose($handle);
+                $_SESSION['mensaje'] = "Importación realizada correctamente";
+                header('location:' . URL . 'clientes');
+                exit();
+            } else {
+                $_SESSION['error'] = "Error con el archivo CSV";
+                header('location:' . URL . 'clientes');
+                exit();
+            }
+        } else {
+            $_SESSION['error'] = "Seleccione un archivo CSV";
+            header('location:' . URL . 'clientes');
+            exit();
+        }
     }
 }

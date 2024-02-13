@@ -21,6 +21,8 @@
     $GLOBALS['clientes']['mostrar'] = [1,2,3];
     $GLOBALS['clientes']['buscar'] = [1,2,3];
     $GLOBALS['clientes']['ordenar'] = [1,2,3];
+    $GLOBALS['clientes']['exportar'] = [1];
+    $GLOBALS['clientes']['importar'] = [1];
 
     $GLOBALS['cuentas']['main'] = [1, 2, 3];
     $GLOBALS['cuentas']['nuevo'] = [1, 2];
@@ -29,3 +31,5 @@
     $GLOBALS['cuentas']['mostrar'] = [1,2,3];
     $GLOBALS['cuentas']['buscar'] = [1,2,3];
     $GLOBALS['cuentas']['ordenar'] = [1,2,3];
+    $GLOBALS['cuentas']['exportar'] = [1];
+    $GLOBALS['cuentas']['importar'] = [1];

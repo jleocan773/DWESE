@@ -502,55 +502,111 @@ class Clientes extends Controller
     }
 
     //Método de Exportación
-    public function exportarCSV($param = [])
+    public function exportar()
     {
-        //Obtenemos datos de clientes
-        $clientes = $this->model->get()->fetchAll(PDO::FETCH_ASSOC);
 
-        //Ponemos el nombre del archivo
-        $csvExportado = 'clientes.csv';
+        session_start();
 
-        //Cabecera HTTP para indicar que se enviará un archivo CSV
+        if (!isset($_SESSION['id'])) {
+            $_SESSION['mensaje'] = "Usuario no autentificado";
+
+            header("location:" . URL . "login");
+        } else if ((!in_array($_SESSION['id_rol'], $GLOBALS['clientes']['exportar']))) {
+            $_SESSION['mensaje'] = "Operación sin privilegios";
+            header('location:' . URL . 'clientes');
+        }
+
+        $clientes = $this->model->getCSV()->fetchAll(PDO::FETCH_ASSOC);
+
         header('Content-Type: text/csv');
-        header('Content-Disposition: attachment; filename="' . $csvExportado . '"');
+        header('Content-Disposition: attachment; filename="clientes.csv"');
 
-        //Abrimos el archivo CSV
-        $archivo = fopen('php://output', 'w');
+        $ficheroExport = fopen('php://output', 'w');
 
-        //Escribimos la cabecera del CSV
-        fputcsv($archivo, array('apellidos', 'nombre', 'telefono', 'ciudad', 'dni', 'email', 'create_at', 'update_at'), ';');
-
-        //Obtenemos la fecha y hora actual
-        $fechaHoraActual = date('Y-m-d H:i:s');
-
-        //Escribimos los datos al archivo CSV
         foreach ($clientes as $cliente) {
-            //Separar el campo "cliente" en "apellidos" y "nombre"
-            $nombreCompleto = explode(', ', $cliente['cliente']);
-            $apellidos = $nombreCompleto[0];
-            $nombre = $nombreCompleto[1];
+            $fecha = date("Y-m-d H:i:s");
 
-            //Eliminamos el campo "cliente" porque la base de datos usa "apellidos" y "nombre"
-            unset($cliente['cliente']);
+            $cliente['create_at'] = $fecha;
+            $cliente['update_at'] = $fecha;
 
-            //Reordenar los campos del cliente
             $cliente = array(
-                'apellidos' => $apellidos,
-                'nombre' => $nombre,
+                'apellidos' => $cliente['apellidos'],
+                'nombre' => $cliente['nombre'],
+                'email' => $cliente['email'],
                 'telefono' => $cliente['telefono'],
                 'ciudad' => $cliente['ciudad'],
                 'dni' => $cliente['dni'],
-                'email' => $cliente['email'],
-                'create_at' => $fechaHoraActual,
-                'update_at' => $fechaHoraActual
+                'create_at' => $cliente['create_at'],
+                'update_at' => $cliente['update_at']
             );
 
-            //Escribimos la información del cliente al archivo CSV
-            fputcsv($archivo, $cliente, ';');
+            fputcsv($ficheroExport, $cliente, ';');
         }
 
-        //Cerramos el archivo
-        fclose($archivo);
+        fclose($ficheroExport);
     }
 
+
+    public function importar()
+    {
+        session_start();
+
+        if (!isset($_SESSION['id'])) {
+            $_SESSION['mensaje'] = "Usuario no autentificado";
+            header("location:" . URL . "login");
+            exit();
+        } else if ((!in_array($_SESSION['id_rol'], $GLOBALS['clientes']['importar']))) {
+            $_SESSION['mensaje'] = "Operación sin privilegios";
+            header('location:' . URL . 'clientes');
+            exit();
+        }
+
+        if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_FILES["archivo_csv"]) && $_FILES["archivo_csv"]["error"] == UPLOAD_ERR_OK) {
+            $file = $_FILES["archivo_csv"]["tmp_name"];
+
+            $handle = fopen($file, "r");
+
+            if ($handle !== FALSE) {
+                while (($data = fgetcsv($handle, 1000, ";")) !== FALSE) {
+                    $apellidos = $data[0];
+                    $nombre = $data[1];
+                    $email = $data[2];
+                    $telefono = $data[3];
+                    $ciudad = $data[4];
+                    $dni = $data[5];
+
+                    //Método para verificar email y dni único.
+                    if ($this->model->validateUniqueEmail($email) && $this->model->validateDNI($dni)) {
+                        //Si no existe, crear un nuevo cliente
+                        $cliente = new classCliente();
+                        $cliente->apellidos = $apellidos;
+                        $cliente->nombre = $nombre;
+                        $cliente->email = $email;
+                        $cliente->telefono = $telefono;
+                        $cliente->ciudad = $ciudad;
+                        $cliente->dni = $dni;
+
+                        //Usamos create para meter el cliente en la base de datos
+                        $this->model->create($cliente);
+                    } else {
+                        //Error de cliente existente
+                        echo "Error, este cliente ya existe en la base de datos";
+                    }
+                }
+
+                fclose($handle);
+                $_SESSION['mensaje'] = "Importación realizada correctamente";
+                header('location:' . URL . 'clientes');
+                exit();
+            } else {
+                $_SESSION['error'] = "Error con el archivo CSV";
+                header('location:' . URL . 'clientes');
+                exit();
+            }
+        } else {
+            $_SESSION['error'] = "Seleccione un archivo CSV";
+            header('location:' . URL . 'clientes');
+            exit();
+        }
+    }
 }

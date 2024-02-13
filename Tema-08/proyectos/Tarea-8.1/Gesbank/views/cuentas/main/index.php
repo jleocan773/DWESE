@@ -16,8 +16,14 @@
         <!-- cabecera  -->
         <?php include "views/cuentas/partials/header.php" ?>
 
+        <!-- Mensaje de Error -->
+        <?php include 'template/partials/mensaje.php' ?>
+
         <!-- Menu principal -->
         <?php require_once "views/cuentas/partials/menu.php" ?>
+
+        <!-- Modal -->
+        <?php require "views/cuentas/partials/modal.php" ?>
 
         <table class="table">
             <thead>

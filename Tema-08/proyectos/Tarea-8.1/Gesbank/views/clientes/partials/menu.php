@@ -7,14 +7,17 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link <?= (in_array($_SESSION['id_rol'], $GLOBALS['clientes']['nuevo']) || in_array($_SESSION['id_rol'], $GLOBALS['cuentas']['nuevo'])) ? 'active' : 'disabled' ?>" aria-current="page" href="<?= URL ?>clientes/nuevo">Nuevo</a>
+                    <a class="nav-link <?= (in_array($_SESSION['id_rol'], $GLOBALS['clientes']['nuevo']) || in_array($_SESSION['id_rol'], $GLOBALS['clientes']['nuevo'])) ? 'active' : 'disabled' ?>" aria-current="page" href="<?= URL ?>clientes/nuevo">Nuevo</a>
                 </li>
                 <!-- Agregar opción para exportar CSV -->
                 <li class="nav-item">
-                    <a class="nav-link" href="<?= URL ?>clientes/exportarCSV">Exportar CSV</a>
+                    <a class="nav-link <?= (in_array($_SESSION['id_rol'], $GLOBALS['clientes']['exportar']) || in_array($_SESSION['id_rol'], $GLOBALS['clientes']['exportar'])) ? 'active' : 'disabled' ?>"" href=" <?= URL ?>clientes/exportar">Exportar CSV</a>
                 </li>
                 <!-- Agregar opción para importar CSV -->
-                
+                <li class="nav-item">
+                    <button type="button" class="nav-link btn btn-link <?= (in_array($_SESSION['id_rol'], $GLOBALS['clientes']['importar']) || in_array($_SESSION['id_rol'], $GLOBALS['clientes']['importar'])) ? '' : 'disabled' ?>" data-bs-toggle="modal" data-bs-target="#importarModal">Importar CSV</button>
+                </li>
+
                 <li class="nav-item dropdown">
                     <a class="nav-link <?= in_array($_SESSION['id_rol'], $GLOBALS['clientes']['ordenar']) ? 'active' : 'disabled' ?> dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         Ordenar
