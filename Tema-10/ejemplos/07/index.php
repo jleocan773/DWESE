@@ -35,17 +35,7 @@ try {
     $destinatario = 'jonyleoncanto@gmail.com';
     $remitente    = 'jonyleoncanto@gmail.com';
     $asunto       = "Email con PHPMailer";
-    $mensaje      = "
-    <h1>Lorem ipsum dolor sit amet</h1>
-    <b>Cádiz</b> consectetur adipiscing elit. 
-    Curabitur pellentesque metus sit amet tellus placerat, quis interdum nibh fermentum. 
-    Aenean porttitor arcu sit amet orci placerat aliquet. Sed in ex sed tellus volutpat 
-    finibus ac sed nibh. Mauris vitae magna nunc. Vivamus ornare massa imperdiet purus 
-    rhoncus, quis ultrices odio faucibus. Duis efficitur id urna nec semper. 
-    Vivamus rutrum ac felis id egestas. Duis consequat, eros vel luctus eleifend, 
-    ligula nibh hendrerit nibh, eget ultrices sapien eros ut ipsum. 
-    Donec vel sollicitudin elit, ut elementum diam.
-    ";
+    $mensaje      = file_get_contents('email/email.html');
 
     $mail->setFrom($remitente, 'Jonathan León');
     $mail->addAddress($destinatario, 'Jony');
@@ -54,13 +44,12 @@ try {
     // $mail->addBCC('bcc@example.com');
 
     //Attachments
-    // $mail->addAttachment('/var/tmp/file.tar.gz');         //Add attachments
-    // $mail->addAttachment('/tmp/image.jpg', 'new.jpg');    //Optional name
+    $mail->addEmbeddedImage("email/images/cacahuete.jpg", "images/mi_imagen.jpg");
 
     //Content
     $mail->isHTML(true);                                  //Set email format to HTML
     $mail->Subject = $asunto;
-    $mail->Body    = $mensaje;
+    $mail->msgHTML($mensaje);
     
     // Enviamos el mensaje
     $mail->send();

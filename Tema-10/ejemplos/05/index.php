@@ -54,8 +54,9 @@ try {
     // $mail->addBCC('bcc@example.com');
 
     //Attachments
-    // $mail->addAttachment('/var/tmp/file.tar.gz');         //Add attachments
-    // $mail->addAttachment('/tmp/image.jpg', 'new.jpg');    //Optional name
+    $mail->addAttachment('files/charmander.png');
+    $mail->addAttachment('files/cacahuete.jpg');
+    $mail->addAttachment('files/clientes.php', 'clientes2024.php'); //Con nombre opcional
 
     //Content
     $mail->isHTML(true);                                  //Set email format to HTML
