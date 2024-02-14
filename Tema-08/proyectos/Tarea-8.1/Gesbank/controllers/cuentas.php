@@ -562,16 +562,16 @@ class Cuentas extends Controller
 
                 fclose($handle);
                 $_SESSION['mensaje'] = "Importación realizada correctamente";
-                header('location:' . URL . 'clientes');
+                header('location:' . URL . 'cuentas');
                 exit();
             } else {
                 $_SESSION['error'] = "Error con el archivo CSV";
-                header('location:' . URL . 'clientes');
+                header('location:' . URL . 'cuentas');
                 exit();
             }
         } else {
             $_SESSION['error'] = "Seleccione un archivo CSV";
-            header('location:' . URL . 'clientes');
+            header('location:' . URL . 'cuentas');
             exit();
         }
     }
