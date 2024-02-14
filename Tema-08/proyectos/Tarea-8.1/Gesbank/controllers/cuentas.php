@@ -521,7 +521,7 @@ class Cuentas extends Controller
             $_SESSION['mensaje'] = "Usuario no autentificado";
             header("location:" . URL . "login");
             exit();
-        } else if ((!in_array($_SESSION['id_rol'], $GLOBALS['cuenta']['import']))) {
+        } else if ((!in_array($_SESSION['id_rol'], $GLOBALS['cuentas']['importar']))) {
             $_SESSION['mensaje'] = "Operación sin privilegios";
             header('location:' . URL . 'cuentas');
             exit();

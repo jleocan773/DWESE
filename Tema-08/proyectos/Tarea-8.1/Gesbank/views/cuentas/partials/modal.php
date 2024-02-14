@@ -5,7 +5,7 @@
                 <h5 class="modal-title" id="importModalLabel">Importar CSV</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form action="<?= URL ?>clientes/importar" method="POST" enctype="multipart/form-data">
+            <form action="<?= URL ?>cuentas/importar" method="POST" enctype="multipart/form-data">
                 <div class="modal-body">
                     <div class="mb-3">
                         <label for="archivo_csv" class="form-label">Seleccionar archivo</label>
