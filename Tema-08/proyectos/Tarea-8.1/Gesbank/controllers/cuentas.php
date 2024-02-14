@@ -552,9 +552,6 @@ class Cuentas extends Controller
                         $cuenta->num_movtos = $num_movtos;
                         $cuenta->saldo = $saldo;
 
-                        var_dump($cuenta);
-                        exit();
-
                         //Usamos create para meter la cuenta en la base de datos
                         $this->model->create($cuenta);
                     } else {
