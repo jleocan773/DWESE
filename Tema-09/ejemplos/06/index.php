@@ -1,17 +1,12 @@
 <?php
 
-/*
-    Hola mundo Clase FPDF
-    Mostrar una imagen en pdf
-*/
-
 //Cargamos clase FPDF
 require('fpdf/fpdf.php');
-require('class/pdfArticulos.php');
-require('datos/articulos.php');
+require('class/pdfClientes.php');
+require('datos/clientes.php');
 
-//Creamos una clase de pdfArticulos
-$pdf = new pdfArticulos();
+//Creamos una clase de pdfclientes
+$pdf = new pdfClientes();
 
 //Para la correcta numeración de páginas
 $pdf->AliasNbPages();
@@ -28,15 +23,18 @@ $pdf->Titulo();
 //Mostramos la cabecera de la tabla
 $pdf->Cabecera();
 
+//Definimos el tamaño y el tipo de fuente
+$pdf->SetFont('Times', '',   10);
+
 //Mostramos los detalles de cada artículo en el array de artículos
-foreach ($articulos as $articulo) {
-    $pdf->Cell(10, 7, iconv('UTF-8', 'ISO-8859-1', $articulo['id']), 0, 0, 'R');
-    $pdf->Cell(50, 7, iconv('UTF-8', 'ISO-8859-1', $articulo['Descripcion']), 0, 0, 'C');
-    $pdf->Cell(30, 7, iconv('UTF-8', 'ISO-8859-1', $articulo['Fabricante']), 0, 0, 'C');
-    $pdf->Cell(30, 7, iconv('UTF-8', 'ISO-8859-1', $articulo['Categoria']), 0, 0, 'C');
-    //Etiquetas es un array, hay que convertirlo en string con implode()
-    $pdf->Cell(40, 7, iconv('UTF-8', 'ISO-8859-1', implode(', ', $articulo['Etiquetas'])), 0, 0, 'C');
-    $pdf->Cell(30, 7, iconv('UTF-8', 'ISO-8859-1', $articulo['Precio']), 0, 1, 'R');
+foreach ($clientes as $cliente) {
+    $pdf->Cell(10, 7, iconv('UTF-8', 'ISO-8859-1', $cliente['id']), 0, 0, 'R');
+    $pdf->Cell(40, 7, iconv('UTF-8', 'ISO-8859-1', $cliente['Apellidos']), 0, 0, 'C');
+    $pdf->Cell(20, 7, iconv('UTF-8', 'ISO-8859-1', $cliente['Nombre']), 0, 0, 'C');
+    $pdf->Cell(25, 7, iconv('UTF-8', 'ISO-8859-1', $cliente['Teléfono']), 0, 0, 'C');
+    $pdf->Cell(35, 7, iconv('UTF-8', 'ISO-8859-1', $cliente['Ciudad']), 0, 0, 'C');
+    $pdf->Cell(20, 7, iconv('UTF-8', 'ISO-8859-1', $cliente['DNI']), 0, 0, 'C');
+    $pdf->Cell(40, 7, iconv('UTF-8', 'ISO-8859-1', $cliente['Email']), 0, 1, 'C');
 }
 
 
