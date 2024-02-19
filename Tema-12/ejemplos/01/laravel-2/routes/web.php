@@ -19,11 +19,11 @@ Route::get('/', function () {
 
 
 Route::get('/clientes', function () {
-    return "Vista Principal de Clientes";
+    return "Clientes";
 });
 
 Route::get('/clientes/new', function () {
-    return "Vista Nuevo Cliente";
+    return "New Cliente";
 });
 
 Route::get('/clientes/delete', function () {
