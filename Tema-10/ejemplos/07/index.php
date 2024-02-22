@@ -21,7 +21,7 @@ try {
 
     // Credenciales SMPT gmail
     $mail->Username = 'jonyleoncanto@gmail.com';
-    $mail->Password = 'nesu neft moww xfyy';
+    $mail->Password = 'bcfh wxwk oqpv zvks';
 
     // Configuración SMPT gmail
     $mail->SMTPDebug = 2;                                       //Enable verbose debug output
