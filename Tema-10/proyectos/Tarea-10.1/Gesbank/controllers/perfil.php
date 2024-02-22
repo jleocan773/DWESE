@@ -1,5 +1,13 @@
 <?php
 
+require_once 'PHPMailer/src/Exception.php';
+require_once 'PHPMailer/src/PHPMailer.php';
+require_once 'PHPMailer/src/SMTP.php';
+require_once 'PHPMailer/src/auth.php';
+
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+
 class Perfil extends Controller
 {
 
@@ -137,12 +145,52 @@ class Perfil extends Controller
             # Actualizamos perfil
             $this->model->update($user);
 
+            try {
+                // Configurar PHPMailer
+                $mail = new PHPMailer(true);
+                $mail->CharSet = "UTF-8";
+                $mail->Encoding = "quoted-printable";
+                $mail->isSMTP();
+                $mail->Host = 'smtp.gmail.com';
+                $mail->SMTPAuth = true;
+
+                $mail->Username = USUARIO;                                      // Cambiar por tu dirección de correo
+                $mail->Password = PASS;                                         // Cambiar por tu contraseña
+
+                $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+                $mail->Port = 587;
+
+                // Configurar destinatario, remitente, asunto y mensaje
+                $destinatario = $email;
+                $remitente = USUARIO;
+                $asuntoMail = "Cambio de información de tu Perfil";
+                $mensajeMail =
+                    "Has cambiado la información de tu perfil recientemente: <br><br>"
+                    . "Nuevo Nombre: " . $name . "<br>"
+                    . "Nuevo Email: " . $email . "<br>";
+
+                $mail->setFrom($remitente, $name);
+                $mail->addAddress($destinatario);
+                $mail->addReplyTo($remitente, $name);
+
+                $mail->isHTML(true);
+                $mail->Subject = $asuntoMail;
+                $mail->Body = $mensajeMail;
+
+                // Enviar correo electrónico
+                $mail->send();
+            } catch (Exception $e) {
+                // Manejar excepciones
+                $_SESSION['error'] = 'Error al enviar el mensaje: ' . $e->getMessage();
+            }
+
             $_SESSION['name_user'] = $name;
             $_SESSION['mensaje'] = 'Usuario modificado correctamente';
 
             header('location:' . URL . 'perfil');
         }
     }
+
 
     # Modificación del password
     public function pass()
@@ -201,6 +249,7 @@ class Perfil extends Controller
 
         # Obtenemos objeto con los detalles del usuario
         $user = $this->model->getUserId($_SESSION['id']);
+        $infoUsuario = $this->model->getUserId($_SESSION['id']);
 
         # Validaciones
         $errores = array();
@@ -239,6 +288,45 @@ class Perfil extends Controller
             # Actualiza password
             $this->model->updatePass($user);
 
+            try {
+                // Configurar PHPMailer
+                $mail = new PHPMailer(true);
+                $mail->CharSet = "UTF-8";
+                $mail->Encoding = "quoted-printable";
+                $mail->isSMTP();
+                $mail->Host = 'smtp.gmail.com';
+                $mail->SMTPAuth = true;
+
+                $mail->Username = USUARIO;                                      // Cambiar por tu dirección de correo
+                $mail->Password = PASS;                                         // Cambiar por tu contraseña
+
+                $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+                $mail->Port = 587;
+
+                // Configurar destinatario, remitente, asunto y mensaje
+                $destinatario = $infoUsuario->email;
+                $remitente = USUARIO;
+                $asuntoMail = "Cambio de información de tu Perfil";
+                $mensajeMail =
+                    "Has cambiado la contraseña de tu perfil recientemente: <br><br>"
+                    . "Nueva Contraseña: " . $password . "<br>";
+
+                $mail->setFrom($remitente, $infoUsuario->name);
+                $mail->addAddress($destinatario);
+                $mail->addReplyTo($remitente, $infoUsuario->name);
+
+                $mail->isHTML(true);
+                $mail->Subject = $asuntoMail;
+                $mail->Body = $mensajeMail;
+
+                // Enviar correo electrónico
+                $mail->send();
+            } catch (Exception $e) {
+                // Manejar excepciones
+                $_SESSION['error'] = 'Error al enviar el mensaje: ' . $e->getMessage();
+            }
+
+
             $_SESSION['mensaje'] = "Password modificado correctamente";
 
             #Vuelve corredores
@@ -259,6 +347,46 @@ class Perfil extends Controller
 
             header("location:" . URL . "login");
         } else {
+
+            try {
+                // Configurar PHPMailer
+                $infoUsuario = $this->model->getUserId($_SESSION['id']);
+                $mail = new PHPMailer(true);
+                $mail->CharSet = "UTF-8";
+                $mail->Encoding = "quoted-printable";
+                $mail->isSMTP();
+                $mail->Host = 'smtp.gmail.com';
+                $mail->SMTPAuth = true;
+
+                $mail->Username = USUARIO;                                      // Cambiar por tu dirección de correo
+                $mail->Password = PASS;                                         // Cambiar por tu contraseña
+
+                $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+                $mail->Port = 587;
+
+                // Configurar destinatario, remitente, asunto y mensaje
+                $destinatario = $infoUsuario->email;
+                $remitente = USUARIO;
+                $asuntoMail = "Eliminación de tu Perfil";
+                $mensajeMail =
+                    "Se ha eliminado tu cuenta que tenía la siguiente información: <br><br>"
+                    . "Nombre: " . $infoUsuario->name . "<br>"
+                    . "Email: " . $infoUsuario->email . "<br>";
+
+                $mail->setFrom($remitente, $infoUsuario->name);
+                $mail->addAddress($destinatario);
+                $mail->addReplyTo($remitente, $infoUsuario->name);
+
+                $mail->isHTML(true);
+                $mail->Subject = $asuntoMail;
+                $mail->Body = $mensajeMail;
+
+                // Enviar correo electrónico
+                $mail->send();
+            } catch (Exception $e) {
+                // Manejar excepciones
+                $_SESSION['error'] = 'Error al enviar el mensaje: ' . $e->getMessage();
+            }
 
             # Elimino perfil de usuario
             $this->model->delete($_SESSION['id']);

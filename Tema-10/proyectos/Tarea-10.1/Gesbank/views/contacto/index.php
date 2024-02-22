@@ -21,6 +21,9 @@
 
         <legend>Formulario Contacto</legend>
 
+        <!-- Mensaje -->
+        <?php include 'template/partials/mensaje.php' ?>
+
         <!-- Mensaje de Error -->
         <?php include 'template/partials/error.php' ?>
 
@@ -69,7 +72,7 @@
             <!-- Mensaje -->
             <div class="mb-3">
                 <label for="" class="form-label">Mensaje</label>
-                <textarea class="form-control <?= (isset($this->errores['textoMensaje'])) ? 'is-invalid' : null ?>" name="textoMensaje" value="<?= isset($this->contacto->textoMensaje) ? $this->contacto->textoMensaje : '' ?>"> </textarea>
+                <textarea class="form-control <?= (isset($this->errores['textoMensaje'])) ? 'is-invalid' : null ?>" name="textoMensaje"><?= isset($this->contacto->textoMensaje) ? $this->contacto->textoMensaje : '' ?></textarea>
 
                 <!-- Mostrar posible error -->
                 <?php if (isset($this->errores['textoMensaje'])) : ?>

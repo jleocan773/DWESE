@@ -212,7 +212,7 @@ class Cuentas extends Controller
             $this->model->delete($id);
 
             //Generar mensasje
-            $_SESSION['notify'] = 'Cuenta borrada correctamente';
+            $_SESSION['mensaje'] = 'Cuenta borrada correctamente';
 
             header("Location:" . URL . "cuentas");
         }

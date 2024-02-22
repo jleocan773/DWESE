@@ -25,7 +25,7 @@ class Clientes extends Controller
 
             # Comprobar si existe el mensaje
             if (isset($_SESSION['mensaje'])) {
-                $this->view->mensaje = $_SESSION['mensanje'];
+                $this->view->mensaje = $_SESSION['mensaje'];
                 unset($_SESSION['mensaje']);
             }
 
@@ -236,7 +236,7 @@ class Clientes extends Controller
             $this->model->delete($idCliente);
 
             //Generar mensaje
-            $_SESSION['notify'] = 'Cliente y cuentas asociadas borrados correctamente';
+            $_SESSION['mensaje'] = 'Cliente y cuentas asociadas borrados correctamente';
 
             header("Location:" . URL . "clientes");
         }
@@ -415,7 +415,7 @@ class Clientes extends Controller
 
             //4. Comprobar validación
             if (!empty($errores)) {
-                //Errores de validación
+                //Errores de validaciónn
                 //Transforma el objeto en un string
                 $_SESSION['cliente'] = serialize($cliente);
                 $_SESSION['error'] = 'Formulario no validado';
