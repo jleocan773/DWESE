@@ -33,7 +33,7 @@
             <!-- Nombre -->
             <div class="mb-3">
                 <label for="" class="form-label">Nombre</label>
-                <input type="text" class="form-control <?= (isset($this->errores['nombre'])) ? 'is-invalid' : null ?>" name="nombre" value="<?= isset($this->contacto->nombre) ? $this->contacto->nombre : '' ?>">
+                <input type="text" class="form-control <?= (isset($this->errores['nombre'])) ? 'is-invalid' : null ?>" name="nombre" value=<?=$this->contacto->nombre ?>>
 
                 <!-- Mostrar posible error -->
                 <?php if (isset($this->errores['nombre'])) : ?>

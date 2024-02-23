@@ -27,20 +27,33 @@ class Contacto extends Controller
         //Iniciar sesión
         session_start();
 
+        $this->view->contacto = new classContacto(); // Crear un objeto vacío
+
         # Comprobar si vuelvo de un registro no validado
-        if (isset($_SESSION['error'])) {
+        if (isset($_SESSION['error']))
+        {
             # Mensaje de error
             $this->view->error = $_SESSION['error'];
 
             # Recupero array de errores específicos
             $this->view->errores = $_SESSION['errores'];
 
+            // Deserializar objeto $contacto solo si hay un registro no validado
+            $this->view->contacto = isset($_SESSION['contacto']) ? unserialize($_SESSION['contacto']) : new classContacto();
+
+
             unset($_SESSION['error']);
             unset($_SESSION['errores']);
+            unset($_SESSION['contacto']);
+        } else
+        {
+            // Si no vuelves de un registro no validado, crea un objeto vacío
+            $this->view->contacto = new classContacto();
         }
 
         # Comprobar si existe el mensaje
-        if (isset($_SESSION['mensaje'])) {
+        if (isset($_SESSION['mensaje']))
+        {
             $this->view->mensaje = $_SESSION['mensaje'];
             unset($_SESSION['mensaje']);
         }
@@ -53,6 +66,26 @@ class Contacto extends Controller
         //Iniciar sesión
         session_start();
 
+        //Crear un objeto vacío
+        $this->view->contacto = new classContacto();
+
+        //Comprobar si vuelvo de un registro no validado
+        if (isset($_SESSION['error']))
+        {
+            //Mensaje de error
+            $this->view->error = $_SESSION['error'];
+
+            //Autorrellenar el formulario con los detalles del contacto
+            $this->view->contacto = unserialize($_SESSION['contacto']);
+
+            //Recupero array de errores específicos
+            $this->view->errores = $_SESSION['errores'];
+
+            unset($_SESSION['error']);
+            unset($_SESSION['errores']);
+            unset($_SESSION['contacto']);
+        }
+
         //1. Seguridad. Saneamos los datos del formulario
 
         //Si se introduce un campo vacío, se le otorga "nulo"
@@ -61,36 +94,48 @@ class Contacto extends Controller
         $asunto = filter_var($_POST['asunto'] ?? '', FILTER_SANITIZE_SPECIAL_CHARS);
         $textoMensaje = filter_var($_POST['textoMensaje'] ?? '', FILTER_SANITIZE_SPECIAL_CHARS);
 
+        //Creamos un contacto con los datos saneados
+        $contacto = new classContacto($nombre, $email, $asunto, $textoMensaje);
+
         //2. Validación de campos obligatorios
         $errores = [];
 
-        if (empty($nombre)) {
+        if (empty($nombre))
+        {
             $errores['nombre'] = 'El campo nombre es obligatorio';
         }
 
-        if (empty($email)) {
+        if (empty($email))
+        {
             $errores['email'] = 'El campo email es obligatorio';
-        } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL))
+        {
             $errores['email'] = 'Formato email incorrecto';
         }
 
-        if (empty($asunto)) {
+        if (empty($asunto))
+        {
             $errores['asunto'] = 'El campo asunto es obligatorio';
         }
 
-        if (empty($textoMensaje)) {
+        if (empty($textoMensaje))
+        {
             $errores['textoMensaje'] = 'El campo mensaje es obligatorio';
         }
 
         //3. Comprobar validación
-        if (!empty($errores)) {
+        if (!empty($errores))
+        {
             // Si hay errores, almacenarlos en la sesión y redirigir al formulario de contacto
+            $_SESSION['contacto'] = serialize($contacto);
             $_SESSION['error'] = "Formulario no validado";
             $_SESSION['errores'] = $errores;
             header('Location:' . URL . 'contacto');
             exit();
-        } else {
-            try {
+        } else
+        {
+            try
+            {
                 // Configurar PHPMailer
                 $mail = new PHPMailer(true);
                 $mail->CharSet = "UTF-8";
@@ -106,7 +151,7 @@ class Contacto extends Controller
                 $mail->Port = 587;
 
                 // Configurar destinatario, remitente, asunto y mensaje
-                $destinatario = $email;                                         
+                $destinatario = $email;
                 $remitente = USUARIO;
                 $asuntoMail = $asunto;
                 $mensajeMail = $textoMensaje;
@@ -126,7 +171,8 @@ class Contacto extends Controller
                 $_SESSION['mensaje'] = 'Mensaje enviado correctamente.';
                 header('Location:' . URL . 'contacto');
                 exit();
-            } catch (Exception $e) {
+            } catch (Exception $e)
+            {
                 // Manejar excepciones
                 $_SESSION['error'] = 'Error al enviar el mensaje: ' . $e->getMessage();
                 header('Location:' . URL . 'contacto');
