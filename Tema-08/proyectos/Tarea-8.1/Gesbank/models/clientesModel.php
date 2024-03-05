@@ -323,9 +323,7 @@ class clientesModel extends Model
                         clientes.ciudad,
                         clientes.dni
                     FROM
-                        clientes
-                    ORDER BY 
-                        id";
+                        clientes";
 
             # conectamos con la base de datos
 
