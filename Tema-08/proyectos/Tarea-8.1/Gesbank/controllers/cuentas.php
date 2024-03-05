@@ -13,17 +13,21 @@ class Cuentas extends Controller
         session_start();
 
         //Comprobar si el usuario está identificado
-        if (!isset($_SESSION['id'])) {
+        if (!isset($_SESSION['id']))
+        {
             $_SESSION['mensaje'] = "Usuario No Autentificado";
 
             header("location:" . URL . "login");
-        } else if ((!in_array($_SESSION['id_rol'], $GLOBALS['cuentas']['main']))) {
+        } else if ((!in_array($_SESSION['id_rol'], $GLOBALS['cuentas']['main'])))
+        {
             $_SESSION['mensaje'] = "Operación sin privilegios";
             header('location:' . URL . 'cuentas');
-        } else {
+        } else
+        {
 
             # Comprobar si existe el mensaje
-            if (isset($_SESSION['mensaje'])) {
+            if (isset($_SESSION['mensaje']))
+            {
                 $this->view->mensaje = $_SESSION['mensaje'];
                 unset($_SESSION['mensaje']);
             }
@@ -44,20 +48,24 @@ class Cuentas extends Controller
         session_start();
 
         //Comprobar si el usuario está identificado
-        if (!isset($_SESSION['id'])) {
+        if (!isset($_SESSION['id']))
+        {
             $_SESSION['mensaje'] = "Usuario No Autentificado";
 
             header("location:" . URL . "login");
-        } else if ((!in_array($_SESSION['id_rol'], $GLOBALS['cuentas']['nuevo']))) {
+        } else if ((!in_array($_SESSION['id_rol'], $GLOBALS['cuentas']['nuevo'])))
+        {
             $_SESSION['mensaje'] = "Operación sin privilegios";
             header('location:' . URL . 'cuentas');
-        } else {
+        } else
+        {
 
             # Creamos un objeto vacío
             $this->view->cuenta = new classCuenta();
 
             # Comprobamos si existen errores
-            if (isset($_SESSION['error'])) {
+            if (isset($_SESSION['error']))
+            {
                 //Añadimos a la vista el mensaje de error
                 $this->view->error = $_SESSION['error'];
 
@@ -91,14 +99,17 @@ class Cuentas extends Controller
         session_start();
 
         //Comprobar si el usuario está identificado
-        if (!isset($_SESSION['id'])) {
+        if (!isset($_SESSION['id']))
+        {
             $_SESSION['mensaje'] = "Usuario No Autentificado";
 
             header("location:" . URL . "login");
-        } else if ((!in_array($_SESSION['id_rol'], $GLOBALS['cuentas']['nuevo']))) {
+        } else if ((!in_array($_SESSION['id_rol'], $GLOBALS['cuentas']['nuevo'])))
+        {
             $_SESSION['mensaje'] = "Operación sin privilegios";
             header('location:' . URL . 'cuentas');
-        } else {
+        } else
+        {
 
             //1. Seguridad. Saneamos los datos del formulario
 
@@ -115,7 +126,7 @@ class Cuentas extends Controller
                 $num_cuenta,
                 $id_cliente,
                 $fecha_alta,
-                date("d-m-Y H:i:s"),
+                date("Y-m-d\TH:i"),
                 0,
                 $saldo,
                 null,
@@ -132,39 +143,50 @@ class Cuentas extends Controller
                     'regexp' => '/^[0-9]{20}$/'
                 ]
             ];
-            if (empty($num_cuenta)) {
+            if (empty($num_cuenta))
+            {
                 $errores['num_cuenta'] = 'El campo número de cuenta es obligatorio';
-            } else if (!filter_var($num_cuenta, FILTER_VALIDATE_REGEXP, $cuenta_regexp)) {
+            } else if (!filter_var($num_cuenta, FILTER_VALIDATE_REGEXP, $cuenta_regexp))
+            {
                 $errores['num_cuenta'] = 'El número de cuenta debe ser 20 números';
-            } else if (!$this->model->validateUniqueNumCuenta($num_cuenta)) {
+            } else if (!$this->model->validateUniqueNumCuenta($num_cuenta))
+            {
                 $errores['num_cuenta'] = "Este número de cuenta ya existe";
             }
 
             //Cliente. Campo obligatorio, valor numérico, debe existir en la tabla de clientes
-            if (empty($id_cliente)) {
+            if (empty($id_cliente))
+            {
                 $errores['id_cliente'] = 'El campo cliente es obligatorio';
-            } else if (!filter_var($id_cliente, FILTER_VALIDATE_INT)) {
+            } else if (!filter_var($id_cliente, FILTER_VALIDATE_INT))
+            {
                 $errores['id_cliente'] = 'Deberá introducir un valor númerico en este campo';
-            } else if (!$this->model->validateCliente($id_cliente)) {
+            } else if (!$this->model->validateCliente($id_cliente))
+            {
                 $errores['id_cliente'] = 'El cliente seleccionado no existe';
             }
 
             //Fecha alta. Campo obligatorio, con formato valido
-            if (empty($fecha_alta)) {
+            if (empty($fecha_alta))
+            {
                 $errores['fecha_alta'] = 'El campo fecha alta es obligatorio';
-            } else if (!$this->model->validateFechaAlta($fecha_alta)) {
+            } else if (!$this->model->validateFechaAlta($fecha_alta))
+            {
                 $errores['fecha_alta'] = 'La fecha no tiene un formato correcto';
             }
 
             //Saldo: Obligatorio, valor numérico
-            if (empty($saldo)) {
+            if (empty($saldo))
+            {
                 $errores['saldo'] = 'El campo saldo es obligatorio';
-            } else if (!is_numeric($saldo)) {
+            } else if (!is_numeric($saldo))
+            {
                 $errores['saldo'] = 'El campo saldo debe ser numérico';
             }
 
             # 4. Comprobar validación
-            if (!empty($errores)) {
+            if (!empty($errores))
+            {
                 //Errores de validación
                 $_SESSION['cuenta'] = serialize($cuenta);
                 $_SESSION['error'] = 'Formulario no validado';
@@ -172,7 +194,8 @@ class Cuentas extends Controller
 
                 //Redireccionamos de nuevo al formulario
                 header('location:' . URL . 'cuentas/nuevo/index');
-            } else {
+            } else
+            {
                 # Añadimos el registro a la tabla
                 $this->model->create($cuenta);
 
@@ -194,14 +217,17 @@ class Cuentas extends Controller
         session_start();
 
         //Comprobar si el usuario está identificado
-        if (!isset($_SESSION['id'])) {
+        if (!isset($_SESSION['id']))
+        {
             $_SESSION['mensaje'] = "Usuario No Autentificado";
 
             header("location:" . URL . "login");
-        } else if ((!in_array($_SESSION['id_rol'], $GLOBALS['cuentas']['delete']))) {
+        } else if ((!in_array($_SESSION['id_rol'], $GLOBALS['cuentas']['delete'])))
+        {
             $_SESSION['mensaje'] = "Operación sin privilegios";
             header('location:' . URL . 'cuentas');
-        } else {
+        } else
+        {
 
             //Obteneemos id del objeto
             $id = $param[0];
@@ -210,7 +236,7 @@ class Cuentas extends Controller
             $this->model->delete($id);
 
             //Generar mensasje
-            $_SESSION['notify'] = 'Cuenta borrada correctamente';
+            $_SESSION['mensaje'] = 'Cuenta borrada correctamente';
 
             header("Location:" . URL . "cuentas");
         }
@@ -226,14 +252,17 @@ class Cuentas extends Controller
         session_start();
 
         //Comprobar si el usuario está identificado
-        if (!isset($_SESSION['id'])) {
+        if (!isset($_SESSION['id']))
+        {
             $_SESSION['mensaje'] = "Usuario No Autentificado";
 
             header("location:" . URL . "login");
-        } else if ((!in_array($_SESSION['id_rol'], $GLOBALS['cuentas']['editar']))) {
+        } else if ((!in_array($_SESSION['id_rol'], $GLOBALS['cuentas']['editar'])))
+        {
             $_SESSION['mensaje'] = "Operación sin privilegios";
             header('location:' . URL . 'cuentas');
-        } else {
+        } else
+        {
 
             //Para generar la lista select dinámica de clientes
             $this->view->clientes = $this->model->getClientes();
@@ -251,7 +280,8 @@ class Cuentas extends Controller
             $this->view->cuenta = $this->model->getCuenta($id);
 
             //Comprobar si el formulario viene de una validación
-            if (isset($_SESSION['error'])) {
+            if (isset($_SESSION['error']))
+            {
 
                 # Mensaje de error
                 $this->view->error = $_SESSION['error'];
@@ -282,14 +312,17 @@ class Cuentas extends Controller
         session_start();
 
         //Comprobar si el usuario está identificado
-        if (!isset($_SESSION['id'])) {
+        if (!isset($_SESSION['id']))
+        {
             $_SESSION['mensaje'] = "Usuario No Autentificado";
 
             header("location:" . URL . "login");
-        } else if ((!in_array($_SESSION['id_rol'], $GLOBALS['cuentas']['editar']))) {
+        } else if ((!in_array($_SESSION['id_rol'], $GLOBALS['cuentas']['editar'])))
+        {
             $_SESSION['mensaje'] = "Operación sin privilegios";
             header('location:' . URL . 'cuentas');
-        } else {
+        } else
+        {
 
             //1. Seguridad. Saneamos los datos del formulario
 
@@ -306,7 +339,7 @@ class Cuentas extends Controller
                 $num_cuenta,
                 $id_cliente,
                 $fecha_alta,
-                date("d-m-Y H:i:s"),
+                date("Y-m-d\TH:i"),
                 0,
                 $saldo,
                 null,
@@ -329,45 +362,59 @@ class Cuentas extends Controller
                     'regexp' => '/^[0-9]{20}$/'
                 ]
             ];
-            if (strcmp($cuenta->num_cuenta, $objOriginal->num_cuenta) !== 0) {
-                if (empty($num_cuenta)) {
+            if (strcmp($cuenta->num_cuenta, $objOriginal->num_cuenta) !== 0)
+            {
+                if (empty($num_cuenta))
+                {
                     $errores['num_cuenta'] = 'El campo número de cuenta es obligatorio';
-                } else if (!filter_var($num_cuenta, FILTER_VALIDATE_REGEXP, $cuenta_regexp)) {
+                } else if (!filter_var($num_cuenta, FILTER_VALIDATE_REGEXP, $cuenta_regexp))
+                {
                     $errores['num_cuenta'] = 'El número de cuenta debe ser 20 números';
-                } else if (!$this->model->validateUniqueNumCuenta($num_cuenta)) {
+                } else if (!$this->model->validateUniqueNumCuenta($num_cuenta))
+                {
                     $errores['num_cuenta'] = 'El número de cuenta ya existe';
                 }
             }
 
             //Cliente. Campo obligatorio, valor numérico, debe existir en la tabla de clientes
-            if (strcmp($cuenta->id_cliente, $objOriginal->id_cliente) !== 0) {
-                if (empty($id_cliente)) {
+            if (strcmp($cuenta->id_cliente, $objOriginal->id_cliente) !== 0)
+            {
+                if (empty($id_cliente))
+                {
                     $errores['id_cliente'] = 'El campo cliente es obligatorio';
-                } else if (!filter_var($id_cliente, FILTER_VALIDATE_INT)) {
+                } else if (!filter_var($id_cliente, FILTER_VALIDATE_INT))
+                {
                     $errores['id_cliente'] = 'Deberá introducir un valor númerico en este campo';
-                } else if (!$this->model->validateCliente($id_cliente)) {
+                } else if (!$this->model->validateCliente($id_cliente))
+                {
                     $errores['id_cliente'] = 'El cliente seleccionado no existe';
                 }
             }
 
             //Fecha alta. Campo obligatorio, con formato valido
-            if (strcmp($cuenta->id_cliente, $objOriginal->id_cliente) !== 0) {
-                if (empty($fecha_alta)) {
+            if (strcmp($cuenta->id_cliente, $objOriginal->id_cliente) !== 0)
+            {
+                if (empty($fecha_alta))
+                {
                     $errores['fecha_alta'] = 'El campo fecha alta es obligatorio';
-                } else if (!$this->model->validateFechaAlta($fecha_alta)) {
+                } else if (!$this->model->validateFechaAlta($fecha_alta))
+                {
                     $errores['fecha_alta'] = 'La fecha no tiene un formato correcto';
                 }
             }
 
             //Saldo: Obligatorio, valor numérico
-            if (empty($saldo)) {
+            if (empty($saldo))
+            {
                 $errores['saldo'] = 'El campo saldo es obligatorio';
-            } else if (!is_numeric($saldo)) {
+            } else if (!is_numeric($saldo))
+            {
                 $errores['saldo'] = 'El campo saldo debe ser numérico';
             }
 
             //4. Comprobar validación
-            if (!empty($errores)) {
+            if (!empty($errores))
+            {
                 //Errores de validación
                 //Transforma el objeto en un string
                 $_SESSION['cuenta'] = serialize($cuenta);
@@ -376,7 +423,8 @@ class Cuentas extends Controller
 
                 //Redireccionamos a edit
                 header('Location:' . URL . 'cuentas/editar/' . $id);
-            } else {
+            } else
+            {
                 //Actualizamos el elemento
                 $this->model->update($cuenta, $id);
 
@@ -401,14 +449,17 @@ class Cuentas extends Controller
         $id = $param[0];
 
         //Comprobar si el usuario está identificado
-        if (!isset($_SESSION['id'])) {
+        if (!isset($_SESSION['id']))
+        {
             $_SESSION['mensaje'] = "Usuario No Autentificado";
 
             header("location:" . URL . "login");
-        } else if ((!in_array($_SESSION['id_rol'], $GLOBALS['cuentas']['mostrar']))) {
+        } else if ((!in_array($_SESSION['id_rol'], $GLOBALS['cuentas']['mostrar'])))
+        {
             $_SESSION['mensaje'] = "Operación sin privilegios";
             header('location:' . URL . 'cuentas');
-        } else {
+        } else
+        {
 
             $this->view->title = "Formulario Cuenta Mostar";
             $this->view->cuenta = $this->model->getCuenta($id);
@@ -426,14 +477,17 @@ class Cuentas extends Controller
         session_start();
 
         //Comprobar si el usuario está identificado
-        if (!isset($_SESSION['id'])) {
+        if (!isset($_SESSION['id']))
+        {
             $_SESSION['mensaje'] = "Usuario No Autentificado";
 
             header("location:" . URL . "login");
-        } else if ((!in_array($_SESSION['id_rol'], $GLOBALS['cuentas']['ordenar']))) {
+        } else if ((!in_array($_SESSION['id_rol'], $GLOBALS['cuentas']['ordenar'])))
+        {
             $_SESSION['mensaje'] = "Operación sin privilegios";
             header('location:' . URL . 'cuentas');
-        } else {
+        } else
+        {
 
             $criterio = $param[0];
             $this->view->title = "Tabla Cuentas";
@@ -450,14 +504,17 @@ class Cuentas extends Controller
         session_start();
 
         //Comprobar si el usuario está identificado
-        if (!isset($_SESSION['id'])) {
+        if (!isset($_SESSION['id']))
+        {
             $_SESSION['mensaje'] = "Usuario No Autentificado";
 
             header("location:" . URL . "login");
-        } else if ((!in_array($_SESSION['id_rol'], $GLOBALS['cuentas']['buscar']))) {
+        } else if ((!in_array($_SESSION['id_rol'], $GLOBALS['cuentas']['buscar'])))
+        {
             $_SESSION['mensaje'] = "Operación sin privilegios";
             header('location:' . URL . 'cuentas');
-        } else {
+        } else
+        {
 
 
             $expresion = $_GET["expresion"];
@@ -472,10 +529,12 @@ class Cuentas extends Controller
     {
         session_start();
 
-        if (!isset($_SESSION['id'])) {
+        if (!isset($_SESSION['id']))
+        {
             $_SESSION['mensaje'] = "Usuario no autentificado";
             header("location:" . URL . "login");
-        } else if ((!in_array($_SESSION['id_rol'], $GLOBALS['cuentas']['exportar']))) {
+        } else if ((!in_array($_SESSION['id_rol'], $GLOBALS['cuentas']['exportar'])))
+        {
             $_SESSION['mensaje'] = "Operación sin privilegios";
             header('location:' . URL . 'cuentas');
         }
@@ -488,9 +547,10 @@ class Cuentas extends Controller
         $ficheroExport = fopen('php://output', 'w');
 
         // Iterar sobre las cuentas y escribir los datos en el archivo CSV
-        foreach ($cuentas as $cuenta) {
+        foreach ($cuentas as $cuenta)
+        {
 
-            $fecha = date("Y-m-d H:i:s");
+            $fecha = date("Y-m-d\H:i");
 
             $cuenta['create_at'] = $fecha;
             $cuenta['update_at'] = $fecha;
@@ -517,23 +577,28 @@ class Cuentas extends Controller
     {
         session_start();
 
-        if (!isset($_SESSION['id'])) {
+        if (!isset($_SESSION['id']))
+        {
             $_SESSION['mensaje'] = "Usuario no autentificado";
             header("location:" . URL . "login");
             exit();
-        } else if ((!in_array($_SESSION['id_rol'], $GLOBALS['cuentas']['importar']))) {
+        } else if ((!in_array($_SESSION['id_rol'], $GLOBALS['cuentas']['importar'])))
+        {
             $_SESSION['mensaje'] = "Operación sin privilegios";
             header('location:' . URL . 'cuentas');
             exit();
         }
 
-        if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_FILES["archivo_csv"]) && $_FILES["archivo_csv"]["error"] == UPLOAD_ERR_OK) {
+        if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_FILES["archivo_csv"]) && $_FILES["archivo_csv"]["error"] == UPLOAD_ERR_OK)
+        {
             $file = $_FILES["archivo_csv"]["tmp_name"];
 
             $handle = fopen($file, "r");
 
-            if ($handle !== FALSE) {
-                while (($data = fgetcsv($handle, 1000, ";")) !== FALSE) {
+            if ($handle !== FALSE)
+            {
+                while (($data = fgetcsv($handle, 1000, ";")) !== FALSE)
+                {
                     $num_cuenta = $data[0];
                     $id_cliente = $data[1];
                     $fecha_alta = $data[2];
@@ -542,7 +607,8 @@ class Cuentas extends Controller
                     $saldo = $data[5];
 
                     //Método para verificar número de cuenta único.
-                    if ($this->model->validateUniqueNumCuenta($num_cuenta)) {
+                    if ($this->model->validateUniqueNumCuenta($num_cuenta))
+                    {
                         // Si no existe, crear una nueva cuenta
                         $cuenta = new classCuenta();
                         $cuenta->num_cuenta = $num_cuenta;
@@ -552,27 +618,78 @@ class Cuentas extends Controller
                         $cuenta->num_movtos = $num_movtos;
                         $cuenta->saldo = $saldo;
 
-                        //Usamos create para meter la cuenta en la base de datos
-                        $this->model->create($cuenta);
-                    } else {
-                        //Error de cuenta existente
-                        echo "Error, esta cuenta ya existe en la base de datos";
+                        # 3. Validación
+                        $errores = [];
+
+                        //Número de la cuenta. Campo obligatorio, tamaño de 20 dígitos númericos, valor único (clave segundaria)
+                        //Expresión regular (REGEXP)
+                        $cuenta_regexp = [
+                            'options' => [
+                                'regexp' => '/^[0-9]{20}$/'
+                            ]
+                        ];
+                        if (empty($num_cuenta))
+                        {
+                            $errores['num_cuenta'] = 'El campo número de cuenta es obligatorio';
+                        } else if (!filter_var($num_cuenta, FILTER_VALIDATE_REGEXP, $cuenta_regexp))
+                        {
+                            $errores['num_cuenta'] = 'El número de cuenta debe ser 20 números';
+                        } else if (!$this->model->validateUniqueNumCuenta($num_cuenta))
+                        {
+                            $errores['num_cuenta'] = "Este número de cuenta ya existe";
+                        }
+
+                        //Cliente. Campo obligatorio, valor numérico, debe existir en la tabla de clientes
+                        if (empty($id_cliente))
+                        {
+                            $errores['id_cliente'] = 'El campo cliente es obligatorio';
+                        } else if (!filter_var($id_cliente, FILTER_VALIDATE_INT))
+                        {
+                            $errores['id_cliente'] = 'Deberá introducir un valor númerico en este campo';
+                        } else if (!$this->model->validateCliente($id_cliente))
+                        {
+                            $errores['id_cliente'] = 'El cliente seleccionado no existe';
+                        }
+
+                        //Fecha alta. Campo obligatorio, con formato valido
+                        if (empty($fecha_alta))
+                        {
+                            $errores['fecha_alta'] = 'El campo fecha alta es obligatorio';
+                        } else if (!$this->model->validateFechaAlta($fecha_alta))
+
+                        //Saldo: Obligatorio, valor numérico
+                        if (empty($saldo))
+                        {
+                            $errores['saldo'] = 'El campo saldo es obligatorio';
+                        } else if (!is_numeric($saldo))
+                        {
+                            $errores['saldo'] = 'El campo saldo debe ser numérico';
+                        }
+
+                        # 4. Comprobar validación
+                        if (!empty($errores))
+                        {
+                            //Errores de validación
+                            $_SESSION['cuenta'] = serialize($cuenta);
+                            $_SESSION['error'] = 'Importación no validada';
+                            $_SESSION['errores'] = $errores;
+
+                            //Redireccionamos de nuevo al formulario
+                            header('location:' . URL . 'cuentas');
+                        } else
+                        {
+                            # Añadimos el registro a la tabla
+                            $this->model->create($cuenta);
+
+                            //Crearemos un mensaje, indicando que se ha realizado dicha acción
+                            $_SESSION['mensaje'] = "Importación realizada.";
+
+                            // Redireccionamos a la vista principal de cuentas
+                            header("Location:" . URL . "cuentas");
+                        }
                     }
                 }
-
-                fclose($handle);
-                $_SESSION['mensaje'] = "Importación realizada correctamente";
-                header('location:' . URL . 'cuentas');
-                exit();
-            } else {
-                $_SESSION['error'] = "Error con el archivo CSV";
-                header('location:' . URL . 'cuentas');
-                exit();
             }
-        } else {
-            $_SESSION['error'] = "Seleccione un archivo CSV";
-            header('location:' . URL . 'cuentas');
-            exit();
         }
     }
 }
