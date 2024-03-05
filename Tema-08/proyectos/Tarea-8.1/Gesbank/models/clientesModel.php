@@ -338,7 +338,7 @@ class clientesModel extends Model
             $pdost = $conexion->prepare($sql);
 
             # establecemos  tipo fetch
-            $pdost->setFetchMode(PDO::FETCH_OBJ);
+            $pdost->setFetchMode(PDO::FETCH_ASSOC);
 
             #  ejecutamos 
             $pdost->execute();
