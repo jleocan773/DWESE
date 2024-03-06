@@ -192,4 +192,53 @@ class Movimientos extends Controller
             }
         }
     }
+
+    # Método ordenar
+    # Permite ordenar la tabla cuenta a partir de alguna de las columnas de la tabla
+    function ordenar($param = [])
+    {
+        //Inicio o continuo sesión
+        session_start();
+
+        //Comprobar si el usuario está identificado
+        if (!isset($_SESSION['id'])) {
+            $_SESSION['mensaje'] = "Usuario No Autentificado";
+
+            header("location:" . URL . "login");
+        } else if ((!in_array($_SESSION['id_rol'], $GLOBALS['movimientos']['ordenar']))) {
+            $_SESSION['mensaje'] = "Operación sin privilegios";
+            header('location:' . URL . 'movimientos');
+        } else {
+
+            $criterio = $param[0];
+            $this->view->title = "Tabla Movimientos";
+            $this->view->movimientos = $this->model->order($criterio);
+            $this->view->render("movimientos/main/index");
+        }
+    }
+
+    # Método buscar
+    # Permite realizar una búsqueda en la tabla cuentas a partir de una expresión
+    function buscar($param = [])
+    {
+        //Inicio o continuo sesión
+        session_start();
+
+        //Comprobar si el usuario está identificado
+        if (!isset($_SESSION['id'])) {
+            $_SESSION['mensaje'] = "Usuario No Autentificado";
+
+            header("location:" . URL . "login");
+        } else if ((!in_array($_SESSION['id_rol'], $GLOBALS['movimientos']['buscar']))) {
+            $_SESSION['mensaje'] = "Operación sin privilegios";
+            header('location:' . URL . 'movimientos');
+        } else {
+
+
+            $expresion = $_GET["expresion"];
+            $this->view->title = "Tabla Movimientos";
+            $this->view->movimientos = $this->model->filter($expresion);
+            $this->view->render("movimientos/main/index");
+        }
+    }
 }

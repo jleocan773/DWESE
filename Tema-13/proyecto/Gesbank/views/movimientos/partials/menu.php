@@ -27,11 +27,12 @@
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                         <li><a class="dropdown-item" href="<?= URL ?>movimientos/ordenar/1">ID</a></li>
-                        <li><a class="dropdown-item" href="<?= URL ?>movimientos/ordenar/2">Cliente</a></li>
-                        <li><a class="dropdown-item" href="<?= URL ?>movimientos/ordenar/6">Email</a></li>
-                        <li><a class="dropdown-item" href="<?= URL ?>movimientos/ordenar/3">Telefono</a></li>
-                        <li><a class="dropdown-item" href="<?= URL ?>movimientos/ordenar/5">dni</a></li>
-                        <li><a class="dropdown-item" href="<?= URL ?>movimientos/ordenar/4">ciudad</a></li>
+                        <li><a class="dropdown-item" href="<?= URL ?>movimientos/ordenar/2">Nº Cuenta</a></li>
+                        <li><a class="dropdown-item" href="<?= URL ?>movimientos/ordenar/3">Fecha Hora</a></li>
+                        <li><a class="dropdown-item" href="<?= URL ?>movimientos/ordenar/4">Concepto</a></li>
+                        <li><a class="dropdown-item" href="<?= URL ?>movimientos/ordenar/5">Tipo</a></li>
+                        <li><a class="dropdown-item" href="<?= URL ?>movimientos/ordenar/6">Cantidad</a></li>
+                        <li><a class="dropdown-item" href="<?= URL ?>movimientos/ordenar/7">Saldo</a></li>
                     </ul>
                 </li>
 
