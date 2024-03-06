@@ -35,9 +35,15 @@
     $GLOBALS['cuentas']['exportar'] = [1];
     $GLOBALS['cuentas']['importar'] = [1];
     $GLOBALS['cuentas']['pdf'] = [1,2];
-
+    
     $GLOBALS['movimientos']['main'] = [1, 2, 3];
+    $GLOBALS['movimientos']['nuevo'] = [1, 2];
     $GLOBALS['movimientos']['mostrar'] = [1,2,3];
     $GLOBALS['movimientos']['buscar'] = [1,2,3];
     $GLOBALS['movimientos']['ordenar'] = [1,2,3];
-
+    $GLOBALS['movimientos']['exportar'] = [1];
+    $GLOBALS['movimientos']['importar'] = [1];
+    $GLOBALS['movimientos']['pdf'] = [1,2];
+    
+    
+    

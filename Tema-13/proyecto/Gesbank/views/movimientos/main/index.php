@@ -14,54 +14,42 @@
         <br><br>
 
         <!-- cabecera  -->
-        <?php include "views/clientes/partials/header.php" ?>
+        <?php include "views/movimientos/partials/header.php" ?>
 
         <!-- Mensaje de Error -->
         <?php include 'template/partials/mensaje.php' ?>
 
         <!-- Menu principal -->
-        <?php require_once "views/clientes/partials/menu.php" ?>
+        <?php require_once "views/movimientos/partials/menu.php" ?>
 
-        <!-- Modal -->
-        <?php require "views/clientes/partials/modal.php" ?>
-
-        <!-- tabla clientes -->
+        <!-- tabla movimientos -->
         <table class="table">
             <thead>
                 <tr>
                     <th>Id </th>
-                    <th>Cliente</th>
-                    <th>Email</th>
-                    <th>Telefono</th>
-                    <th>Ciudad</th>
-                    <th>DNI</th>
-                    <th>Acciones</th>
+                    <th>Nº Cuenta</th>
+                    <th>Fecha Hora</th>
+                    <th>Concepto</th>
+                    <th>Tipo</th>
+                    <th class="text-end">Cantidad</th>
+                    <th class="text-end">Saldo</th>
                 </tr>
             </thead>
             <tbody>
-                <?php foreach ($this->clientes as $cliente) : ?>
+                <?php foreach ($this->movimientos as $movimiento) : ?>
                     <tr>
-                        <td><?= $cliente->id ?></td>
-                        <td><?= $cliente->cliente ?></td>
-                        <td><?= $cliente->email ?></td>
-                        <td><?= $cliente->telefono ?></td>
-                        <td><?= $cliente->ciudad ?></td>
-                        <td><?= $cliente->dni ?></td>
+                        <td><?= $movimiento->id ?></td>
+                        <td><?= $movimiento->cuenta ?></td>
+                        <td><?= $movimiento->fecha_hora ?></td>
+                        <td><?= $movimiento->concepto ?></td>
+                        <td><?= $movimiento->tipo ?></td>
+                        <td class="text-end"><?= number_format($movimiento->cantidad, 0, ',', '.') ?></td>
+                        <td class="text-end"><?= number_format($movimiento->saldo, 2, ',', '.') ?> €</td>
 
                         <!-- botones de acción -->
                         <td>
-                            <!-- botón eliminar -->
-                            <a href="<?= URL ?>clientes/delete/<?= $cliente->id ?>" title="Eliminar" class="btn btn-danger <?= (!in_array($_SESSION['id_rol'], $GLOBALS['clientes']['delete'])) ? 'disabled' : '' ?>" onclick="return confirm('Confirmar eliminación del Cliente')">
-                                <i class="bi bi-trash"></i>
-                            </a>
-
-                            <!-- botón editar -->
-                            <a href="<?= URL ?>clientes/editar/<?= $cliente->id ?>" title="Editar" class="btn btn-primary <?= (!in_array($_SESSION['id_rol'], $GLOBALS['clientes']['editar'])) ? 'disabled' : '' ?>">
-                                <i class="bi bi-pencil"></i>
-                            </a>
-
                             <!-- botón mostrar -->
-                            <a href="<?= URL ?>clientes/mostrar/<?= $cliente->id ?>" title="Mostrar" class="btn btn-warning <?= (!in_array($_SESSION['id_rol'], $GLOBALS['clientes']['mostrar'])) ? 'disabled' : '' ?>">
+                            <a href="<?= URL ?>movimientos/mostrar/<?= $movimiento->id ?>" title="Mostrar" class="btn btn-warning <?= (!in_array($_SESSION['id_rol'], $GLOBALS['movimientos']['mostrar'])) ? 'disabled' : '' ?>">
                                 <i class="bi bi-card-text"></i>
                             </a>
                         </td>
@@ -71,7 +59,7 @@
             </tbody>
             <tfoot>
                 <tr>
-                    <td colspan="8">Nº Registros: <?= $this->clientes->rowCount() ?> </td>
+                    <td colspan="8">Nº Registros: <?= $this->movimientos->rowCount() ?> </td>
                 </tr>
             </tfoot>
 

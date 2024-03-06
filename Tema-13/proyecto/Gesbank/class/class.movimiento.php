@@ -3,7 +3,7 @@
 
 // No respeta la propiedad de encapsulamiento
 
-class Movimiento
+class classMovimiento
 {
 
     public $id;
