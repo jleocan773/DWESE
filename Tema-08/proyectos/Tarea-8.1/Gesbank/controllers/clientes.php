@@ -11,21 +11,17 @@ class Clientes extends Controller
         session_start();
 
         //Comprobar si el usuario está identificado
-        if (!isset($_SESSION['id']))
-        {
+        if (!isset($_SESSION['id'])) {
             $_SESSION['mensaje'] = "Usuario No Autentificado";
 
             header("location:" . URL . "login");
-        } else if ((!in_array($_SESSION['id_rol'], $GLOBALS['clientes']['main'])))
-        {
+        } else if ((!in_array($_SESSION['id_rol'], $GLOBALS['clientes']['main']))) {
             $_SESSION['mensaje'] = "Operación sin privilegios";
             header('location:' . URL . 'clientes');
-        } else
-        {
+        } else {
 
             # Comprobar si existe el mensaje
-            if (isset($_SESSION['mensaje']))
-            {
+            if (isset($_SESSION['mensaje'])) {
                 $this->view->mensaje = $_SESSION['mensaje'];
                 unset($_SESSION['mensaje']);
             }
@@ -48,24 +44,20 @@ class Clientes extends Controller
         session_start();
 
         //Comprobar si el usuario está identificado
-        if (!isset($_SESSION['id']))
-        {
+        if (!isset($_SESSION['id'])) {
             $_SESSION['mensaje'] = "Usuario No Autentificado";
 
             header("location:" . URL . "login");
-        } else if ((!in_array($_SESSION['id_rol'], $GLOBALS['clientes']['nuevo'])))
-        {
+        } else if ((!in_array($_SESSION['id_rol'], $GLOBALS['clientes']['nuevo']))) {
             $_SESSION['mensaje'] = "Operación sin privilegios";
             header('location:' . URL . 'clientes');
-        } else
-        {
+        } else {
 
             //Crear un objeto vacío
             $this->view->cliente = new classCliente();
 
             //Comprobar si vuelvo de un registro no validado
-            if (isset($_SESSION['error']))
-            {
+            if (isset($_SESSION['error'])) {
 
                 //Mensaje de error
                 $this->view->error = $_SESSION['error'];
@@ -98,17 +90,14 @@ class Clientes extends Controller
         session_start();
 
         //Comprobar si el usuario está identificado
-        if (!isset($_SESSION['id']))
-        {
+        if (!isset($_SESSION['id'])) {
             $_SESSION['mensaje'] = "Usuario No Autentificado";
 
             header("location:" . URL . "login");
-        } else if ((!in_array($_SESSION['id_rol'], $GLOBALS['clientes']['nuevo'])))
-        {
+        } else if ((!in_array($_SESSION['id_rol'], $GLOBALS['clientes']['nuevo']))) {
             $_SESSION['mensaje'] = "Operación sin privilegios";
             header('location:' . URL . 'clientes');
-        } else
-        {
+        } else {
 
             //1. Seguridad. Saneamos los datos del formulario
 
@@ -139,38 +128,30 @@ class Clientes extends Controller
             $errores = [];
 
             //Apellidos: Obligatorio
-            if (empty($apellidos))
-            {
+            if (empty($apellidos)) {
                 $errores['apellidos'] = 'El campo apellidos es obligatorio';
-            } elseif (strlen($apellidos) > 45)
-            {
+            } elseif (strlen($apellidos) > 45) {
                 $errores['apellidos'] = 'El campo apellidos no debe superar los 45 caracteres';
             }
 
             //Nombre: Obligatorio
-            if (empty($nombre))
-            {
+            if (empty($nombre)) {
                 $errores['nombre'] = 'El campo nombre es obligatorio';
-            } elseif (strlen($nombre) > 20)
-            {
+            } elseif (strlen($nombre) > 20) {
                 $errores['nombre'] = 'El campo nombre no debe superar los 20 caracteres';
             }
 
             //Teléfono: Obligatorio
-            if (empty($telefono))
-            {
+            if (empty($telefono)) {
                 $errores['telefono'] = 'El campo telefono es obligatorio';
-            } elseif (!is_numeric($telefono) || strlen($telefono) !== 9)
-            {
+            } elseif (!is_numeric($telefono) || strlen($telefono) !== 9) {
                 $errores['telefono'] = 'El teléfono debe ser numérico y tener 9 dígitos';
             }
 
             //Ciudad: Obligatorio
-            if (empty($ciudad))
-            {
+            if (empty($ciudad)) {
                 $errores['ciudad'] = 'El campo ciudad es obligatorio';
-            } elseif (strlen($ciudad) > 20)
-            {
+            } elseif (strlen($ciudad) > 20) {
                 $errores['ciudad'] = 'El campo ciudad no debe superar los 20 caracteres';
             }
 
@@ -181,32 +162,25 @@ class Clientes extends Controller
                 ]
             ];
 
-            if (empty($dni))
-            {
+            if (empty($dni)) {
                 $errores['dni'] = 'El campo dni es obligatorio';
-            } else if (!filter_var($dni, FILTER_VALIDATE_REGEXP, $options))
-            {
+            } else if (!filter_var($dni, FILTER_VALIDATE_REGEXP, $options)) {
                 $errores['dni'] = 'Formato de DNI incorrecto';
-            } else if (!$this->model->validateDNI($dni))
-            {
+            } else if (!$this->model->validateDNI($dni)) {
                 $errores['dni'] = 'El dni ya existe';
             }
 
             //Email: Obligatorio
-            if (empty($email))
-            {
+            if (empty($email)) {
                 $errores['email'] = 'El campo email es obligatorio';
-            } else if (!filter_var($email, FILTER_VALIDATE_EMAIL))
-            {
+            } else if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
                 $errores['email'] = 'Formato email incorrecto';
-            } else if (!$this->model->validateUniqueEmail($email))
-            {
+            } else if (!$this->model->validateUniqueEmail($email)) {
                 $errores['email'] = 'El email ya existe';
             }
 
             //4. Comprobar validación
-            if (!empty($errores))
-            {
+            if (!empty($errores)) {
                 //Errores de validación
                 //Transforma el objeto en un string
                 $_SESSION['cliente'] = serialize($cliente);
@@ -215,8 +189,7 @@ class Clientes extends Controller
 
                 //Redireccionamos a new
                 header('Location:' . URL . 'clientes/nuevo');
-            } else
-            {
+            } else {
                 //Añadir registro a la tabla
                 $this->model->create($cliente);
 
@@ -238,16 +211,13 @@ class Clientes extends Controller
         session_start();
 
         //Comprobar si el usuario está identificado
-        if (!isset($_SESSION['id']))
-        {
+        if (!isset($_SESSION['id'])) {
             $_SESSION['mensaje'] = "Usuario No Autentificado";
             header("location:" . URL . "login");
-        } else if ((!in_array($_SESSION['id_rol'], $GLOBALS['clientes']['delete'])))
-        {
+        } else if ((!in_array($_SESSION['id_rol'], $GLOBALS['clientes']['delete']))) {
             $_SESSION['mensaje'] = "Operación sin privilegios";
             header('location:' . URL . 'clientes');
-        } else
-        {
+        } else {
             //Obteneemos id del cliente
             $idCliente = $param[0];
 
@@ -255,8 +225,7 @@ class Clientes extends Controller
             $cuentasDelCliente = $this->model->getCuentasDelCliente($idCliente);
 
             // Eliminar cada cuenta asociada al cliente
-            foreach ($cuentasDelCliente as $cuenta)
-            {
+            foreach ($cuentasDelCliente as $cuenta) {
                 $this->model->deleteCuentas($cuenta->id);
             }
 
@@ -280,17 +249,14 @@ class Clientes extends Controller
         session_start();
 
         //Comprobar si el usuario está identificado
-        if (!isset($_SESSION['id']))
-        {
+        if (!isset($_SESSION['id'])) {
             $_SESSION['mensaje'] = "Usuario No Autentificado";
 
             header("location:" . URL . "login");
-        } else if ((!in_array($_SESSION['id_rol'], $GLOBALS['clientes']['editar'])))
-        {
+        } else if ((!in_array($_SESSION['id_rol'], $GLOBALS['clientes']['editar']))) {
             $_SESSION['mensaje'] = "Operación sin privilegios";
             header('location:' . URL . 'clientes');
-        } else
-        {
+        } else {
 
             //Obtengo el id del elemento que voy a editar
             $id = $param[0];
@@ -305,8 +271,7 @@ class Clientes extends Controller
             $this->view->cliente = $this->model->getCliente($id);
 
             //Comprobar si el formulario viene de una validación
-            if (isset($_SESSION['error']))
-            {
+            if (isset($_SESSION['error'])) {
 
                 # Mensaje de error
                 $this->view->error = $_SESSION['error'];
@@ -337,17 +302,14 @@ class Clientes extends Controller
         session_start();
 
         //Comprobar si el usuario está identificado
-        if (!isset($_SESSION['id']))
-        {
+        if (!isset($_SESSION['id'])) {
             $_SESSION['mensaje'] = "Usuario No Autentificado";
 
             header("location:" . URL . "login");
-        } else if ((!in_array($_SESSION['id_rol'], $GLOBALS['clientes']['editar'])))
-        {
+        } else if ((!in_array($_SESSION['id_rol'], $GLOBALS['clientes']['editar']))) {
             $_SESSION['mensaje'] = "Operación sin privilegios";
             header('location:' . URL . 'clientes');
-        } else
-        {
+        } else {
 
             //1. Seguridad. Saneamos los datos del formulario
 
@@ -386,91 +348,70 @@ class Clientes extends Controller
             //Como este es el método de edición, hay que comparar el string con strcmp
 
             //Apellidos: Obligatorio
-            if (strcmp($cliente->apellidos, $objOriginal->apellidos) !== 0)
-            {
-                if (empty($apellidos))
-                {
+            if (strcmp($cliente->apellidos, $objOriginal->apellidos) !== 0) {
+                if (empty($apellidos)) {
                     $errores['apellidos'] = 'El campo apellidos es obligatorio';
-                } elseif (strlen($apellidos) > 45)
-                {
+                } elseif (strlen($apellidos) > 45) {
                     $errores['apellidos'] = 'El campo apellidos no debe superar los 45 caracteres';
                 }
             }
 
             //Nombre: Obligatorio
-            if (strcmp($cliente->nombre, $objOriginal->nombre) !== 0)
-            {
-                if (empty($nombre))
-                {
+            if (strcmp($cliente->nombre, $objOriginal->nombre) !== 0) {
+                if (empty($nombre)) {
                     $errores['nombre'] = 'El campo nombre es obligatorio';
-                } elseif (strlen($nombre) > 20)
-                {
+                } elseif (strlen($nombre) > 20) {
                     $errores['nombre'] = 'El campo nombre no debe superar los 20 caracteres';
                 }
             }
 
             //Teléfono: Obligatorio
-            if (strcmp($cliente->telefono, $objOriginal->telefono) !== 0)
-            {
-                if (empty($telefono))
-                {
+            if (strcmp($cliente->telefono, $objOriginal->telefono) !== 0) {
+                if (empty($telefono)) {
                     $errores['telefono'] = 'El campo telefono es obligatorio';
-                } elseif (!is_numeric($telefono) || strlen($telefono) !== 9)
-                {
+                } elseif (!is_numeric($telefono) || strlen($telefono) !== 9) {
                     $errores['telefono'] = 'El teléfono debe ser numérico y tener 9 dígitos';
                 }
             }
             //Ciudad: Obligatorio
-            if (strcmp($cliente->ciudad, $objOriginal->ciudad) !== 0)
-            {
-                if (empty($ciudad))
-                {
+            if (strcmp($cliente->ciudad, $objOriginal->ciudad) !== 0) {
+                if (empty($ciudad)) {
                     $errores['ciudad'] = 'El campo ciudad es obligatorio';
-                } elseif (strlen($ciudad) > 20)
-                {
+                } elseif (strlen($ciudad) > 20) {
                     $errores['ciudad'] = 'El campo ciudad no debe superar los 20 caracteres';
                 }
             }
 
             //DNI: Obligatorio y Válido
-            if (strcmp($cliente->dni, $objOriginal->dni) !== 0)
-            {
+            if (strcmp($cliente->dni, $objOriginal->dni) !== 0) {
                 $options = [
                     'options' => [
                         'regexp' => '/^(\d{8})([A-Z])$/'
                     ]
                 ];
 
-                if (empty($dni))
-                {
+                if (empty($dni)) {
                     $errores['dni'] = 'El campo dni es obligatorio';
-                } else if (!filter_var($dni, FILTER_VALIDATE_REGEXP, $options))
-                {
+                } else if (!filter_var($dni, FILTER_VALIDATE_REGEXP, $options)) {
                     $errores['dni'] = 'Formato de DNI incorrecto';
-                } else if (!$this->model->validateDNI($dni))
-                {
+                } else if (!$this->model->validateDNI($dni)) {
                     $errores['dni'] = 'El dni ya existe';
                 }
             }
 
             //Email: Obligatorio
-            if (strcmp($cliente->email, $objOriginal->email) !== 0)
-            {
-                if (empty($email))
-                {
+            if (strcmp($cliente->email, $objOriginal->email) !== 0) {
+                if (empty($email)) {
                     $errores['email'] = 'El campo email es obligatorio';
-                } else if (!filter_var($email, FILTER_VALIDATE_EMAIL))
-                {
+                } else if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
                     $errores['email'] = 'Formato email incorrecto';
-                } else if (!$this->model->validateUniqueEmail($email))
-                {
+                } else if (!$this->model->validateUniqueEmail($email)) {
                     $errores['email'] = 'El email ya existe';
                 }
             }
 
             //4. Comprobar validación
-            if (!empty($errores))
-            {
+            if (!empty($errores)) {
                 //Errores de validación
                 //Transforma el objeto en un string
                 $_SESSION['cliente'] = serialize($cliente);
@@ -479,8 +420,7 @@ class Clientes extends Controller
 
                 //Redireccionamos a edit
                 header('Location:' . URL . 'clientes/editar/' . $id);
-            } else
-            {
+            } else {
                 //Actualizamos el elemento
                 $this->model->update($cliente, $id);
 
@@ -502,17 +442,14 @@ class Clientes extends Controller
         session_start();
 
         //Comprobar si el usuario está identificado
-        if (!isset($_SESSION['id']))
-        {
+        if (!isset($_SESSION['id'])) {
             $_SESSION['mensaje'] = "Usuario No Autentificado";
 
             header("location:" . URL . "login");
-        } else if ((!in_array($_SESSION['id_rol'], $GLOBALS['clientes']['mostrar'])))
-        {
+        } else if ((!in_array($_SESSION['id_rol'], $GLOBALS['clientes']['mostrar']))) {
             $_SESSION['mensaje'] = "Operación sin privilegios";
             header('location:' . URL . 'clientes');
-        } else
-        {
+        } else {
 
             $id = $param[0];
             $this->view->title = "Formulario Cliente Mostar";
@@ -529,17 +466,14 @@ class Clientes extends Controller
         session_start();
 
         //Comprobar si el usuario está identificado
-        if (!isset($_SESSION['id']))
-        {
+        if (!isset($_SESSION['id'])) {
             $_SESSION['mensaje'] = "Usuario No Autentificado";
 
             header("location:" . URL . "login");
-        } else if ((!in_array($_SESSION['id_rol'], $GLOBALS['clientes']['ordenar'])))
-        {
+        } else if ((!in_array($_SESSION['id_rol'], $GLOBALS['clientes']['ordenar']))) {
             $_SESSION['mensaje'] = "Operación sin privilegios";
             header('location:' . URL . 'clientes');
-        } else
-        {
+        } else {
 
 
             $criterio = $param[0];
@@ -558,17 +492,14 @@ class Clientes extends Controller
         session_start();
 
         //Comprobar si el usuario está identificado
-        if (!isset($_SESSION['id']))
-        {
+        if (!isset($_SESSION['id'])) {
             $_SESSION['mensaje'] = "Usuario No Autentificado";
 
             header("location:" . URL . "login");
-        } else if ((!in_array($_SESSION['id_rol'], $GLOBALS['clientes']['buscar'])))
-        {
+        } else if ((!in_array($_SESSION['id_rol'], $GLOBALS['clientes']['buscar']))) {
             $_SESSION['mensaje'] = "Operación sin privilegios";
             header('location:' . URL . 'clientes');
-        } else
-        {
+        } else {
 
             $expresion = $_GET["expresion"];
             $this->view->title = "Tabla Clientes";
@@ -583,13 +514,11 @@ class Clientes extends Controller
 
         session_start();
 
-        if (!isset($_SESSION['id']))
-        {
+        if (!isset($_SESSION['id'])) {
             $_SESSION['mensaje'] = "Usuario no autentificado";
 
             header("location:" . URL . "login");
-        } else if ((!in_array($_SESSION['id_rol'], $GLOBALS['clientes']['exportar'])))
-        {
+        } else if ((!in_array($_SESSION['id_rol'], $GLOBALS['clientes']['exportar']))) {
             $_SESSION['mensaje'] = "Operación sin privilegios";
             header('location:' . URL . 'clientes');
         }
@@ -601,8 +530,7 @@ class Clientes extends Controller
 
         $ficheroExport = fopen('php://output', 'w');
 
-        foreach ($clientes as $cliente)
-        {
+        foreach ($clientes as $cliente) {
             fputcsv($ficheroExport, $cliente, ';');
         }
 
@@ -614,83 +542,74 @@ class Clientes extends Controller
     {
         session_start();
 
-        if (!isset($_SESSION['id']))
-        {
+        if (!isset($_SESSION['id'])) {
             $_SESSION['mensaje'] = "Usuario no autentificado";
             header("location:" . URL . "login");
             exit();
-        } else if ((!in_array($_SESSION['id_rol'], $GLOBALS['clientes']['importar'])))
-        {
+        } else if ((!in_array($_SESSION['id_rol'], $GLOBALS['clientes']['importar']))) {
             $_SESSION['mensaje'] = "Operación sin privilegios";
             header('location:' . URL . 'clientes');
             exit();
         }
 
-        if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_FILES["archivo_csv"]) && $_FILES["archivo_csv"]["error"] == UPLOAD_ERR_OK)
-        {
+        if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_FILES["archivo_csv"]) && $_FILES["archivo_csv"]["error"] == UPLOAD_ERR_OK) {
             $file = $_FILES["archivo_csv"]["tmp_name"];
 
             $handle = fopen($file, "r");
 
-            if ($handle !== FALSE)
-            {
-                while (($data = fgetcsv($handle, 1000, ";")) !== FALSE)
-                {
-                    $apellidos = $data[0];
-                    $nombre = $data[1];
-                    $email = $data[2];
-                    $telefono = $data[3];
-                    $ciudad = $data[4];
-                    $dni = $data[5];
+            if ($handle !== FALSE) {
+                while (($data = fgetcsv($handle, 1000, ";")) !== FALSE) {
+
+                    //Si no existe, crear un nuevo cliente
+                    $cliente = new classCliente();
+                    $cliente->apellidos = $data[0];
+                    $cliente->nombre = $data[1];
+                    $cliente->email = $data[2];
+                    $cliente->telefono = $data[3];
+                    $cliente->ciudad = $data[4];
+                    $cliente->dni = $data[5];
 
                     //Método para verificar email y dni único.
-                    if ($this->model->validateUniqueEmail($email) && $this->model->validateDNI($dni))
-                    {
-                        //Si no existe, crear un nuevo cliente
-                        $cliente = new classCliente();
-                        $cliente->apellidos = $apellidos;
-                        $cliente->nombre = $nombre;
-                        $cliente->email = $email;
-                        $cliente->telefono = $telefono;
-                        $cliente->ciudad = $ciudad;
-                        $cliente->dni = $dni;
+                    if ($this->model->validateUniqueEmail($cliente->email) && $this->model->validateDNI($cliente->dni)) {
 
                         //3. Validación
                         $errores = [];
 
                         //Apellidos: Obligatorio
-                        if (empty($apellidos))
-                        {
+                        if (empty($cliente->apellidos)) {
                             $errores['apellidos'] = 'El campo apellidos es obligatorio';
-                        } elseif (strlen($apellidos) > 45)
-                        {
+                        } elseif (strlen($cliente->apellidos) > 45) {
                             $errores['apellidos'] = 'El campo apellidos no debe superar los 45 caracteres';
                         }
 
                         //Nombre: Obligatorio
-                        if (empty($nombre))
-                        {
+                        if (empty($cliente->nombre)) {
                             $errores['nombre'] = 'El campo nombre es obligatorio';
-                        } elseif (strlen($nombre) > 20)
-                        {
+                        } elseif (strlen($cliente->nombre) > 20) {
                             $errores['nombre'] = 'El campo nombre no debe superar los 20 caracteres';
                         }
 
+
+                        //Email: Obligatorio
+                        if (empty($cliente->email)) {
+                            $errores['email'] = 'El campo email es obligatorio';
+                        } else if (!filter_var($cliente->email, FILTER_VALIDATE_EMAIL)) {
+                            $errores['email'] = 'Formato email incorrecto';
+                        } else if (!$this->model->validateUniqueEmail($cliente->email)) {
+                            $errores['email'] = 'El email ya existe';
+                        }
+
                         //Teléfono: Obligatorio
-                        if (empty($telefono))
-                        {
+                        if (empty($cliente->telefono)) {
                             $errores['telefono'] = 'El campo telefono es obligatorio';
-                        } elseif (!is_numeric($telefono) || strlen($telefono) !== 9)
-                        {
+                        } elseif (!is_numeric($cliente->telefono) || strlen($cliente->telefono) !== 9) {
                             $errores['telefono'] = 'El teléfono debe ser numérico y tener 9 dígitos';
                         }
 
                         //Ciudad: Obligatorio
-                        if (empty($ciudad))
-                        {
+                        if (empty($cliente->ciudad)) {
                             $errores['ciudad'] = 'El campo ciudad es obligatorio';
-                        } elseif (strlen($ciudad) > 20)
-                        {
+                        } elseif (strlen($cliente->ciudad) > 20) {
                             $errores['ciudad'] = 'El campo ciudad no debe superar los 20 caracteres';
                         }
 
@@ -701,32 +620,16 @@ class Clientes extends Controller
                             ]
                         ];
 
-                        if (empty($dni))
-                        {
+                        if (empty($cliente->dni)) {
                             $errores['dni'] = 'El campo dni es obligatorio';
-                        } else if (!filter_var($dni, FILTER_VALIDATE_REGEXP, $options))
-                        {
+                        } else if (!filter_var($cliente->dni, FILTER_VALIDATE_REGEXP, $options)) {
                             $errores['dni'] = 'Formato de DNI incorrecto';
-                        } else if (!$this->model->validateDNI($dni))
-                        {
+                        } else if (!$this->model->validateDNI($cliente->dni)) {
                             $errores['dni'] = 'El dni ya existe';
                         }
 
-                        //Email: Obligatorio
-                        if (empty($email))
-                        {
-                            $errores['email'] = 'El campo email es obligatorio';
-                        } else if (!filter_var($email, FILTER_VALIDATE_EMAIL))
-                        {
-                            $errores['email'] = 'Formato email incorrecto';
-                        } else if (!$this->model->validateUniqueEmail($email))
-                        {
-                            $errores['email'] = 'El email ya existe';
-                        }
-
                         //4. Comprobar validación
-                        if (!empty($errores))
-                        {
+                        if (!empty($errores)) {
                             //Errores de validación
                             //Transforma el objeto en un string
                             $_SESSION['cliente'] = serialize($cliente);
@@ -734,22 +637,16 @@ class Clientes extends Controller
                             $_SESSION['errores'] = $errores;
 
                             //Redireccionamos a new
-                            header('Location:' . URL . 'clientes/nuevo');
-                        } else
-                        {
+                            header('Location:' . URL . 'clientes');
+                        } else {
                             //Añadir registro a la tabla
                             $this->model->create($cliente);
-
-                            fclose($handle);
-                            $_SESSION['mensaje'] = "Importación realizada correctamente";
-                            header('location:' . URL . 'clientes');
-                            exit();
                         }
-                    } else
-                    {
-                        $_SESSION['error'] = "Error con el archivo CSV";
                     }
                 }
+                $_SESSION['mensaje'] = "Importación realizada correctamente";
+                header('location:' . URL . 'clientes');
+                exit();
             }
         }
     }

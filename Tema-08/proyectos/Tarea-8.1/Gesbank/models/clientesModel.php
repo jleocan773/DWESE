@@ -315,7 +315,6 @@ class clientesModel extends Model
 
             # comando sql
             $sql = "SELECT 
-                        clientes.id,
                         clientes.apellidos,
                         clientes.nombre,
                         clientes.email,

@@ -389,7 +389,6 @@ class cuentasModel extends Model
 
             # comando sql
             $sql = "SELECT 
-                        cuentas.id,
                         cuentas.num_cuenta,
                         cuentas.id_cliente,
                         cuentas.fecha_alta,
@@ -397,9 +396,7 @@ class cuentasModel extends Model
                         cuentas.num_movtos,
                         cuentas.saldo
                     FROM
-                        cuentas
-                    ORDER BY 
-                        cuentas.id";
+                        cuentas";
 
 
             # conectamos con la base de datos
@@ -413,7 +410,7 @@ class cuentasModel extends Model
             $pdost = $conexion->prepare($sql);
 
             # establecemos  tipo fetch
-            $pdost->setFetchMode(PDO::FETCH_OBJ);
+            $pdost->setFetchMode(PDO::FETCH_ASSOC);
 
             #  ejecutamos 
             $pdost->execute();
