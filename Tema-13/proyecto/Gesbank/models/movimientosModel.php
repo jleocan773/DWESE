@@ -3,9 +3,9 @@
 class movimientosModel extends Model
 {
 
-    # Método get
+    # Método getMovimientos
     # consulta SELECT sobre la tabla movimientos
-    public function get()
+    public function getMovimientos()
     {
         try {
 
@@ -123,6 +123,71 @@ class movimientosModel extends Model
             exit();
         }
     }
+
+    # Método getMovimiento
+    # Permite obtener los detalles de un movimiento a partir del id
+    public function getMovimiento($id)
+    {
+        try {
+            $sql = "
+            SELECT 
+            movimientos.id,
+            cuentas.num_cuenta as cuenta,
+            movimientos.fecha_hora,
+            movimientos.concepto,
+            movimientos.tipo,
+            movimientos.cantidad,
+            movimientos.saldo
+            FROM movimientos INNER JOIN cuentas ON movimientos.id_cuenta = cuentas.id WHeRE movimientos.id = :id
+        ";
+
+            $conexion = $this->db->connect();
+            $pdoSt = $conexion->prepare($sql);
+            $pdoSt->bindParam(':id', $id, PDO::PARAM_INT);
+            $pdoSt->setFetchMode(PDO::FETCH_OBJ);
+            $pdoSt->execute();
+
+            return $pdoSt->fetch();
+        } catch (PDOException $e) {
+            require_once("template/partials/errorDB.php");
+            exit();
+        }
+    }
+
+
+    # Método getCuenta
+    # Permite obtener los detalles de una cuenta a partir del id
+    public function getCuenta($id)
+    {
+        try {
+
+            $sql = " 
+                    SELECT 
+                        cuentas.id,
+                        cuentas.num_cuenta,
+                        cuentas.id_cliente,
+                        cuentas.fecha_alta,
+                        cuentas.fecha_ul_mov,
+                        cuentas.num_movtos,
+                        cuentas.saldo
+                    FROM 
+                        cuentas
+                    WHERE
+                        id=:id;";
+
+            $conexion = $this->db->connect();
+            $pdoSt = $conexion->prepare($sql);
+            $pdoSt->bindParam(':id', $id, PDO::PARAM_INT);
+            $pdoSt->setFetchMode(PDO::FETCH_OBJ);
+            $pdoSt->execute();
+
+            return $pdoSt->fetch();
+        } catch (PDOException $e) {
+            require_once("template/partials/errorDB.php");
+            exit();
+        }
+    }
+
 
     public function order(int $criterio)
     {

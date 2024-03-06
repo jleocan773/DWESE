@@ -29,8 +29,8 @@ class Movimientos extends Controller
             $this->view->title = "Tabla Movimientos";
 
             # Creo la propiedad movimientos dentro de la vista
-            # Del modelo asignado al controlador ejecuto el método get();
-            $this->view->movimientos = $this->model->get();
+            # Del modelo asignado al controlador ejecuto el método getMovimientos();
+            $this->view->movimientos = $this->model->getMovimientos();
             $this->view->render("movimientos/main/index");
         }
     }
@@ -190,6 +190,35 @@ class Movimientos extends Controller
                 // Redireccionamos a la vista principal de movimientos
                 header("Location:" . URL . "movimientos");
             }
+        }
+    }
+
+    # Método mostrar
+    # Muestra los detalles de un movimiento en un formulario no editable
+    function mostrar($param = [])
+    {
+
+        //Iniciar o continuar sesión
+        session_start();
+
+        # id de la cuenta
+        $id = $param[0];
+
+        //Comprobar si el usuario está identificado
+        if (!isset($_SESSION['id'])) {
+            $_SESSION['mensaje'] = "Usuario No Autentificado";
+
+            header("location:" . URL . "login");
+        } else if ((!in_array($_SESSION['id_rol'], $GLOBALS['movimientos']['mostrar']))) {
+            $_SESSION['mensaje'] = "Operación sin privilegios";
+            header('location:' . URL . 'movimientos');
+        } else {
+
+            $this->view->title = "Formulario Mostrar Movimiento";
+            $this->view->movimiento = $this->model->getMovimiento($id);
+            $this->view->cuenta = $this->model->getCuenta($this->view->movimiento->cuenta);
+
+            $this->view->render("movimientos/mostrar/index");
         }
     }
 
