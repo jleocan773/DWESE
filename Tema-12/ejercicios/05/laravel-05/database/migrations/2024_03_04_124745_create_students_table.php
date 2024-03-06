@@ -19,7 +19,7 @@ return new class extends Migration
             $table->char("phone", 13)->nullable(false);
             $table->string("city", 20);
             $table->char("dni", 9)->unique()->nullable(false);
-            $table->string("email", 20)->unique();
+            $table->string("email", 40)->unique();
             $table->unsignedBigInteger('course_id');
             //Restricción borrado en cascada cursos
             $table->foreign('course_id')->references('id')->on('courses')->onDelete("restrict")->onUpdate("cascade");

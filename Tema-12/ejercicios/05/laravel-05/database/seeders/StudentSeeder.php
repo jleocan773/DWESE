@@ -6,6 +6,7 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+use App\Models\Student;
 
 class StudentSeeder extends Seeder
 {
@@ -27,19 +28,10 @@ class StudentSeeder extends Seeder
                     'email' => "JLLeV@example.com",
                     'course_id' => 1
 
-                ],
-                [
-                    'name' => Str::random(35),
-                    'lastname' => Str::random(35),
-                    'birth_date' => '2000-01-01',
-                    'phone' => '123456789',
-                    'city' => "Madrid",
-                    'dni' => '32345678C',
-                    'email' => "correo@example.com",
-                    'course_id' => 1
-
-                ],
+                ]
             ]
         );
+        $students = Student::factory()->count(30)->create();
+
     }
 }
