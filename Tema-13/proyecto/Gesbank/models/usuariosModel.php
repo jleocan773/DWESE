@@ -225,4 +225,34 @@ class usuariosModel extends Model
             exit();
         }
     }
+
+    # Método update
+    # Actualiza los detalles de un usuario
+    public function update(classUser $usuario, $id)
+    {
+        try {
+
+            $sql = " 
+                    UPDATE users SET
+                        name = :name,
+                        email = :email,
+                        password = :password,
+                        update_at = now()
+                    WHERE
+                        id=:id";
+
+            $conexion = $this->db->connect();
+            $pdoSt = $conexion->prepare($sql);
+            //Vinculamos los parámetros
+            $pdoSt->bindParam(":name", $usuario->name, PDO::PARAM_STR, 50);
+            $pdoSt->bindParam(":email", $usuario->email, PDO::PARAM_STR, 50);
+            $pdoSt->bindParam(":password", $usuario->password, PDO::PARAM_STR, 60);
+            $pdoSt->bindParam(":id", $id, PDO::PARAM_INT);
+
+            $pdoSt->execute();
+        } catch (PDOException $e) {
+            require_once("template/partials/errorDB.php");
+            exit();
+        }
+    }
 }

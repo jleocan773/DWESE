@@ -182,7 +182,7 @@ class Usuarios extends Controller
         //Iniciar o continuar sesión
         session_start();
 
-        # id de la cuenta
+        # id del usuario
         $id = $param[0];
 
         //Comprobar si el usuario está identificado
@@ -195,7 +195,7 @@ class Usuarios extends Controller
             header('location:' . URL . 'usuarios');
         } else {
 
-            $this->view->title = "Formulario Cuenta Mostar";
+            $this->view->title = "Formulario Mostrar Usuario";
             $this->view->usuario = $this->model->getUserByID($id);
             $this->view->rol = $this->model->getRoleOfUser($id);
 
@@ -204,7 +204,7 @@ class Usuarios extends Controller
     }
 
     # Método delete
-    # Permite eliminar una cuenta de la tabla
+    # Permite eliminar un usuario de la tabla
     function delete($param = [])
     {
 
@@ -235,7 +235,7 @@ class Usuarios extends Controller
     }
 
     # Método ordenar
-    # Permite ordenar la tabla cuenta a partir de alguna de las columnas de la tabla
+    # Permite ordenar la tabla usuario a partir de alguna de las columnas de la tabla
     function ordenar($param = [])
     {
         //Inicio o continuo sesión
@@ -260,7 +260,7 @@ class Usuarios extends Controller
     }
 
     # Método buscar
-    # Permite realizar una búsqueda en la tabla cuentas a partir de una expresión
+    # Permite realizar una búsqueda en la tabla usuarios a partir de una expresión
     function buscar($param = [])
     {
         //Inicio o continuo sesión
@@ -283,5 +283,161 @@ class Usuarios extends Controller
             $this->view->model = $this->model;
             $this->view->render("usuarios/main/index");
         }
+    }
+
+    # Método editar
+    # Muestra los detalles de un usuario en un formulario de edición
+    public function editar($param = [])
+    {
+        //Iniciar o continuar sesión
+        session_start();
+
+        //Comprobar si el usuario está identificado
+        if (!isset($_SESSION['id'])) {
+            $_SESSION['mensaje'] = "Usuario No Autentificado";
+
+            header("location:" . URL . "login");
+        } else if ((!in_array($_SESSION['id_rol'], $GLOBALS['usuarios']['editar']))) {
+            $_SESSION['mensaje'] = "Operación sin privilegios";
+            header('location:' . URL . 'usuario');
+        } else {
+
+            //Para generar la lista select dinámica de roles
+            $this->view->roles = $this->model->getRoles();
+
+            //Obtengo el id del elemento que voy a editar
+            $id = $param[0];
+
+            //Aasigno id a una propiedad de la vista
+            $this->view->id = $id;
+
+            //Cambiamos el título title
+            $this->view->title = "Editar - Gestión Usuario";
+
+            //Creo la propiedad model dentro de la vista para usar el método para pillar el roln
+            $this->view->model = $this->model;
+
+            //Obtenemos el
+
+            //Obtenemos objeto de la clase 
+            $this->view->usuario = $this->model->getUserByID($id);
+
+            //Comprobar si el formulario viene de una validación
+            if (isset($_SESSION['error'])) {
+
+                # Mensaje de error
+                $this->view->error = $_SESSION['error'];
+
+
+                # Autorrellenar el formulario con los detalles del usuario
+                $this->view->usuario = unserialize($_SESSION['usuario']);
+
+                # Recupero array de errores específicos
+                $this->view->errores = $_SESSION['errores'];
+
+                unset($_SESSION['error']);
+                unset($_SESSION['errores']);
+                unset($_SESSION['usuario']);
+            }
+
+            //Se carga la vista
+            $this->view->render('usuarios/editar/index');
+        }
+    }
+
+    # Método update.
+    # Actualiza los detalles de un usuario a partir de los datos del formulario de edición
+    public function update($param = [])
+    {
+        // Iniciar sesión
+        session_start();
+
+        // Comprobar si el usuario está identificado
+        if (!isset($_SESSION['id'])) {
+            $_SESSION['mensaje'] = "Usuario No Autentificado";
+            header("location:" . URL . "login");
+            exit(); // Terminar la ejecución del script
+        }
+
+        // Verificar permisos de usuario para editar
+        if (!in_array($_SESSION['id_rol'], $GLOBALS['usuarios']['editar'])) {
+            $_SESSION['mensaje'] = "Operación sin privilegios";
+            header('location:' . URL . 'usuarios');
+            exit(); // Terminar la ejecución del script
+        }
+
+        # 3. Validación
+
+        // Obtener el ID del usuario a editar
+        $id = $param[0];
+
+        // Obtener el objeto de usuario original
+        $objOriginal = $this->model->getUserByID($id);
+
+        // Obtener los datos del formulario y sanitizarlos
+        $name = filter_input(INPUT_POST, 'nombre', FILTER_SANITIZE_SPECIAL_CHARS);
+        $email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_SPECIAL_CHARS);
+        $password = filter_input(INPUT_POST, 'contraseña', FILTER_SANITIZE_SPECIAL_CHARS);
+        $confirmPassword = filter_input(INPUT_POST, 'confirmarContraseña', FILTER_SANITIZE_SPECIAL_CHARS);
+
+        // Validar los datos
+        $errores = [];
+
+        // Validar nombre
+        if (empty($name)) {
+            $errores['nombre'] = 'El campo nombre es obligatorio';
+        }
+
+        // Validar email
+        if (empty($email)) {
+            $errores['email'] = 'El campo email es obligatorio';
+        } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            $errores['email'] = 'El formato del email no es correcto';
+        } elseif ($email !== $objOriginal->email && !$this->model->isEmailUnique($email)) {
+            $errores['email'] = 'El email ya está en uso';
+        }
+
+        // Validar contraseña
+        if (!empty($password) || !empty($confirmPassword)) {
+            if (empty($password)) {
+                $errores['contraseña'] = 'El campo contraseña es obligatorio';
+            } elseif ($password !== $confirmPassword) {
+                $errores['confirmarContraseña'] = 'Las contraseñas no coinciden';
+            }
+        }
+
+        // Comprobar si hay errores de validación
+        if (!empty($errores)) {
+            // Errores de validación
+            $_SESSION['error'] = 'Formulario no validado';
+            $_SESSION['errores'] = $errores;
+            header('Location:' . URL . 'usuarios/editar/' . $id);
+            exit(); // Terminar la ejecución del script
+        }
+
+        // Si la contraseña no está vacía, cifrarla
+        if (!empty($password)) {
+            $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
+        } else {
+            // Mantener la contraseña original si no se proporciona una nueva contraseña
+            $hashedPassword = $objOriginal->password;
+        }
+
+        // Crear un objeto de usuario con los datos actualizados
+        $usuario = new classUser(
+            $id,
+            $name,
+            $email,
+            $hashedPassword
+        );
+
+        // Actualizar el usuario en la base de datos
+        $this->model->update($usuario, $id);
+
+        // Mensaje de éxito
+        $_SESSION['mensaje'] = "Usuario editado correctamente";
+
+        // Redirigir al listado de usuarios
+        header('location:' . URL . 'usuarios');
     }
 }
