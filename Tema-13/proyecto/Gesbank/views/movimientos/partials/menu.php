@@ -9,18 +9,6 @@
                 <li class="nav-item">
                     <a class="nav-link <?= (in_array($_SESSION['id_rol'], $GLOBALS['movimientos']['nuevo']) || in_array($_SESSION['id_rol'], $GLOBALS['movimientos']['nuevo'])) ? 'active' : 'disabled' ?>" aria-current="page" href="<?= URL ?>movimientos/nuevo">Nuevo</a>
                 </li>
-                <!-- Agregar opción para exportar CSV -->
-                <li class="nav-item">
-                    <a class="nav-link <?= (in_array($_SESSION['id_rol'], $GLOBALS['movimientos']['exportar']) || in_array($_SESSION['id_rol'], $GLOBALS['movimientos']['exportar'])) ? 'active' : 'disabled' ?>"" href=" <?= URL ?>movimientos/exportar">Exportar CSV</a>
-                </li>
-                <!-- Agregar opción para importar CSV -->
-                <li class="nav-item">
-                    <button type="button" class="nav-link btn btn-link <?= (in_array($_SESSION['id_rol'], $GLOBALS['movimientos']['importar']) || in_array($_SESSION['id_rol'], $GLOBALS['movimientos']['importar'])) ? '' : 'disabled' ?>" data-bs-toggle="modal" data-bs-target="#importarModal">Importar CSV</button>
-                </li>
-                <!-- PDF -->
-                <li class="nav-item">
-                    <a class="nav-link <?= (in_array($_SESSION['id_rol'], $GLOBALS['movimientos']['pdf']) || in_array($_SESSION['id_rol'], $GLOBALS['movimientos']['pdf'])) ? 'active' : 'disabled' ?>" aria-current="page" href="<?= URL ?>movimientos/pdf">PDF</a>
-                </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link <?= in_array($_SESSION['id_rol'], $GLOBALS['movimientos']['ordenar']) ? 'active' : 'disabled' ?> dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         Ordenar

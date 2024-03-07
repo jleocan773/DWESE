@@ -46,5 +46,13 @@
     $GLOBALS['movimientos']['importar'] = [1];
     $GLOBALS['movimientos']['pdf'] = [1,2];
     
+    $GLOBALS['usuarios']['main'] = [1];
+    $GLOBALS['usuarios']['nuevo'] = [1];
+    $GLOBALS['usuarios']['editar'] = [1];
+    $GLOBALS['usuarios']['delete'] = [1];
+    $GLOBALS['usuarios']['mostrar'] = [1];
+    $GLOBALS['usuarios']['buscar'] = [1];
+    $GLOBALS['usuarios']['ordenar'] = [1];
+
     
     
