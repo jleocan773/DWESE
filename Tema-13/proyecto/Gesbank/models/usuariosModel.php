@@ -131,7 +131,7 @@ class usuariosModel extends Model
     public function getRoleOfUser($id)
     {
         try {
-            $sql = "SELECT roles.name
+            $sql = "SELECT roles.id, roles.name
                     FROM roles
                     INNER JOIN roles_users ON roles.id = roles_users.role_id
                     INNER JOIN users ON roles_users.user_id = users.id
@@ -228,27 +228,40 @@ class usuariosModel extends Model
 
     # Método update
     # Actualiza los detalles de un usuario
-    public function update(classUser $usuario, $id)
+    # Método update
+    # Actualiza los detalles de un usuario, incluido el rol
+    public function update(classUser $usuario, $id, $idRol)
     {
         try {
-
-            $sql = " 
-                    UPDATE users SET
-                        name = :name,
-                        email = :email,
-                        password = :password,
-                        update_at = now()
-                    WHERE
-                        id=:id";
-
+            // Obtener la conexión a la base de datos
             $conexion = $this->db->connect();
+
+            // Actualizamos los detalles del usuario en la tabla users
+            $sql = "UPDATE users SET
+                    name = :name,
+                    email = :email,
+                    password = :password,
+                    update_at = NOW()
+                WHERE
+                    id=:id";
             $pdoSt = $conexion->prepare($sql);
-            //Vinculamos los parámetros
+            // Vinculamos los parámetros
             $pdoSt->bindParam(":name", $usuario->name, PDO::PARAM_STR, 50);
             $pdoSt->bindParam(":email", $usuario->email, PDO::PARAM_STR, 50);
             $pdoSt->bindParam(":password", $usuario->password, PDO::PARAM_STR, 60);
             $pdoSt->bindParam(":id", $id, PDO::PARAM_INT);
+            $pdoSt->execute();
 
+            // Actualizamos el rol del usuario en la tabla roles_users
+            $sql = "UPDATE roles_users SET
+                    role_id = :role_id,
+                    update_at = NOW()
+                WHERE
+                    user_id = :user_id";
+            $pdoSt = $conexion->prepare($sql);
+            // Vinculamos los parámetros
+            $pdoSt->bindParam(":role_id", $idRol, PDO::PARAM_INT);
+            $pdoSt->bindParam(":user_id", $id, PDO::PARAM_INT);
             $pdoSt->execute();
         } catch (PDOException $e) {
             require_once("template/partials/errorDB.php");

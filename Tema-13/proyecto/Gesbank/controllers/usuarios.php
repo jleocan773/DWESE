@@ -317,10 +317,11 @@ class Usuarios extends Controller
             //Creo la propiedad model dentro de la vista para usar el método para pillar el roln
             $this->view->model = $this->model;
 
-            //Obtenemos el
-
             //Obtenemos objeto de la clase 
             $this->view->usuario = $this->model->getUserByID($id);
+            
+            //Obtenemos el rol del usuario actual
+            $this->view->rol = $this->model->getRoleOfUser($id);
 
             //Comprobar si el formulario viene de una validación
             if (isset($_SESSION['error'])) {
@@ -431,8 +432,12 @@ class Usuarios extends Controller
             $hashedPassword
         );
 
+        // Obtener el ID del rol seleccionado del formulario
+        $idRol = filter_input(INPUT_POST, 'rol', FILTER_SANITIZE_NUMBER_INT);
+
         // Actualizar el usuario en la base de datos
-        $this->model->update($usuario, $id);
+        $this->model->update($usuario, $id, $idRol);
+
 
         // Mensaje de éxito
         $_SESSION['mensaje'] = "Usuario editado correctamente";
