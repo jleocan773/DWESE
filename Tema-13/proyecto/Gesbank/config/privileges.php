@@ -35,6 +35,7 @@
     $GLOBALS['cuentas']['exportar'] = [1];
     $GLOBALS['cuentas']['importar'] = [1];
     $GLOBALS['cuentas']['pdf'] = [1,2];
+    $GLOBALS['cuentas']['listarMovimientos'] = [1,2];
     
     $GLOBALS['movimientos']['main'] = [1, 2, 3];
     $GLOBALS['movimientos']['nuevo'] = [1, 2];

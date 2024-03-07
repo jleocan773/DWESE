@@ -604,4 +604,32 @@ class Cuentas extends Controller
         // Salida del PDF
         $pdf->Output();
     }
+
+    # Método listarMovimientos
+    # Muestra los movimientos de una cuenta en una vista
+    function listarMovimientos($param = [])
+    {
+
+        //Iniciar o continuar sesión
+        session_start();
+
+        # id de la cuenta
+        $id = $param[0];
+
+        //Comprobar si el usuario está identificado
+        if (!isset($_SESSION['id'])) {
+            $_SESSION['mensaje'] = "Usuario No Autentificado";
+
+            header("location:" . URL . "login");
+        } else if ((!in_array($_SESSION['id_rol'], $GLOBALS['cuentas']['listarMovimientos']))) {
+            $_SESSION['mensaje'] = "Operación sin privilegios";
+            header('location:' . URL . 'cuentas');
+        } else {
+
+            $this->view->title = "Formulario Cuenta Listar Movimientos";
+            $this->view->movimientos = $this->model->getMovientosCuenta($id);
+
+            $this->view->render("cuentas/listaMovimientos/index");
+        }
+    }
 }

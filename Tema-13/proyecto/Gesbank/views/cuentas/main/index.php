@@ -32,7 +32,7 @@
                     <th>Numero de cuenta</th>
                     <th>Cliente</th>
                     <th>Fecha Alta</th>
-                    <th>Fecha Último movimiento</th>
+                    <th>Fecha Últ Mov</th>
                     <th class="text-end">Num_movtos</th>
                     <th class="text-end">Saldo</th>
                     <th>Acciones</th>
@@ -64,6 +64,11 @@
                             <!-- botón mostrar -->
                             <a href="<?= URL ?>cuentas/mostrar/<?= $cuenta->id ?>" title="Mostrar" class="btn btn-warning <?= (!in_array($_SESSION['id_rol'], $GLOBALS['cuentas']['mostrar'])) ? 'disabled' : '' ?>">
                                 <i class="bi bi-card-text"></i>
+                            </a>
+
+                            <!-- botón mostrar movimientos-->
+                            <a href="<?= URL ?>cuentas/listarMovimientos/<?= $cuenta->id ?>" title="ListarMovimientos" class="btn btn-info <?= (!in_array($_SESSION['id_rol'], $GLOBALS['cuentas']['listarMovimientos'])) ? 'disabled' : '' ?>">
+                                <i class="bi bi-journal"></i>
                             </a>
                         </td>
 

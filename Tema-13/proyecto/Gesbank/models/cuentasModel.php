@@ -426,4 +426,30 @@ class cuentasModel extends Model
             exit();
         }
     }
+
+    public function getMovientosCuenta($id)
+    {
+        try {
+            $sql = "SELECT 
+            movimientos.id,
+            cuentas.num_cuenta as cuenta,
+            movimientos.fecha_hora,
+            movimientos.concepto,
+            movimientos.tipo,
+            movimientos.cantidad,
+            movimientos.saldo
+            FROM movimientos INNER JOIN cuentas ON movimientos.id_cuenta = cuentas.id
+            WHERE movimientos.id_cuenta = :id;";
+
+            $conexion = $this->db->connect();
+            $pdoSt = $conexion->prepare($sql);
+            $pdoSt->bindParam(":id", $id, PDO::PARAM_INT);
+            $pdoSt->setFetchMode(PDO::FETCH_OBJ);
+            $pdoSt->execute();
+            return $pdoSt->fetchAll();
+        } catch (PDOException $e) {
+            include_once('template/partials/errorDB.php');
+            exit();
+        }
+    }
 }
