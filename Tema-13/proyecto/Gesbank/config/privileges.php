@@ -55,4 +55,5 @@
     $GLOBALS['usuarios']['ordenar'] = [1];
 
     
-    
+    $GLOBALS['usuarios']['roles'] = [1,2,3];
+

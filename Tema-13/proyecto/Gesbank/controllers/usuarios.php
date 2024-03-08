@@ -69,9 +69,13 @@ class Usuarios extends Controller
 
                 //Autorellenamos el formulario
                 $this->view->usuario = unserialize($_SESSION['usuario']);
+                $this->view->roles = $this->model->getRoles();
 
-                // Recuperamos el array con los errores
+                //Recuperamos el array con los errores
                 $this->view->errores = $_SESSION['errores'];
+
+                //Recuperamos el valor del rol de la sesión y lo pasamos a la vista
+                $this->view->rolSeleccionado = isset($_SESSION['roles']) ? $_SESSION['roles'] : null;
 
                 //Una vez usadas las variables de sesión, las liberamos
                 unset($_SESSION['error']);
@@ -145,11 +149,22 @@ class Usuarios extends Controller
             //Contraseña: Obligatorio
             if (empty($contraseña)) {
                 $errores['contraseña'] = 'El campo contraseña es obligatorio';
+            } else if ($contraseña != $confirmarContraseña) {
+                $errores['contraseña'] = 'Las contraseñas no coinciden, introduzca ambas de nuevo';
             }
 
-            //confirmarContraseña: Obligatorio
+            //confirmarContraseña: Obligatorio, tiene que coincidir con el campo contraseña
             if (empty($confirmarContraseña)) {
                 $errores['confirmarContraseña'] = 'El campo de confirmación de contraseña es obligatorio';
+            } else if ($contraseña != $confirmarContraseña) {
+                $errores['confirmarContraseña'] = 'Las contraseñas no coinciden, introduzca ambas de nuevo';
+            }
+
+            //Roles: Obligatorio, tiene que estar entre los permitidos
+            if (empty($roles)) {
+                $errores['roles'] = 'El campo roles es obligatorio';
+            } else if (!in_array($roles, $GLOBALS['usuarios']['roles'])) {
+                $errores['roles'] = 'Rol no permitido';
             }
 
             # 4. Comprobar validación
@@ -158,6 +173,7 @@ class Usuarios extends Controller
                 $_SESSION['usuario'] = serialize($usuario);
                 $_SESSION['error'] = 'Formulario no validado';
                 $_SESSION['errores'] = $errores;
+                $_SESSION['roles'] = $roles;
 
                 //Redireccionamos de nuevo al formulario
                 header('location:' . URL . 'usuarios/nuevo/index');
@@ -319,7 +335,7 @@ class Usuarios extends Controller
 
             //Obtenemos objeto de la clase 
             $this->view->usuario = $this->model->getUserByID($id);
-            
+
             //Obtenemos el rol del usuario actual
             $this->view->rol = $this->model->getRoleOfUser($id);
 
