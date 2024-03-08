@@ -2,4 +2,4 @@
 
 //Definimos una constante USER
 define('USUARIO', 'jonyleoncanto@gmail.com');
-define('PASS', 'joyx fwgy pnqk poyv');
+define('PASS', 'vkhg xnig qblr wfhl');
