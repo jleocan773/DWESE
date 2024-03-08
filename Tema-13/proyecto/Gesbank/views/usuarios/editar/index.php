@@ -3,7 +3,7 @@
 
 <head>
     <!-- bootstrap  -->
-    <?php require_once("template/partials/head.php");  ?>
+    <?php require_once("template/partials/head.php"); ?>
     <title>Detalles de Usuario - Gesbank</title>
 </head>
 
@@ -23,24 +23,42 @@
         <?php include 'template/partials/error.php' ?>
 
         <!-- Formulario -->
-        <form action="<?= URL ?>usuarios/update/<?= $this->usuario->id ?>" method="POST">
+        <form action="<?= isset($this->usuario->id) ? URL . 'usuarios/update/' . $this->usuario->id : '#' ?>"
+            method="POST">
+
             <!-- Nombre -->
             <div class="mb-3">
                 <label for="nombre" class="form-label">Nombre</label>
-                <input type="text" class="form-control" name="nombre" value="<?= $this->usuario->name ?>">
+                <input type="text" class="form-control" name="nombre"
+                    value="<?= isset($this->usuario->name) ? $this->usuario->name : (isset($_SESSION['usuario']) ? $_SESSION['usuario']->name : '') ?>">
+
+                <!-- Mostrar posible error -->
+                <?php if (isset($this->errores['nombre'])): ?>
+                    <span class="form-text text-danger" role="alert">
+                        <?= $this->errores['nombre'] ?>
+                    </span>
+                <?php endif; ?>
             </div>
 
             <!-- Email -->
             <div class="mb-3">
                 <label for="email" class="form-label">Email</label>
-                <input type="email" class="form-control" name="email" value="<?= $this->usuario->email ?>">
+                <input type="email" class="form-control" name="email"
+                    value="<?= isset($this->usuario->email) ? $this->usuario->email : (isset($_SESSION['usuario']) ? $_SESSION['usuario']->email : '') ?>">
+
+                <!-- Mostrar posible error -->
+                <?php if (isset($this->errores['email'])): ?>
+                    <span class="form-text text-danger" role="alert">
+                        <?= $this->errores['email'] ?>
+                    </span>
+                <?php endif; ?>
             </div>
 
             <!-- Roles -->
             <div class="mb-3">
                 <label for="rol" class="form-label">Rol</label>
                 <select class="form-select" name="rol">
-                    <?php foreach ($this->roles as $rol) : ?>
+                    <?php foreach ($this->roles as $rol): ?>
                         <option value="<?= $rol->id ?>" <?= ($rol->id == $this->model->getRoleOfUser($this->usuario->id)->id) ? 'selected' : '' ?>>
                             <?= $rol->name ?>
                         </option>
@@ -51,10 +69,12 @@
             <!-- Contraseña -->
             <div class="mb-3">
                 <label for="password" class="form-label">Cambiar Contraseña</label>
-                <input type="password" class="form-control <?= (isset($this->errores['contraseña'])) ? 'is-invalid' : null ?>" name="contraseña">
+                <input type="password"
+                    class="form-control <?= (isset($this->errores['contraseña'])) ? 'is-invalid' : null ?>"
+                    name="contraseña">
 
                 <!-- Mostrar posible error -->
-                <?php if (isset($this->errores['contraseña'])) : ?>
+                <?php if (isset($this->errores['contraseña'])): ?>
                     <span class="form-text text-danger" role="alert">
                         <?= $this->errores['contraseña'] ?>
                     </span>
@@ -64,10 +84,12 @@
             <!-- Confirmar Contraseña -->
             <div class="mb-3">
                 <label for="confirmarContraseña" class="form-label">Confirmar Cambio Contraseña</label>
-                <input type="password" class="form-control <?= (isset($this->errores['confirmarContraseña'])) ? 'is-invalid' : null ?>" name="confirmarContraseña">
+                <input type="password"
+                    class="form-control <?= (isset($this->errores['confirmarContraseña'])) ? 'is-invalid' : null ?>"
+                    name="confirmarContraseña">
 
                 <!-- Mostrar posible error -->
-                <?php if (isset($this->errores['confirmarContraseña'])) : ?>
+                <?php if (isset($this->errores['confirmarContraseña'])): ?>
                     <span class="form-text text-danger" role="alert">
                         <?= $this->errores['confirmarContraseña'] ?>
                     </span>
