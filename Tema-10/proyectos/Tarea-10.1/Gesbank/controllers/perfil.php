@@ -146,39 +146,15 @@ class Perfil extends Controller
             $this->model->update($user);
 
             try {
-                // Configurar PHPMailer
-                $mail = new PHPMailer(true);
-                $mail->CharSet = "UTF-8";
-                $mail->Encoding = "quoted-printable";
-                $mail->isSMTP();
-                $mail->Host = 'smtp.gmail.com';
-                $mail->SMTPAuth = true;
-
-                $mail->Username = USUARIO;                                      // Cambiar por tu dirección de correo
-                $mail->Password = PASS;                                         // Cambiar por tu contraseña
-
-                $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
-                $mail->Port = 587;
-
-                // Configurar destinatario, remitente, asunto y mensaje
-                $destinatario = $email;
-                $remitente = USUARIO;
+                // Definimos el asunto y el mensaje*
                 $asuntoMail = "Cambio de información de tu Perfil";
                 $mensajeMail =
                     "Has cambiado la información de tu perfil recientemente: <br><br>"
                     . "Nuevo Nombre: " . $name . "<br>"
                     . "Nuevo Email: " . $email . "<br>";
 
-                $mail->setFrom($remitente, $name);
-                $mail->addAddress($destinatario);
-                $mail->addReplyTo($remitente, $name);
-
-                $mail->isHTML(true);
-                $mail->Subject = $asuntoMail;
-                $mail->Body = $mensajeMail;
-
-                // Enviar correo electrónico
-                $mail->send();
+                //Enviar correo electrónico con el método enviarMail
+                $this->enviarMail($email, $asuntoMail, $mensajeMail);
             } catch (Exception $e) {
                 // Manejar excepciones
                 $_SESSION['error'] = 'Error al enviar el mensaje: ' . $e->getMessage();
@@ -289,38 +265,14 @@ class Perfil extends Controller
             $this->model->updatePass($user);
 
             try {
-                // Configurar PHPMailer
-                $mail = new PHPMailer(true);
-                $mail->CharSet = "UTF-8";
-                $mail->Encoding = "quoted-printable";
-                $mail->isSMTP();
-                $mail->Host = 'smtp.gmail.com';
-                $mail->SMTPAuth = true;
-
-                $mail->Username = USUARIO;                                      // Cambiar por tu dirección de correo
-                $mail->Password = PASS;                                         // Cambiar por tu contraseña
-
-                $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
-                $mail->Port = 587;
-
                 // Configurar destinatario, remitente, asunto y mensaje
-                $destinatario = $infoUsuario->email;
-                $remitente = USUARIO;
-                $asuntoMail = "Cambio de información de tu Perfil";
+                $asuntoMail = "Cambio de contraseña de tu Perfil";
                 $mensajeMail =
                     "Has cambiado la contraseña de tu perfil recientemente: <br><br>"
                     . "Nueva Contraseña: " . $password . "<br>";
 
-                $mail->setFrom($remitente, $infoUsuario->name);
-                $mail->addAddress($destinatario);
-                $mail->addReplyTo($remitente, $infoUsuario->name);
-
-                $mail->isHTML(true);
-                $mail->Subject = $asuntoMail;
-                $mail->Body = $mensajeMail;
-
-                // Enviar correo electrónico
-                $mail->send();
+                //Enviar correo electrónico con el método enviarMail
+                $this->enviarMail($infoUsuario->email, $asuntoMail, $mensajeMail);
             } catch (Exception $e) {
                 // Manejar excepciones
                 $_SESSION['error'] = 'Error al enviar el mensaje: ' . $e->getMessage();
@@ -351,18 +303,6 @@ class Perfil extends Controller
             try {
                 // Configurar PHPMailer
                 $infoUsuario = $this->model->getUserId($_SESSION['id']);
-                $mail = new PHPMailer(true);
-                $mail->CharSet = "UTF-8";
-                $mail->Encoding = "quoted-printable";
-                $mail->isSMTP();
-                $mail->Host = 'smtp.gmail.com';
-                $mail->SMTPAuth = true;
-
-                $mail->Username = USUARIO;                                      // Cambiar por tu dirección de correo
-                $mail->Password = PASS;                                         // Cambiar por tu contraseña
-
-                $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
-                $mail->Port = 587;
 
                 // Configurar destinatario, remitente, asunto y mensaje
                 $destinatario = $infoUsuario->email;
@@ -373,16 +313,8 @@ class Perfil extends Controller
                     . "Nombre: " . $infoUsuario->name . "<br>"
                     . "Email: " . $infoUsuario->email . "<br>";
 
-                $mail->setFrom($remitente, $infoUsuario->name);
-                $mail->addAddress($destinatario);
-                $mail->addReplyTo($remitente, $infoUsuario->name);
-
-                $mail->isHTML(true);
-                $mail->Subject = $asuntoMail;
-                $mail->Body = $mensajeMail;
-
-                // Enviar correo electrónico
-                $mail->send();
+                //Enviar correo electrónico con el método enviarMail
+                $this->enviarMail($infoUsuario->email, $asuntoMail, $mensajeMail);
             } catch (Exception $e) {
                 // Manejar excepciones
                 $_SESSION['error'] = 'Error al enviar el mensaje: ' . $e->getMessage();
@@ -396,6 +328,43 @@ class Perfil extends Controller
 
             # Salgo de la aplicación
             header('location:' . URL . 'index');
+        }
+    }
+
+    # Método para enviar correos electrónicos
+    private function enviarMail($destinatario, $asunto, $mensaje)
+    {
+        try {
+            // Configurar PHPMailer
+            $mail = new PHPMailer(true);
+            $mail->CharSet = "UTF-8";
+            $mail->Encoding = "quoted-printable";
+            $mail->isSMTP();
+            $mail->Host = 'smtp.gmail.com';
+            $mail->SMTPAuth = true;
+
+            $mail->Username = USUARIO; // Cambiar por tu dirección de correo
+            $mail->Password = PASS; // Cambiar por tu contraseña
+
+            $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+            $mail->Port = 587;
+
+            // Configurar remitente y destinatario
+            $remitente = USUARIO;
+
+            $mail->setFrom($remitente, "Nombre de tu sitio web");
+            $mail->addAddress($destinatario);
+            $mail->addReplyTo($remitente, "Nombre de tu sitio web");
+
+            $mail->isHTML(true);
+            $mail->Subject = $asunto;
+            $mail->Body = $mensaje;
+
+            // Enviar correo electrónico
+            $mail->send();
+        } catch (Exception $e) {
+            // Manejar excepciones
+            $_SESSION['error'] = 'Error al enviar el mensaje: ' . $e->getMessage();
         }
     }
 }

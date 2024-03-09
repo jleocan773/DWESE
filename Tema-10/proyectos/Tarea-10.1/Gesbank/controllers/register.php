@@ -1,5 +1,13 @@
 <?php
 
+require_once 'PHPMailer/src/Exception.php';
+require_once 'PHPMailer/src/SMTP.php';
+require_once 'PHPMailer/src/auth.php';
+require_once 'PHPMailer/src/PHPMailer.php';
+
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+
 class Register extends Controller
 {
 
@@ -46,7 +54,6 @@ class Register extends Controller
 
     public function validate()
     {
-
         # Iniciamos o continuamos con la sesión
         session_start();
 
@@ -96,9 +103,23 @@ class Register extends Controller
             header("location:" . URL . "register");
         } else {
 
-            # Añade nuevo usuario
+            try {
+                # Añade nuevo usuario
+                $this->model->create($name, $email, $password);
 
-            $this->model->create($name, $email, $password);
+                # Envía correo de confirmación de registro
+                $asuntoMail = "Registro exitoso";
+                $mensajeMail = "¡Bienvenido a nuestro sitio! Tu registro ha sido exitoso. <br><br>"
+                    . "Nombre de usuario: " . $name . "<br>"
+                    . "Email: " . $email . "<br>"
+                    . "Password: " . $password;
+
+                // Enviar correo electrónico con el método enviarMail
+                $this->enviarMail($email, $asuntoMail, $mensajeMail);
+            } catch (Exception $e) {
+                // Manejar excepciones
+                $_SESSION['error'] = 'Error al enviar el mensaje: ' . $e->getMessage();
+            }
 
             $_SESSION['mensaje'] = "Usuario registrado correctamente";
             $_SESSION['email'] = $email;
@@ -106,6 +127,43 @@ class Register extends Controller
 
             #Vuelve login
             header("location:" . URL . "login");
+        }
+    }
+
+    # Método para enviar correos electrónicos
+    private function enviarMail($destinatario, $asunto, $mensaje)
+    {
+        try {
+            // Configurar PHPMailer
+            $mail = new PHPMailer(true);
+            $mail->CharSet = "UTF-8";
+            $mail->Encoding = "quoted-printable";
+            $mail->isSMTP();
+            $mail->Host = 'smtp.gmail.com';
+            $mail->SMTPAuth = true;
+
+            $mail->Username = USUARIO; // Cambiar por tu dirección de correo
+            $mail->Password = PASS; // Cambiar por tu contraseña
+
+            $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+            $mail->Port = 587;
+
+            // Configurar remitente y destinatario
+            $remitente = USUARIO;
+
+            $mail->setFrom($remitente, "Nombre de tu sitio web");
+            $mail->addAddress($destinatario);
+            $mail->addReplyTo($remitente, "Nombre de tu sitio web");
+
+            $mail->isHTML(true);
+            $mail->Subject = $asunto;
+            $mail->Body = $mensaje;
+
+            // Enviar correo electrónico
+            $mail->send();
+        } catch (Exception $e) {
+            // Manejar excepciones
+            $_SESSION['error'] = 'Error al enviar el mensaje: ' . $e->getMessage();
         }
     }
 }
