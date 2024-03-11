@@ -20,8 +20,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 
 //Ponemos la ruta para home
-Route::get('/home', [HomeController::class, 'index'])->name('home');
-
+Route::get('/', HomeController::class);
 //Ruta para Students
 //Importamos el controlador Student
 use App\Http\Controllers\StudentController;

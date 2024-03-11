@@ -3,8 +3,8 @@
 
 {{-- Vista Principal Alumnos --}}
 
-@section('titulo', 'Home Alumnos');
-@section('subtitulo', 'Panel Control Alumnos');
+@section('titulo', 'Home Alumnos')
+@section('subtitulo', 'Panel Control Alumnos')
 
 @section('contenido')
     {{-- Menú de Alumnos --}}

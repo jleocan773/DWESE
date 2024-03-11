@@ -1,6 +1,6 @@
-@extends('layouts/layout')
+@extends('layouts.layout')
 
-@extends('titulo', 'Home')
+@section('titulo', 'Home')
 @section('subtitulo', 'Página Principal')
 
 @section('contenido')
