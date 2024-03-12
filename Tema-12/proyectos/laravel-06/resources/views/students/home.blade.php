@@ -9,6 +9,7 @@
 @section('contenido')
     {{-- Menú de Alumnos --}}
     @include('students.partials.menu')
+    @include('partials.alerts')
 
     {{-- Lista de Alumnos --}}
     <table class="table">
@@ -37,18 +38,20 @@
 
                     {{-- Botones de Acción --}}
                     <td>
-                        <!-- botón eliminar -->
-                        <a href="#" title="Eliminar" class="btn btn-danger"
-                            onclick="return confirm('Confirmar eliminación del Alumno')"> <i class="bi bi-trash"></i>
-                        </a>
+                        <div class="d-grid gap-2 d-md-block">
+                            <!-- botón eliminar -->
+                            <a href="#" title="Eliminar" class="btn btn-danger"
+                                onclick="return confirm('Confirmar eliminación del Alumno')"> <i class="bi bi-trash"></i>
+                            </a>
 
-                        <!-- botón editar -->
-                        <a href="#" title="Editar" class="btn btn-primary"> <i class="bi bi-pencil"></i>
-                        </a>
+                            <!-- botón editar -->
+                            <a href="#" title="Editar" class="btn btn-primary"> <i class="bi bi-pencil"></i>
+                            </a>
 
-                        <!-- botón mostrar -->
-                        <a href="#" title="Mostrar" class="btn btn-warning"> <i class="bi bi-card-text"></i>
-                        </a>
+                            <!-- botón mostrar -->
+                            <a href="#" title="Mostrar" class="btn btn-warning"> <i class="bi bi-eye-fill"></i>
+                            </a>
+                        </div>
                     </td>
                 </tr>
             @empty

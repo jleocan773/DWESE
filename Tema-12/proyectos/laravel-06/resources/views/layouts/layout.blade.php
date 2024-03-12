@@ -12,7 +12,7 @@
     <!-- Icons Bootstrap -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
 
-    <title>@yield('titulo') - Laravel Gesbank</title>
+    <title>@yield('titulo') - Laravel Alumnos</title>
 </head>
 
 <body>
@@ -39,7 +39,7 @@
     <!-- Pié de página -->
     <footer class="footer mt-auto py-3 fixed-bottom bg-light">
         <div class="container">
-            <span class="text-muted">© 2022
+            <span class="text-muted">© 2024
                 Jonathan León Canto - DWESE - 2º DAW - Curso 23/24</span>
         </div>
     </footer>
