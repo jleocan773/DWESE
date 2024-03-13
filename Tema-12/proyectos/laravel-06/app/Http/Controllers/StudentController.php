@@ -7,6 +7,8 @@ use App\Models\Course;
 
 use Illuminate\Http\Request;
 
+use Illuminate\Validation\Rule;
+
 class StudentController extends Controller
 {
     /**
@@ -76,7 +78,11 @@ class StudentController extends Controller
      */
     public function show(string $id)
     {
-        //
+        // Cargamos los datos del alumno
+        $alumno = Student::find($id);
+
+        // Redirige a la vista home
+        return view('students.show', ['alumno' => $alumno]);
     }
 
     /**
@@ -84,7 +90,14 @@ class StudentController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        // Cargo los datos del alumno
+        $alumno = Student::find($id);
+
+        // Cargo los cursos
+        $cursos = Course::all()->sortBy('id');
+
+        // Llamamos a la vista
+        return view('students.edit', ['alumno' => $alumno, 'cursos' => $cursos]);
     }
 
     /**
@@ -92,7 +105,40 @@ class StudentController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        // Recibe los datos del formulario
+        $post = $request->all();
+
+        // Validación del formulario edit
+        $request->validate([
+            'name' => ['required', 'max:35', 'string'],
+            'lastname' => ['required', 'max:45', 'string'],
+            'birth_date' => ['required', 'date'],
+            'email' => ['required', 'max:40', 'email', Rule::unique('students')->ignore($id)],
+            'phone' => ['required', 'max:13', 'string'],
+            'city' => ['required', 'max:20', 'string'],
+            'dni' => ['required', 'max:9', 'string', Rule::unique('students')->ignore($id)],
+            'course_id' => ['required', 'exists:courses,id']
+        ]);
+
+        // Cargamos los datos del alumno que estamos editando
+        $alumno = Student::find($id);
+
+        // Actualizar los campos del alumno con los datos del formulario
+        $alumno->name = $request->name;
+        $alumno->lastname = $request->lastname;
+        $alumno->birth_date = $request->birth_date;
+        $alumno->email = $request->email;
+        $alumno->phone = $request->phone;
+        $alumno->city = $request->city;
+        $alumno->dni = $request->dni;
+        $alumno->course_id = $request->course_id;
+
+        //Actualizamos la base de datos
+        $alumno->save();
+
+        //Redireccionamos a la vista principal
+        return redirect()->route('alumnos.index')->with('success', "Alumno editado correctamente");
+
     }
 
     /**
@@ -100,6 +146,10 @@ class StudentController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        // Elimino el alumno
+        Student::destroy($id);
+
+        //Redireccionamos a la vista principal
+        return redirect()->route('alumnos.index')->with('success', "Alumno eliminado correctamente");
     }
 }

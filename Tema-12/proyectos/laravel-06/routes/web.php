@@ -25,5 +25,7 @@ Route::get('/', HomeController::class);
 //Importamos el controlador Student
 use App\Http\Controllers\StudentController;
 
-//Ponemos la ruta para students
-Route::resource('alumnos', StudentController::class);
+//Ponemos la ruta para alumnos
+Route::resource('alumnos', StudentController::class)->names([
+    'index' => 'alumnos.index',
+]);
